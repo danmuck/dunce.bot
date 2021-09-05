@@ -2,7 +2,7 @@
 # from discord.ext import commands
 # from discord.ext.commands.core import command 
 from lib.bot import bot
-VERSION = '0.0.6'
+VERSION = '0.0.7'
 
 #end ---
 bot.run(VERSION)

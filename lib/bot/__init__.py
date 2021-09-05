@@ -1,8 +1,9 @@
 # discord.py imports
 from discord import Intents, Embed, File
+from discord.errors import HTTPException, Forbidden
 from discord.ext import commands
 from discord.ext.commands import Bot as BotBase
-from discord.ext.commands import CommandNotFound, Context
+from discord.ext.commands import (CommandNotFound, Context, BadArgument, MissingRequiredArgument)
 
 # global imports ?
 from datetime import datetime
@@ -12,6 +13,7 @@ from glob import glob
 from asyncio import sleep
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
+from discord.ext.commands.errors import BadArgument
 
 # database import
 from ..db import db
@@ -19,6 +21,7 @@ from ..db import db
 PREFIX = '?'
 OWNER_IDS = [876630793974345740]
 COGS = [path.split('/')[-1][:-3] for path in glob('lib/cogs/*.py')]       # go through /cogs directory and return the name of any cogs -.py as array (split rules for removing it)
+IGNORE_EXCEPTIONS = (CommandNotFound, BadArgument)
 
 class ready(object):
     def __init__(self):
@@ -82,7 +85,7 @@ class Bot(BotBase):
 
             else:
                 await ctx.send(f'dunce.bot is taking a break')
-                
+
 
 # timed reminders ---
     async def rules_reminder(self):
@@ -107,9 +110,21 @@ class Bot(BotBase):
         raise                                                       # raise error to the console
 
     async def on_command_error(self, ctx, exc):
-        if isinstance(exc, CommandNotFound):                        # if our exception == CommandNotFound
-            pass    # await.ctx.send(f'command not found')          # can use this to notify (frowned upon)
+        if any([isinstance(exc, error) for error in IGNORE_EXCEPTIONS]):          # if our exception == CommandNotFound
+            pass    
             print(f'error: {ctx} command not found')
+
+        elif isinstance(exc, BadArgument):
+            pass
+
+        elif isinstance(exc, MissingRequiredArgument):
+            await ctx.send(f'error: missing arguments')
+
+        elif isinstance(exc.original, HTTPException):
+            await ctx.send(f'error: unable to send message')
+
+        elif isinstance(exc.original, Forbidden):
+            await ctx.send(f'error: im not allowed')
 
         elif hasattr(exc, 'original'):
             raise exc.original

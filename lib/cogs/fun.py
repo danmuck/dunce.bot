@@ -2,11 +2,14 @@ import discord, random
 # discord.py ---
 from discord import Member
 from discord.ext import commands
+from discord.errors import HTTPException
 from discord.ext.commands import Cog 
 from discord.ext.commands import command
 # random ---
 from random import choice, randint
 from typing import Optional
+
+from discord.ext.commands.errors import BadArgument
 # define cog object ---
 class fun(Cog):
 
@@ -30,15 +33,26 @@ class fun(Cog):
     @command(name = "dice", aliases=["roll"])
     async def  roll_dice(self, ctx, die_string: str):
         dice, value = (int(term) for term in die_string.split('d'))
-        rolls = [randint(1, value) for i in range(dice)]
 
-        await ctx.send(f' + '.join([str(r) for r in rolls]) + f' = {sum(rolls)}')
+        if dice <= 35:
+            rolls = [randint(1, value) for i in range(dice)]
+
+            await ctx.send(f' + '.join([str(r) for r in rolls]) + f' = {sum(rolls)}')
+
+        else:
+            await ctx.send(f'too many dice for my lil hands')
+
 
     # slap a homie
     @command(name = 'slap', aliases=['hit'])
     async def  slap_member(self, ctx, member: Member, *, reason: Optional[str] = 'no reason'):
         await ctx.send(f'{ctx.author.display_name} slapped {member.mention} for {reason}!')
-        
+
+    @slap_member.error
+    async def slap_member_error(self, ctx, exc):
+        if isinstance(exc, BadArgument):
+            await ctx.send(f'cant find that homie')
+
     # send bot message
     @command(name = 'echo', aliases=['say'])
     async def  echo_message(self, ctx, *, message):
