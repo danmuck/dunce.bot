@@ -20,7 +20,7 @@ def with_commit(func):
 def build():
     if isfile(BUILD_PATH):
         scriptexec(BUILD_PATH)
-        print(f'db: building database...')
+        print(f'\n\ndb: building database...')
 
 def commit():
     cxn.commit()

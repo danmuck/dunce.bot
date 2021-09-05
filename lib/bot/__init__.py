@@ -1,13 +1,15 @@
 # discord.py imports
 from discord import Intents, Embed, File
+from discord.ext import commands
 from discord.ext.commands import Bot as BotBase
 from discord.ext.commands import CommandNotFound
 
-# global imports
+# global imports ?
 from datetime import datetime
 from glob import glob
 
 # asynchio imports
+from asyncio import sleep
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 
@@ -16,13 +18,27 @@ from ..db import db
 
 PREFIX = '?'
 OWNER_IDS = [876630793974345740]
-COGS = [path.split('\\')[-1][:-3] for path in glob('.lib/cogs/*.py')]
-class Bot(BotBase):
+COGS = [path.split('/')[-1][:-3] for path in glob('lib/cogs/*.py')]       # go through /cogs directory and return the name of any cogs -.py as array (split rules for removing it)
 
+class ready(object):
+    def __init__(self):
+        for cog in COGS:
+            setattr(self, cog, False)
+
+    def ready_up(self, cog):
+        setattr(self, cog, True)
+        print(f'cogs: {cog} cog is ready')
+
+    def all_ready(self):
+        return all([getattr(self, cog) for cog in COGS])
+
+
+class Bot(BotBase):
 # bot initialization ---
     def __init__(self):
         self.PREFIX = PREFIX
         self.ready = False
+        self.cogs_ready = ready()
         self.guild = None
         self.scheduler = AsyncIOScheduler()
 
@@ -36,14 +52,25 @@ class Bot(BotBase):
             intents=Intents.all(),                                  # ACTIVATE INTENTS
             )
 
+# load cogs ---
+    def setup(self):                                                
+        for cog in COGS:                                            # note: [cog] set as cursor (constant)
+            self.load_extension(f"lib.cogs.{cog}")      
+            print(f'cogs: {cog} cog loading')     
+        
+        print(f'\n\tcogs: loading complete')                              # console: cogs loaded / complete status
+
 # run bot with token ---        
     def run(self, version):                                         
         self.VERSION = version
+
+        print(f'*** dunce.bot ***\n** by: danmuck **\n\ndunce: starting my initial setup...\n')                                  # console: bot setting up
+        self.setup()
         
         with open('./lib/bot/token.0', 'r', encoding='utf-8') as tf:
             self.TOKEN = tf.read()
 
-        print('dunce: hello friend :)\ndunce: running bot...')
+        print('\n\ndunce: hello friend :)\ndunce: checking my token...')
         super().run(self.TOKEN, reconnect=True)
 
 # timed reminders ---
@@ -53,7 +80,7 @@ class Bot(BotBase):
 
 # connect/disconnect messages ---
     async def on_connect(self):                                     
-        print('\n\tdunce: big idiot connected\n\n')
+        print('\ndunce: big idiot is sentient\n\n')
 
     async def on_disconnect(self):
         print('\n\tdunce: dunce is in the corner\n\n\n')
@@ -66,12 +93,12 @@ class Bot(BotBase):
 
         channel = self.get_channel(884131996194967572)              # send an error message to error-spam channel id
         await channel.send('on_error: check console')
-
-        raise                                                       # raise error to the command prompt
+        raise                                                       # raise error to the console
 
     async def on_command_error(self, ctx, exc):
         if isinstance(exc, CommandNotFound):                        # if our exception == CommandNotFound
             pass    # await.ctx.send(f'command not found')          # can use this to notify (frowned upon)
+            print(f'error: {ctx} command not found')
 
         elif hasattr(exc, 'original'):
             raise exc.original
@@ -83,7 +110,6 @@ class Bot(BotBase):
 
     async def on_ready(self):           
         if not self.ready:
-            self.ready = True
             self.guild = self.get_guild(882994482579140739)         # server id
             self.stdout = self.get_channel(882994482579140742)      # spam channel id for [standard out] channel
         # scheduled tasks on_ready ---
@@ -112,6 +138,11 @@ class Bot(BotBase):
 #
 #            await channel.send(file=File('./data/images/ex_logo.jpg'))                      # send a file 
 #
+            
+            while not self.cogs_ready.all_ready():
+                await sleep(0.5)                                     # sleep is for incase cog takes too long to load
+
+            self.ready = True
             print('dunce: im ready\n')                                # console: bot is ready message
     
         else:
