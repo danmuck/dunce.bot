@@ -1,0 +1,15 @@
+# user ignores
+*.env
+*.vscode
+*.json
+*.log
+*.DS_Store
+
+# possible copyright ignores (example files)
+data/images/ex_logo.jpg
+
+# dunce bot
+*.db
+*.db-journal
+*__pycache__
+lib/bot/token.0
