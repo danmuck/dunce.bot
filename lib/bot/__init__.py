@@ -1,8 +1,12 @@
+# discord.py imports
 from discord import Intents, Embed, File
 from datetime import datetime
-from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from discord.ext.commands import Bot as BotBase
 from discord.ext.commands import CommandNotFound
+
+# asynchio imports
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from apscheduler.triggers.cron import CronTrigger
 
 # database import
 from ..db import db
@@ -11,6 +15,7 @@ PREFIX = '?'
 OWNER_IDS = [876630793974345740]
 
 class Bot(BotBase):
+
 # bot initialization ---
     def __init__(self):
         self.PREFIX = PREFIX
@@ -27,8 +32,9 @@ class Bot(BotBase):
             owner_ids=OWNER_IDS,
             intents=Intents.all(),                                  # ACTIVATE INTENTS
             )
-        
-    def run(self, version):
+
+# run bot with token ---        
+    def run(self, version):                                         
         self.VERSION = version
         
         with open('./lib/bot/token.0', 'r', encoding='utf-8') as tf:
@@ -37,7 +43,13 @@ class Bot(BotBase):
         print('dunce: hello friend :)\ndunce: running bot...')
         super().run(self.TOKEN, reconnect=True)
 
-    async def on_connect(self):
+# timed reminders ---
+    async def rules_reminder(self):
+        channel = self.get_channel(884116429421559859)              # welcome-spam channel id
+        await channel.send(f'timed notification: rules reminder [weekly]')
+
+# connect/disconnect messages ---
+    async def on_connect(self):                                     
         print('\n\tdunce: big idiot connected\n\n')
 
     async def on_disconnect(self):
@@ -49,7 +61,7 @@ class Bot(BotBase):
         if err == 'on_command_error':
             await args[0].send(f'on_error == on_command_error: check console')          # if error is a command error send message
 
-        channel = self.get_channel(884131996194967572)              # send an error message to error-spam
+        channel = self.get_channel(884131996194967572)              # send an error message to error-spam channel id
         await channel.send('on_error: check console')
 
         raise                                                       # raise error to the command prompt
@@ -70,9 +82,11 @@ class Bot(BotBase):
         if not self.ready:
             self.ready = True
             self.guild = self.get_guild(882994482579140739)         # server id
+            self.scheduler.add_job(self.rules_reminder, CronTrigger(day_of_week=0, hour=12))          # rules_reminder timed reminder start
+            print(f'dunce: rules_reminder starting...')             # console: starting task
             self.scheduler.start()
 
-            channel = self.get_channel(884116429421559859)          # welcome channel id
+            channel = self.get_channel(884116429421559859)          # welcome-spam channel id
             await channel.send(f'dunce is here bois')               # send login message
 
 # login message custom embed ---
@@ -93,10 +107,10 @@ class Bot(BotBase):
 #
 #            await channel.send(file=File('./data/images/ex_logo.jpg'))                      # send a file 
 #
-            print('dunce: im ready\n')                                # bot is ready message
+            print('dunce: im ready\n')                                # console: bot is ready message
     
         else:
-            print('dunce: reconnected\n')                             # bot reconnected
+            print('dunce: reconnected\n')                             # console: bot reconnected
 
     async def on_message(self, message):
         pass
