@@ -34,9 +34,16 @@ class fun(Cog):
 
         await ctx.send(f' + '.join([str(r) for r in rolls]) + f' = {sum(rolls)}')
 
+    # slap a homie
     @command(name = 'slap', aliases=['hit'])
-    async def  slap_member(self, ctx, member: Member, *, reason: Optional[str]):
-        pass 
+    async def  slap_member(self, ctx, member: Member, *, reason: Optional[str] = 'no reason'):
+        await ctx.send(f'{ctx.author.display_name} slapped {member.mention} for {reason}!')
+        
+    # send bot message
+    @command(name = 'echo', aliases=['say'])
+    async def  echo_message(self, ctx, *, message):
+        await ctx.message.delete()
+        await ctx.send(message)
 
 
 

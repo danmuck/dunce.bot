@@ -2,7 +2,7 @@
 from discord import Intents, Embed, File
 from discord.ext import commands
 from discord.ext.commands import Bot as BotBase
-from discord.ext.commands import CommandNotFound
+from discord.ext.commands import CommandNotFound, Context
 
 # global imports ?
 from datetime import datetime
@@ -73,6 +73,17 @@ class Bot(BotBase):
         print('\n\ndunce: hello friend :)\ndunce: checking my token...')
         super().run(self.TOKEN, reconnect=True)
 
+    async def process_commands(self, message):
+        ctx = await self.get_context(message, cls=Context)
+
+        if ctx.command is not None and ctx.guild is not None:
+            if self.ready:
+                await self.invoke(ctx)
+
+            else:
+                await ctx.send(f'dunce.bot is taking a break')
+                
+
 # timed reminders ---
     async def rules_reminder(self):
         channel = self.get_channel(884116429421559859)              # welcome-spam channel id
@@ -83,7 +94,7 @@ class Bot(BotBase):
         print('\ndunce: big idiot is sentient\n\n')
 
     async def on_disconnect(self):
-        print('\n\tdunce: dunce is in the corner\n\n\n')
+        print('\n\tdunce.bot is in the corner\n\n\n')
 
 # error handling ---
 
