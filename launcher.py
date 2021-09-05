@@ -2,22 +2,7 @@
 # from discord.ext import commands
 # from discord.ext.commands.core import command 
 from lib.bot import bot
-VERSION = '0.0.4'
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+VERSION = '0.0.5'
 
 #end ---
 bot.run(VERSION)
@@ -48,16 +33,6 @@ bot.run(VERSION)
 # @client.command()
 # async def intro(ctx):
 #     await ctx.send(f'hi im big idiot')
-
-# # start here ------------------------------------------------
-
-
-
-
-
-
-
-
 
 # client.run(os.getenv('TOKEN'))
 

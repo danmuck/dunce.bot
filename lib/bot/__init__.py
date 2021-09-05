@@ -89,7 +89,7 @@ class Bot(BotBase):
 
     async def on_error(self, err, *args, **kwargs):
         if err == 'on_command_error':
-            await args[0].send(f'on_error == on_command_error: check console')          # if error is a command error send message
+            await args[0].send(f'on_command_error: check console')          # if error is a command error send message
 
         channel = self.get_channel(884131996194967572)              # send an error message to error-spam channel id
         await channel.send('on_error: check console')
@@ -117,8 +117,7 @@ class Bot(BotBase):
             print(f'dunce: rules_reminder starting...')             # console: starting task
             self.scheduler.start()
 
-            channel = self.get_channel(884116429421559859)          # welcome-spam channel id
-            await channel.send(f'dunce is here frens')               # send login message
+
 
 # login message custom embed ---
 #            embed = Embed(title='now online', 
@@ -142,13 +141,19 @@ class Bot(BotBase):
             while not self.cogs_ready.all_ready():
                 await sleep(0.5)                                     # sleep is for incase cog takes too long to load
 
+#            channel = self.get_channel(884116429421559859)          # welcome-spam channel id
+#            await channel.send(f'dunce.bot is now : online')               # send login message
             self.ready = True
             print('dunce: im ready\n')                                # console: bot is ready message
     
         else:
             print('dunce: reconnected\n')                             # console: bot reconnected
 
+# on_message response ---
     async def on_message(self, message):
-        pass
-
+        # if message.author.bot and message.author != message.guild.me: # same thing but can take commands from other bots (NOT WORKING)
+        #     await self.process_commands(message)
+        if not message.author.bot:                                      # ignore messages from the bot itself only
+            await self.process_commands(message)
+# end ---
 bot = Bot()
