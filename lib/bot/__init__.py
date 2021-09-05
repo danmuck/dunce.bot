@@ -16,7 +16,7 @@ from ..db import db
 
 PREFIX = '?'
 OWNER_IDS = [876630793974345740]
-COGS = [path.split('\\')[-1][:3] for path in glob('.lib/cogs/*.py')]
+COGS = [path.split('\\')[-1][:-3] for path in glob('.lib/cogs/*.py')]
 class Bot(BotBase):
 
 # bot initialization ---
