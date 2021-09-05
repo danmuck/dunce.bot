@@ -1,8 +1,11 @@
 # discord.py imports
 from discord import Intents, Embed, File
-from datetime import datetime
 from discord.ext.commands import Bot as BotBase
 from discord.ext.commands import CommandNotFound
+
+# global imports
+from datetime import datetime
+from glob import glob
 
 # asynchio imports
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
@@ -13,7 +16,7 @@ from ..db import db
 
 PREFIX = '?'
 OWNER_IDS = [876630793974345740]
-
+COGS = [path.split('\\')[-1][:3] for path in glob('.lib/cogs/*.py')]
 class Bot(BotBase):
 
 # bot initialization ---
@@ -82,12 +85,14 @@ class Bot(BotBase):
         if not self.ready:
             self.ready = True
             self.guild = self.get_guild(882994482579140739)         # server id
+            self.stdout = self.get_channel(882994482579140742)      # spam channel id for [standard out] channel
+        # scheduled tasks on_ready ---
             self.scheduler.add_job(self.rules_reminder, CronTrigger(day_of_week=0, hour=12))          # rules_reminder timed reminder start
             print(f'dunce: rules_reminder starting...')             # console: starting task
             self.scheduler.start()
 
             channel = self.get_channel(884116429421559859)          # welcome-spam channel id
-            await channel.send(f'dunce is here bois')               # send login message
+            await channel.send(f'dunce is here frens')               # send login message
 
 # login message custom embed ---
 #            embed = Embed(title='now online', 
