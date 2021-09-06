@@ -1,6 +1,6 @@
 import discord, random
 # discord.py ---
-from discord import Member
+from discord import Member, Embed
 from discord.ext import commands
 from discord.errors import HTTPException
 from discord.ext.commands import Cog 
@@ -70,7 +70,13 @@ class fun(Cog):
             async with request('GET', URL, headers={}) as response:
                 if response.status == 200:
                     data = await response.json()
-                    await ctx.send(data['fact'])
+                    # await ctx.send(data['fact'])          # send fact (in embed below)
+
+                    embed = Embed(title=f'{animal.title()} fact',
+                                    description=data['fact'],
+                                    colour=ctx.author.colour)
+                    embed.set_image(url=data['image'])
+                    await ctx.send(embed=embed)
 
                 else:
                     await ctx.send(f'api returned a {response.status} status')
