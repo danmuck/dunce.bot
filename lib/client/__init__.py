@@ -37,7 +37,6 @@ class ready(object):
 # get prefix ---
 def get_prefix(client, message):
     prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?", message.guild.id)
-    # if prefix != None:
     if prefix == None:
         print(f'db: guild added to database: command prefix set to default: ?')
         db.execute('INSERT INTO guilds (GuildID, Prefix) VALUES (?, "?")', message.guild.id)
@@ -47,9 +46,6 @@ def get_prefix(client, message):
     else:
         return when_mentioned_or(prefix)(client, message)           
 
-# def get_guild(client, message):
-    # guild = db.field("SELECT GuildID FROM guilds WHERE GuildID = ?", message.guild.id)
-    # return when_mentioned_or(guild)(client, message)
 class Bot(BotBase):
 # client initialization ---
     def __init__(self):
