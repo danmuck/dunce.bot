@@ -18,7 +18,7 @@ from discord.ext.commands.errors import BadArgument, MissingPermissions
 # database import
 from ..db import db
 
-PREFIX = '?'
+#PREFIX = '?'
 OWNER_IDS = [876630793974345740]
 COGS = [path.split('/')[-1][:-3] for path in glob('lib/cogs/*.py')]       # go through /cogs directory and return the name of any cogs -.py as array (split rules for removing it)
 IGNORE_EXCEPTIONS = (CommandNotFound, BadArgument, MissingPermissions)
@@ -36,11 +36,11 @@ class ready(object):
         return all([getattr(self, cog) for cog in COGS])
 # get prefix ---
 def get_prefix(client, message):
-    prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?", message.guild.id)
+    prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?",message.guild.id)
     if prefix != None:
         return when_mentioned_or(prefix)(client, message)                   # set up multiserver bot
     else:
-        return PREFIX           #### return the preset just in case database fails
+        return prefix           
 
 # def get_guild(client, message):
     # guild = db.field("SELECT GuildID FROM guilds WHERE GuildID = ?", message.guild.id)
