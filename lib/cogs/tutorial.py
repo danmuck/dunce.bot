@@ -26,7 +26,7 @@ class tutorial(Cog):
 # commands ---
     @command(name = "hello", aliases=["hi"])
     async def  say_hello(self, ctx):
-        await ctx.send(f"```{choice(('hello','hi','hey','hiya'))} {ctx.author.mention}```")
+        await ctx.send(f"```{choice(('hello','hi','hey','hiya'))}``` {ctx.author.mention}")
 
     # roll [x]d[y] where x = how many die and y = sides per die
     @command(name = "dice", aliases=["roll"])
@@ -46,7 +46,7 @@ class tutorial(Cog):
     # slap a homie
     @command(name = 'slap', aliases=['hit'])
     async def  slap_member(self, ctx, member: Member, *, reason: Optional[str] = 'no reason'):
-        await ctx.send(f'```{ctx.author.display_name} slapped {member.mention} for {reason}!```')
+        await ctx.send(f'{ctx.author.display_name} slapped {member.mention} for {reason}!')
 
     @slap_member.error
     async def slap_member_error(self, ctx, exc):

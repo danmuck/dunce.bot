@@ -163,23 +163,23 @@ class Bot(BotBase):
 
 
 # login message custom embed template ---
-#            embed = Embed(title='now online', 
-#                            description='dunce.bot is now online', 
-#                            colour=0xff0000,
-#                            timestamp=datetime.utcnow())            
-#            fields = [('name', 'value', True),
-#                        ('another name field', 'another value field', True),
-#                        ('third name non-inline', 'third value non-inline', False)]
-#            for name, value, inline in fields:                                              # assign the value translation of fields
-#                embed.add_field(name=name, value=value, inline=inline)
-#            embed.set_author(name='server/organization [author]', icon_url=self.guild.icon_url)                  # footer icon
-#            embed.set_footer(text='this footer here')                                       # footer text 
-#            embed.set_thumbnail(url=self.guild.icon_url)                                    # :/https links or this to set thumbnail (small image in embed)
-#            embed.set_image(url=self.guild.icon_url)                                        # ://https links or this to set (big image in embed)
-#            await channel.send(embed=embed)                         # ON READY SEND EMBED TO CHANNEL
-#
-#            await channel.send(file=File('./data/images/ex_logo.jpg'))                      # send a file 
-#
+        #    embed = Embed(title='now online', 
+        #                    description='dunce.bot is now online', 
+        #                    colour=0xff0000,
+        #                    timestamp=datetime.utcnow())            
+        #    fields = [('name', 'value', True),
+        #                ('another name field', 'another value field', True),
+        #                ('third name non-inline', 'third value non-inline', False)]
+        #    for name, value, inline in fields:                                              # assign the value translation of fields
+        #        embed.add_field(name=name, value=value, inline=inline)
+        #    embed.set_author(name='server/organization [author]', icon_url=self.guild.icon_url)                  # footer icon
+        #    embed.set_footer(text='this footer here')                                       # footer text 
+        #    embed.set_thumbnail(url=self.guild.icon_url)                                    # :/https links or this to set thumbnail (small image in embed)
+        #    embed.set_image(url=self.guild.icon_url)                                        # ://https links or this to set (big image in embed)
+        #    await channel.send(embed=embed)                         # ON READY SEND EMBED TO CHANNEL
+
+        #    await channel.send(file=File('./data/images/ex_logo.jpg'))                      # send a file 
+
             
             while not self.cogs_ready.all_ready():
                 await sleep(0.5)                                     # sleep is for incase cog takes too long to load
