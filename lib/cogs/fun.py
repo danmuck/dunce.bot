@@ -63,17 +63,20 @@ class fun(Cog):
 
     # animal facts
     @command(name = 'fact')
-    async def  animal_fact(self, ctx): # animal: str):
-        URL = 'https://some-random-api.ml/animal/dog'
+    async def  animal_fact(self, ctx, animal: str):
+        if animal.lower() in('dog', 'cat', 'panda', 'koala', 'fox', 'bird', 'red panda', 'raccoon', 'kangaroo'):
+            URL = f'https://some-random-api.ml/animal/{animal.lower()}'
 
-        async with request('GET', URL, headers={}) as response:
-            if response.status == 200:
-                data = await response.json()
+            async with request('GET', URL, headers={}) as response:
+                if response.status == 200:
+                    data = await response.json()
+                    await ctx.send(data['fact'])
 
-                await ctx.send(data['fact'])
+                else:
+                    await ctx.send(f'api returned a {response.status} status')
 
-            else:
-                await ctx.send(f'api returned a {response.status} status')
+        else:
+            await ctx.send(f'no facts for that animal')
 
 
 
