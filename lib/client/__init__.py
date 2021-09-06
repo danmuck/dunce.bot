@@ -36,11 +36,16 @@ class ready(object):
         return all([getattr(self, cog) for cog in COGS])
 # get prefix ---
 def get_prefix(client, message):
-    prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?",message.guild.id)
-    if prefix != None:
+    prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?", message.guild.id)
+    # if prefix != None:
+    if prefix == None:
+        print(f'db: guild added to database: command prefix set to default: ?')
+        db.execute('INSERT INTO guilds (GuildID, Prefix) VALUES (?, "?")', message.guild.id)
+        db.commit()
+        prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?", message.guild.id)
         return when_mentioned_or(prefix)(client, message)                   # set up multiserver bot
     else:
-        return prefix           
+        return when_mentioned_or(prefix)(client, message)           
 
 # def get_guild(client, message):
     # guild = db.field("SELECT GuildID FROM guilds WHERE GuildID = ?", message.guild.id)

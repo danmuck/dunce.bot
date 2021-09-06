@@ -24,6 +24,7 @@ class system(Cog):
             await ctx.send(f'```pick one character please```')
         else:
             db.execute("UPDATE guilds SET Prefix = ? WHERE GuildID = ?", new, ctx.guild.id)
+            db.commit()
             await ctx.send(f'```prefix set to: {new}``` <@876630793974345740> ')
 
     @change_prefix.error
