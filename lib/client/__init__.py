@@ -3,7 +3,7 @@ from discord import Intents, Embed, File
 from discord.errors import HTTPException, Forbidden
 
 from discord.ext.commands import Bot as BotBase
-from discord.ext.commands import (CommandNotFound, Context, BadArgument, MissingRequiredArgument, CommandOnCooldown)
+from discord.ext.commands import (CommandNotFound, Context, BadArgument, MissingRequiredArgument, CommandOnCooldown, when_mentioned_or, command, has_permissions)
 
 # global imports ?
 from datetime import datetime
@@ -34,12 +34,21 @@ class ready(object):
 
     def all_ready(self):
         return all([getattr(self, cog) for cog in COGS])
+# get prefix ---
+def get_prefix(client, message):
+    prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?", message.guild.id)
+    if prefix != None:
+        return when_mentioned_or(prefix)(client, message)                   # set up multiserver bot
+    else:
+        return PREFIX           #### return the preset just in case database fails
 
-
+# def get_guild(client, message):
+    # guild = db.field("SELECT GuildID FROM guilds WHERE GuildID = ?", message.guild.id)
+    # return when_mentioned_or(guild)(client, message)
 class Bot(BotBase):
 # client initialization ---
     def __init__(self):
-        self.PREFIX = PREFIX
+        self.PREFIX = get_prefix
         self.ready = False
         self.cogs_ready = ready()
         self.guild = None
@@ -50,7 +59,7 @@ class Bot(BotBase):
 
         db.autosave(self.scheduler)                                 # set database to autosave on init
         super().__init__(
-            command_prefix=PREFIX, 
+            command_prefix=get_prefix, 
             owner_ids=OWNER_IDS,
             intents=Intents.all(),                                  # ACTIVATE INTENTS
             )
@@ -126,7 +135,9 @@ class Bot(BotBase):
         elif hasattr(exc, 'original'):
             if isinstance(exc.original, HTTPException):
                 await ctx.send(f'error: unable to send message')
+
             elif isinstance(exc.original, Forbidden):
+
                 await ctx.send(f'error: im not allowed')
             else:
                 raise exc.original

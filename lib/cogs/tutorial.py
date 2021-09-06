@@ -10,7 +10,6 @@ from typing import Optional
 from aiohttp import request
 
 from discord.ext.commands.errors import BadArgument
-# define cog object ---
 class tutorial(Cog):
 
 # cog initialization ---

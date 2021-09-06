@@ -4,3 +4,9 @@ CREATE TABLE IF NOT EXISTS exp (
     Level integer DEFAULT 0,
     XPLock text DEFAULT CURRENT_TIMESTAMP
 );
+
+-- create table for client guilds for custom prefix
+CREATE TABLE IF NOT EXISTS guilds (
+    GuildID integer PRIMARY KEY,
+    Prefix text DEFAULT "?"
+);
