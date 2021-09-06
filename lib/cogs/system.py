@@ -21,7 +21,7 @@ class system(Cog):
     @has_permissions(manage_guild=True)
     async def change_prefix(self, ctx, new: str):
         if len(new) > 1:
-            await ctx.send(f'pick one character please')
+            await ctx.send(f'```pick one character please```')
         else:
             db.execute("UPDATE guilds SET Prefix = ? WHERE GuildID = ?", new, ctx.guild.id)
             await ctx.send(f'```prefix set to: {new}``` <@876630793974345740> ')
@@ -29,7 +29,7 @@ class system(Cog):
     @change_prefix.error
     async def change_prefix_error(sef, ctx, exc):
         if isinstance(exc, CheckFailure):
-            await ctx.send(f'error: user role cannot manage_guild')
+            await ctx.send(f'```error: user role cannot manage_guild```')
 
 # end ---
     @Cog.listener()

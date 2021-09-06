@@ -26,7 +26,7 @@ class tutorial(Cog):
 # commands ---
     @command(name = "hello", aliases=["hi"])
     async def  say_hello(self, ctx):
-        await ctx.send(f"{choice(('hello','hi','hey','hiya'))} {ctx.author.mention}")
+        await ctx.send(f"```{choice(('hello','hi','hey','hiya'))} {ctx.author.mention}```")
 
     # roll [x]d[y] where x = how many die and y = sides per die
     @command(name = "dice", aliases=["roll"])
@@ -37,21 +37,21 @@ class tutorial(Cog):
         if dice <= 35:
             rolls = [randint(1, value) for i in range(dice)]
 
-            await ctx.send(f' + '.join([str(r) for r in rolls]) + f' = {sum(rolls)}')
+            await ctx.send(f' + '.join([str(r) for r in rolls]) + f' = {sum(rolls)}')           # BUG: make it return in codeblock
 
         else:
-            await ctx.send(f'too many dice for my lil hands')
+            await ctx.send(f'```too many dice for my lil hands```')
 
 
     # slap a homie
     @command(name = 'slap', aliases=['hit'])
     async def  slap_member(self, ctx, member: Member, *, reason: Optional[str] = 'no reason'):
-        await ctx.send(f'{ctx.author.display_name} slapped {member.mention} for {reason}!')
+        await ctx.send(f'```{ctx.author.display_name} slapped {member.mention} for {reason}!```')
 
     @slap_member.error
     async def slap_member_error(self, ctx, exc):
         if isinstance(exc, BadArgument):
-            await ctx.send(f'cant find that homie')
+            await ctx.send(f'```cant find that homie```')
 
     # send client message
     @command(name = 'echo', aliases=['say'])
@@ -79,10 +79,10 @@ class tutorial(Cog):
                     await ctx.send(embed=embed)
 
                 else:
-                    await ctx.send(f'api returned a {response.status} status')
+                    await ctx.send(f'```api returned a {response.status} status```')
 
         else:
-            await ctx.send(f'no facts for that animal')
+            await ctx.send(f'```no facts for that animal```')
 
 
 

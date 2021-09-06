@@ -13,7 +13,7 @@ from glob import glob
 from asyncio import sleep
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
-from discord.ext.commands.errors import BadArgument
+from discord.ext.commands.errors import BadArgument, MissingPermissions
 
 # database import
 from ..db import db
@@ -21,7 +21,7 @@ from ..db import db
 PREFIX = '?'
 OWNER_IDS = [876630793974345740]
 COGS = [path.split('/')[-1][:-3] for path in glob('lib/cogs/*.py')]       # go through /cogs directory and return the name of any cogs -.py as array (split rules for removing it)
-IGNORE_EXCEPTIONS = (CommandNotFound, BadArgument)
+IGNORE_EXCEPTIONS = (CommandNotFound, BadArgument, MissingPermissions)
 
 class ready(object):
     def __init__(self):
@@ -93,13 +93,13 @@ class Bot(BotBase):
                 await self.invoke(ctx)
 
             else:
-                await ctx.send(f'dunce.bot is taking a break')
+                await ctx.send(f'```dunce.bot is taking a break```')
 
 
 # timed reminders ---
     async def rules_reminder(self):
         channel = self.get_channel(884116429421559859)              # welcome-spam channel id
-        await channel.send(f'timed notification: rules reminder [weekly]')
+        await channel.send(f'```timed notification: rules reminder [weekly] UPDATE ME```')
 
 # connect/disconnect messages ---
     async def on_connect(self):                                     
@@ -112,33 +112,36 @@ class Bot(BotBase):
 
     async def on_error(self, err, *args, **kwargs):
         if err == 'on_command_error':
-            await args[0].send(f'on_command_error: check console')          # if error is a command error send message
+            await args[0].send(f'```on_command_error: check console```')          # if error is a command error send message
 
         channel = self.get_channel(884131996194967572)              # send an error message to error-spam channel id
-        await channel.send('on_error: check console')
+        await channel.send('```on_error: check console```')
         raise                                                       # raise error to the console
 
     async def on_command_error(self, ctx, exc):
         if any([isinstance(exc, error) for error in IGNORE_EXCEPTIONS]):          # if our exception == CommandNotFound
-            pass    
             print(f'error: {ctx} command not found')
+            pass    
+
+        elif isinstance(exc, MissingPermissions):
+            pass
 
         elif isinstance(exc, BadArgument):
             pass
 
         elif isinstance(exc, MissingRequiredArgument):
-            await ctx.send(f'error: missing arguments')
+            await ctx.send(f'```error: missing arguments```')
 
         elif isinstance(exc, CommandOnCooldown):
-            await ctx.send(f'error: {str(exc.cooldown.type).split(".")[-1]} cooldown [try again in {exc.retry_after:,.2f} sec]')    # {exc.retry_after://60+1,.2f} return minutes (un-comfirmed)
+            await ctx.send(f'```error: {str(exc.cooldown.type).split(".")[-1]} cooldown [try again in {exc.retry_after:,.2f} sec]```')    # {exc.retry_after://60+1,.2f} return minutes (un-comfirmed)
 
         elif hasattr(exc, 'original'):
             if isinstance(exc.original, HTTPException):
-                await ctx.send(f'error: unable to send message')
+                await ctx.send(f'```error: unable to send message```')
 
             elif isinstance(exc.original, Forbidden):
 
-                await ctx.send(f'error: im not allowed')
+                await ctx.send(f'```error: im not allowed```')
             else:
                 raise exc.original
         
