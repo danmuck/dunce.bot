@@ -1,10 +1,8 @@
-import discord, random
 # discord.py ---
 from discord import Member, Embed
-from discord.ext import commands
-from discord.errors import HTTPException
-from discord.ext.commands import Cog 
-from discord.ext.commands import command
+from discord.ext.commands import Cog, BucketType
+from discord.ext.commands import command, cooldown
+
 # random ---
 from random import choice, randint
 from typing import Optional
@@ -33,6 +31,7 @@ class tutorial(Cog):
 
     # roll [x]d[y] where x = how many die and y = sides per die
     @command(name = "dice", aliases=["roll"])
+    @cooldown(1, 60, BucketType.user)                   # can use [1] time every [60] seconds if you are [any user]
     async def  roll_dice(self, ctx, die_string: str):
         dice, value = (int(term) for term in die_string.split('d'))
 
@@ -57,12 +56,14 @@ class tutorial(Cog):
 
     # send client message
     @command(name = 'echo', aliases=['say'])
+    @cooldown(1, 15, BucketType.guild)                  # can use [1] time per [15] seconds if you are [server member]
     async def  echo_message(self, ctx, *, message):
         await ctx.message.delete()
         await ctx.send(message)
 
     # animal facts
     @command(name = 'fact')
+    @cooldown(3, 60, BucketType.guild)                  # can use [3] times per [60] seconds if you are [server member]
     async def  animal_fact(self, ctx, animal: str):
         if animal.lower() in('dog', 'cat', 'panda', 'koala', 'fox', 'bird', 'red panda', 'raccoon', 'kangaroo'):
             URL = f'https://some-random-api.ml/animal/{animal.lower()}'
@@ -92,6 +93,6 @@ class tutorial(Cog):
         await ctx.channel.purge(limit=amount)
 
 
-# cog setup ---
+# run cog ---
 def setup(client):
     client.add_cog(tutorial(client))

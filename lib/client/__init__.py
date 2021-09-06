@@ -1,9 +1,9 @@
 # discord.py imports
 from discord import Intents, Embed, File
 from discord.errors import HTTPException, Forbidden
-from discord.ext import commands
+
 from discord.ext.commands import Bot as BotBase
-from discord.ext.commands import (CommandNotFound, Context, BadArgument, MissingRequiredArgument)
+from discord.ext.commands import (CommandNotFound, Context, BadArgument, MissingRequiredArgument, CommandOnCooldown)
 
 # global imports ?
 from datetime import datetime
@@ -48,7 +48,7 @@ class Bot(BotBase):
         # intents = Intents.default()                               # this is more customizable (i think?)
         # intents.members = True                                    # can use this instead of ACTIVATE INTENTS (to avoid presences?)
 
-        db.autosave(self.scheduler)                                 # set db to autosave on init
+        db.autosave(self.scheduler)                                 # set database to autosave on init
         super().__init__(
             command_prefix=PREFIX, 
             owner_ids=OWNER_IDS,
@@ -120,14 +120,16 @@ class Bot(BotBase):
         elif isinstance(exc, MissingRequiredArgument):
             await ctx.send(f'error: missing arguments')
 
-        elif isinstance(exc.original, HTTPException):
-            await ctx.send(f'error: unable to send message')
-
-        elif isinstance(exc.original, Forbidden):
-            await ctx.send(f'error: im not allowed')
+        elif isinstance(exc, CommandOnCooldown):
+            await ctx.send(f'error: {str(exc.cooldown.type).split(".")[-1]} cooldown [try again in {exc.retry_after:,.2f} sec]')    # {exc.retry_after://60+1,.2f} return minutes (un-comfirmed)
 
         elif hasattr(exc, 'original'):
-            raise exc.original
+            if isinstance(exc.original, HTTPException):
+                await ctx.send(f'error: unable to send message')
+            elif isinstance(exc.original, Forbidden):
+                await ctx.send(f'error: im not allowed')
+            else:
+                raise exc.original
         
         else:
             raise exc
@@ -145,11 +147,11 @@ class Bot(BotBase):
 
 
 
-# login message custom embed ---
+# login message custom embed template ---
 #            embed = Embed(title='now online', 
-#                            description='dunce is now online', 
+#                            description='dunce.bot is now online', 
 #                            colour=0xff0000,
-#                            timestamp=datetime.utcnow())            # enable embeds (0x prefix selects datatype i think?)
+#                            timestamp=datetime.utcnow())            
 #            fields = [('name', 'value', True),
 #                        ('another name field', 'another value field', True),
 #                        ('third name non-inline', 'third value non-inline', False)]
