@@ -37,7 +37,7 @@ class ready(object):
 
 
 class Bot(BotBase):
-# bot initialization ---
+# client initialization ---
     def __init__(self):
         self.PREFIX = PREFIX
         self.ready = False
@@ -63,14 +63,14 @@ class Bot(BotBase):
         
         print(f'\n\tcogs: loading complete')                              # console: cogs loaded / complete status
 
-# run bot with token ---        
+# run client with token ---        
     def run(self, version):                                         
         self.VERSION = version
 
-        print(f'*** dunce.bot ***\n** by: danmuck **\n\ndunce: starting my initial setup...\n')                                  # console: bot setting up
+        print(f'*** dunce.bot ***\n** by: danmuck **\n\ndunce: starting my initial setup...\n')                                  # console: client setting up
         self.setup()
         
-        with open('./lib/bot/token.0', 'r', encoding='utf-8') as tf:
+        with open('./lib/client/token.0', 'r', encoding='utf-8') as tf:
             self.TOKEN = tf.read()
 
         print('\n\ndunce: hello friend :)\ndunce: checking my token...')
@@ -170,16 +170,16 @@ class Bot(BotBase):
 #            channel = self.get_channel(884116429421559859)          # welcome-spam channel id
 #            await channel.send(f'dunce.bot is now : online')               # send login message
             self.ready = True
-            print('dunce: im ready\n')                                # console: bot is ready message
+            print('dunce: im ready\n')                                # console: client is ready message
     
         else:
-            print('dunce: reconnected\n')                             # console: bot reconnected
+            print('dunce: reconnected\n')                             # console: client reconnected
 
 # on_message response ---
     async def on_message(self, message):
-        # if message.author.bot and message.author != message.guild.me: # same thing but can take commands from other bots (NOT WORKING)
+        # if message.author.client and message.author != message.guild.me: # same thing but can take commands from other bots (NOT WORKING)
         #     await self.process_commands(message)
         if not message.author.bot:                                      # ignore messages from the bot itself only
             await self.process_commands(message)
 # end ---
-bot = Bot()
+client = Bot()
