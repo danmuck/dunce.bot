@@ -8,6 +8,8 @@ from discord.ext.commands import command
 # random ---
 from random import choice, randint
 from typing import Optional
+# aiohttp ---
+from aiohttp import request
 
 from discord.ext.commands.errors import BadArgument
 # define cog object ---
@@ -58,6 +60,20 @@ class fun(Cog):
     async def  echo_message(self, ctx, *, message):
         await ctx.message.delete()
         await ctx.send(message)
+
+    # animal facts
+    @command(name = 'fact')
+    async def  animal_fact(self, ctx): # animal: str):
+        URL = 'https://some-random-api.ml/animal/dog'
+
+        async with request('GET', URL, headers={}) as response:
+            if response.status == 200:
+                data = await response.json()
+
+                await ctx.send(data['fact'])
+
+            else:
+                await ctx.send(f'api returned a {response.status} status')
 
 
 
