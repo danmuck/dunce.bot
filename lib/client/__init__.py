@@ -19,7 +19,7 @@ from discord.ext.commands.errors import BadArgument, MissingPermissions
 from ..db import db
 
 #PREFIX = '?'
-OWNER_IDS = [876630793974345740]
+OWNER_IDS = [876630793974345740]    # i am owner
 COGS = [path.split('/')[-1][:-3] for path in glob('lib/cogs/*.py')]       # go through /cogs directory and return the name of any cogs -.py as array (split rules for removing it)
 IGNORE_EXCEPTIONS = (CommandNotFound, BadArgument, MissingPermissions)
 
