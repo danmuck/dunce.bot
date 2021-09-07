@@ -99,7 +99,7 @@ class Bot(BotBase):
 
 # timed reminders ---
     async def rules_reminder(self):
-        channel = self.get_channel(884116429421559859)              # welcome-spam channel id
+        channel = self.get_channel(884853014228267038)              # welcome-spam channel id
         await channel.send(f'```timed notification: rules reminder [weekly] UPDATE ME```')
 
 # connect/disconnect messages ---
@@ -115,7 +115,7 @@ class Bot(BotBase):
         if err == 'on_command_error':
             await args[0].send(f'```on_command_error: check console```')          # if error is a command error send message
 
-        channel = self.get_channel(884131996194967572)              # send an error message to error-spam channel id
+        channel = self.get_channel(881174439880958003)              # send an error message to error-spam channel id
         await channel.send('```on_error: check console```')
         raise                                                       # raise error to the console
 
@@ -153,8 +153,8 @@ class Bot(BotBase):
 
     async def on_ready(self):           
         if not self.ready:
-            self.guild = self.get_guild(882994482579140739)         # server id
-            self.stdout = self.get_channel(882994482579140742)      # spam channel id for [standard out] channel
+            self.guild = self.get_guild(878370102091853824)         # server id
+            self.stdout = self.get_channel(881226606490841088)      # spam channel id for [standard out] channel
         # scheduled tasks on_ready ---
             self.scheduler.add_job(self.rules_reminder, CronTrigger(day_of_week=0, hour=12))          # rules_reminder timed reminder start
             print(f'dunce: rules_reminder starting...')             # console: starting task
