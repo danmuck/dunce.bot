@@ -1,9 +1,10 @@
+import discord, random, os
 # discord.py imports
 from discord import Intents, Embed, File
 from discord.errors import HTTPException, Forbidden
-
+from discord.ext import tasks
 from discord.ext.commands import Bot as BotBase
-from discord.ext.commands import (CommandNotFound, Context, BadArgument, MissingRequiredArgument, CommandOnCooldown, when_mentioned_or, command, has_permissions)
+from discord.ext.commands import (CommandNotFound, Context, BadArgument, MissingRequiredArgument, CommandOnCooldown, when_mentioned_or)
 
 # global imports ?
 from datetime import datetime
@@ -14,6 +15,7 @@ from asyncio import sleep
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 from discord.ext.commands.errors import BadArgument, MissingPermissions
+from itertools import cycle
 
 # database import
 from ..db import db
@@ -31,6 +33,7 @@ logger.addHandler(handler)
 OWNER_IDS = [876630793974345740]    # i am owner
 COGS = [path.split('/')[-1][:-3] for path in glob('lib/cogs/*.py')]       # go through /cogs directory and return the name of any cogs -.py as array (split rules for removing it)
 IGNORE_EXCEPTIONS = (CommandNotFound, BadArgument, MissingPermissions)
+STATUS = (['god' , 'trapqueen' , 'buddha' , 'zeus' , 'qanon chatroom' , 'doja cat' , 'creator' , 'yourself' , 'pretend' , 'bush did 9/11 sim'])
 
 class ready(object):
     def __init__(self):
@@ -43,6 +46,7 @@ class ready(object):
 
     def all_ready(self):
         return all([getattr(self, cog) for cog in COGS])
+
 # get prefix ---
 def get_prefix(client, message):
     prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?", message.guild.id)
@@ -82,6 +86,7 @@ class Bot(BotBase):
         
         print(f'\n\tcogs: loading complete')                              # console: cogs loaded / complete status
 
+
 # run client with token ---        
     def run(self, version):                                         
         self.VERSION = version
@@ -104,19 +109,17 @@ class Bot(BotBase):
 
             else:
                 await ctx.send(f'```dunce.bot is taking a break```')
-
-
-# timed reminders ---
-    async def rules_reminder(self):
-        channel = self.get_channel(884853014228267038)              # welcome-spam channel id
-        await channel.send(f'```timed notification: rules reminder [weekly] UPDATE ME```')
-
 # connect/disconnect messages ---
     async def on_connect(self):                                     
         print('\ndunce: big idiot is sentient\n\n')
 
     async def on_disconnect(self):
         print('\n\tdunce.bot is in the corner\n\n\n')
+# timed reminders ---
+    async def rules_reminder(self):
+        channel = self.get_channel(884853014228267038)              # welcome-spam channel id
+        await channel.send(f'```timed notification: rules reminder [weekly] UPDATE ME```')
+
 
 # error handling ---
 
@@ -159,15 +162,56 @@ class Bot(BotBase):
             raise exc
 
 # on_ready notifiers ---
-
     async def on_ready(self):           
         if not self.ready:
+            await client.change_presence(status=discord.Status.idle, activity=discord.Game('YOURSELF'))
             self.guild = self.get_guild(878370102091853824)         # server id
             self.stdout = self.get_channel(881226606490841088)      # spam channel id for [standard out] channel
-        # scheduled tasks on_ready ---
+    # scheduled tasks on_ready ---
+            change_status.start()
+            print(f'tasks: change_status starting...')
+            clear_test.start()
+            print(f'tasks: clear_test starting...')
             self.scheduler.add_job(self.rules_reminder, CronTrigger(day_of_week=0, hour=12))          # rules_reminder timed reminder start
-            print(f'dunce: rules_reminder starting...')             # console: starting task
+            print(f'tasks: rules_reminder starting...')             # console: starting task
             self.scheduler.start()
+            
+            while not self.cogs_ready.all_ready():
+                await sleep(0.5)                                     # sleep is for incase cog takes too long to load
+
+#            channel = self.get_channel(884116429421559859)          # welcome-spam channel id
+#            await channel.send(f'dunce.bot is now : online')               # send login message
+            self.ready = True
+            print('dunce: im ready\n')                                # console: client is ready message
+    
+        else:
+            print('dunce: reconnected\n')                             # console: client reconnected
+# tasks ---
+@tasks.loop(seconds=30)
+async def change_status():
+    await client.change_presence(status=discord.Status.idle, activity=discord.Game(random.choice(STATUS)))
+@tasks.loop(minutes=15)
+async def clear_test():
+    await client.get_channel(883778568004456458).purge(limit=250) #text channel id
+    await client.get_channel(883778568004456458).send(f'its my spam, i do what i want with it') 
+
+# end ---
+# on_message response ---
+    async def on_message(self, message):
+        # if message.author.client and message.author != message.guild.me: # same thing but can take commands from other bots (NOT WORKING)
+        #     await self.process_commands(message)
+        if not message.author.bot:                                      # ignore messages from the bot itself only
+            await self.process_commands(message)
+client = Bot()
+
+
+
+
+
+
+
+
+
 
 
 
@@ -189,23 +233,3 @@ class Bot(BotBase):
 
         #    await channel.send(file=File('./data/images/ex_logo.jpg'))                      # send a file 
 
-            
-            while not self.cogs_ready.all_ready():
-                await sleep(0.5)                                     # sleep is for incase cog takes too long to load
-
-#            channel = self.get_channel(884116429421559859)          # welcome-spam channel id
-#            await channel.send(f'dunce.bot is now : online')               # send login message
-            self.ready = True
-            print('dunce: im ready\n')                                # console: client is ready message
-    
-        else:
-            print('dunce: reconnected\n')                             # console: client reconnected
-
-# on_message response ---
-    async def on_message(self, message):
-        # if message.author.client and message.author != message.guild.me: # same thing but can take commands from other bots (NOT WORKING)
-        #     await self.process_commands(message)
-        if not message.author.bot:                                      # ignore messages from the bot itself only
-            await self.process_commands(message)
-# end ---
-client = Bot()

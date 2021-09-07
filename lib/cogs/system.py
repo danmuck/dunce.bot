@@ -1,5 +1,12 @@
+
+
+
+from dotenv import load_dotenv
+load_dotenv()
 # discord.py ---
+import discord, random, os
 from discord import Member, Embed
+from discord.ext import tasks, commands
 from discord.ext.commands import Cog, BucketType, CheckFailure
 from discord.ext.commands import command, cooldown, has_permissions
 from discord.utils import get
@@ -7,15 +14,18 @@ from discord.utils import get
 # random ---
 from random import choice, randint
 from typing import Optional
+from itertools import cycle
 # aiohttp ---
 from aiohttp import request
 # database ---
 from ..db import db
 
 
+
 class system(Cog):
     def __init__(self, client):
         self.client = client
+
 
 # command prefix ---
     @command(name='prefix')
@@ -34,12 +44,15 @@ class system(Cog):
         if isinstance(exc, CheckFailure):
             await ctx.send(f'```error: user role cannot manage_guild```')
 
+    @command(name='dunce_ping', aliases=["png", 'ping'], hidden=True)
+    async def dunce_ping(self, ctx):
+        await ctx.send(f"{round(self.client.latency * 1000)}ms")
+
 # end ---
     @Cog.listener()
     async def on_ready(self):
         if not self.client.ready:
             self.client.cogs_ready.ready_up('system')
-
 
 def setup(client):
     client.add_cog(system(client))

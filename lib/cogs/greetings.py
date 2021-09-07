@@ -14,6 +14,7 @@ class greetings(Cog):
 
     @Cog.listener()
     async def on_member_join(self, member):
+        print(f'\n\talert: {member} has entered the chat\n')
         db.execute("INSERT INTO exp (UserID) VALUES (?)", member.id)
         print(f'db: adding user {member.id} to database...')
         db.commit()
@@ -29,6 +30,7 @@ class greetings(Cog):
 
     @Cog.listener()
     async def on_member_remove(self, member):
+        print(f'\n\talert: {member} has left the chat\n')
         db.execute("DELETE FROM exp WHERE UserID = ?", member.id)
         print(f'db: removing user {member.id} from database...')
         db.commit()
