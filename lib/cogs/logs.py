@@ -1,12 +1,18 @@
 from discord import Forbidden, Embed
 from datetime import datetime
 from discord.ext.commands import Cog
-
+import logging
 
 
 class logs(Cog):
     def __init__(self, client):
         self.client = client
+        
+    logger = logging.getLogger('discord')
+    logger.setLevel(logging.DEBUG)
+    handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
+    handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+    logger.addHandler(handler)
 
     def log_embed(self, title, description, color, thumbnail=None, fields=None):
         embed = Embed(title=title,

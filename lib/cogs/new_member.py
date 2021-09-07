@@ -3,14 +3,14 @@ from discord.ext.commands import Cog
 from ..db import db
 
 
-class greetings(Cog):
+class new_member(Cog):
     def __init__(self, client):
         self.client = client
 
     @Cog.listener()
     async def on_ready(self):
         if not self.client.ready:
-            self.client.cogs_ready.ready_up('greetings')
+            self.client.cogs_ready.ready_up('new_member')
 
     @Cog.listener()
     async def on_member_join(self, member):
@@ -40,4 +40,4 @@ class greetings(Cog):
 
 def setup(client):
     pass
-    client.add_cog(greetings(client))
+    client.add_cog(new_member(client))
