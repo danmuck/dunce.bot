@@ -18,6 +18,15 @@ from discord.ext.commands.errors import BadArgument, MissingPermissions
 # database import
 from ..db import db
 
+# logging
+
+import logging
+logger = logging.getLogger('discord')
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
+handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+logger.addHandler(handler)
+
 #PREFIX = '?'
 OWNER_IDS = [876630793974345740]    # i am owner
 COGS = [path.split('/')[-1][:-3] for path in glob('lib/cogs/*.py')]       # go through /cogs directory and return the name of any cogs -.py as array (split rules for removing it)
