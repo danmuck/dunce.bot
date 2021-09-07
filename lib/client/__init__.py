@@ -40,7 +40,7 @@ class ready(object):
 
     def ready_up(self, cog):
         setattr(self, cog, True)
-        print(f'cogs: {cog} cog is ready')
+        print(f'cogs: {cog} ready')
 
     def all_ready(self):
         return all([getattr(self, cog) for cog in COGS])
@@ -92,7 +92,7 @@ class Bot(BotBase):
             print(f'cogs: {cog} cog loading')
 
         # console: cogs loaded / complete status
-        print(f'\n\tcogs: loading complete')
+        print(f'cogs: loading complete\n\n\n\n\t-[ cogs loaded ]-\n\n\n')
 
 
 # run client with token ---
@@ -102,13 +102,13 @@ class Bot(BotBase):
 
         # console: client setting up
         print(
-            f'*** dunce.bot ***\n** by: danmuck **\n\ndunce: starting my initial setup...\n')
+            f'\n\n\t*****************\n\t*               *\n\t**  dunce.bot  **\n\t** by: danmuck **\n\t*               *\n\t*****************\n\n\n\n\ndunce: starting my initial setup...\n')
         self.setup()
 
         with open('./lib/client/token.0', 'r', encoding='utf-8') as tf:
             self.TOKEN = tf.read()
 
-        print('\n\ndunce: hello friend :)\ndunce: checking my token...')
+        print('dunce: hello friend :)\ndunce: checking my token...')
         super().run(self.TOKEN, reconnect=True)
 
     async def process_commands(self, message):
@@ -123,10 +123,10 @@ class Bot(BotBase):
 # connect/disconnect messages ---
 
     async def on_connect(self):
-        print('\ndunce: big idiot is sentient\n\n')
+        print('\n\n\n\t-[ big idiot bot is sentient ]-\n\n\n')
 
     async def on_disconnect(self):
-        print('\n\n\n\t[ dunce.bot is in the corner ]\n\n\n')
+        print('\n\n\n\t-[ dunce.bot is in the corner ]-\n\n\n')
 # timed reminders ---
 
     async def rules_reminder(self):
@@ -197,6 +197,7 @@ class Bot(BotBase):
             # console: starting task
             print(f'tasks: rules_reminder starting...')
             self.scheduler.start()
+            print(f'\n\n\n\t-[ tasks started ]-\n\n\n')
 
             while not self.cogs_ready.all_ready():
                 # sleep is for incase cog takes too long to load
@@ -206,11 +207,11 @@ class Bot(BotBase):
 #            await channel.send(f'dunce.bot is now : online')               # send login message
             self.ready = True
             # console: client is ready message
-            print('dunce: im ready\n')
+            print('\ndunce: im ready!?\n\n\n\n\t-[ dunce.bot | ONLINE ]-\n\n\n')
 
         else:
             # console: client reconnected
-            print('dunce: reconnected\n')
+            print('dunce: reconnected\n\n\n\t-[ dunce.bot | OFFLINE ]-\n\n\n')
 # tasks ---
 
 
