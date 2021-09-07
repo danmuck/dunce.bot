@@ -8,10 +8,21 @@ class logs(Cog):
     def __init__(self, client):
         self.client = client
 
+    def log_embed(self, title, description, color, thumbnail=None, fields=None):
+        embed = Embed(title=title,
+                        description=description,
+                        color=color,
+                        timestamp=datetime.utcnow())
+        embed.set_thumbnail(url=thumbnail or self.bot.guild.me.avatar_url)
+        if fields is not None:
+            for name, value, inline in fields:
+                embed.add_field(name=name, value=value, inline=inline)
+        return embed
+
     @Cog.listener()
     async def on_ready(self):
         if not self.client.ready:
-            self.log_channel = self.client.get_channel(884548573730074624)
+            self.log_channel = self.client.get_channel(884548573730074624)      # BUG: get from database
             self.client.cogs_ready.ready_up('logs')
 
     @Cog.listener()
@@ -65,19 +76,42 @@ class logs(Cog):
                 embed.add_field(name=name, value=value, inline=inline)
             await self.log_channel.send(embed=embed)
 
+    # @Cog.listener()
+    # async def on_message_edit(self, before, after):
+    #     if not after.author.client:
+    #         if before.content != after.content:
+    #             await self.log_channel.send(f'```edit: {before.content} === {after.content}```')
+
+    # @Cog.listener()
+    # async def on_message_delete(self, message):
+    #     if message.author != self.client:
+    #         await self.log_channel.send(f'```edit: {message.author} delete test```')
+
     @Cog.listener()
     async def on_message_edit(self, before, after):
-        pass
-
-        if not after.author.client:
-            pass
+        if not after.author.bot:
+            if before.content != after.content: 
+                embed = Embed(title="edit: message",
+							description=f"by: {after.author.display_name}",
+							colour=after.author.colour,
+							timestamp=datetime.utcnow())
+                fields = [("original:", before.content, False),
+						("update:", after.content, False)]
+                for name, value, inline in fields:
+                    embed.add_field(name=name, value=value, inline=inline)
+                await self.log_channel.send(embed=embed)
 
     @Cog.listener()
-    async def on_message_delete(self, before, after):
-        pass
-        if not after.author.client:
-
-            pass
+    async def on_message_delete(self, message):
+        if not message.author.bot:
+            embed = Embed(title="edit: message removed", 
+                        description=f"by: {message.author.display_name}",
+                        colour=message.author.colour,
+                        timestamp=datetime.utcnow())
+            fields = [("content", message.content, False)]
+            for name, value, inline in fields:
+                embed.add_field(name=name, value=value, inline=inline)
+            await self.log_channel.send(embed=embed)
 
 
 # end ---
