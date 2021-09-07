@@ -12,9 +12,10 @@ from aiohttp import request
 # database ---
 from ..db import db
 
+
 class system(Cog):
     def __init__(self, client):
-        self.client = client 
+        self.client = client
 
 # command prefix ---
     @command(name='prefix')
@@ -23,7 +24,8 @@ class system(Cog):
         if len(new) > 1:
             await ctx.send(f'```pick one character please```')
         else:
-            db.execute("UPDATE guilds SET Prefix = ? WHERE GuildID = ?", new, ctx.guild.id)
+            db.execute(
+                "UPDATE guilds SET Prefix = ? WHERE GuildID = ?", new, ctx.guild.id)
             db.commit()
             await ctx.send(f'```prefix set to: {new}``` <@876630793974345740> ')
 
@@ -37,5 +39,7 @@ class system(Cog):
     async def on_ready(self):
         if not self.client.ready:
             self.client.cogs_ready.ready_up('system')
+
+
 def setup(client):
     client.add_cog(system(client))

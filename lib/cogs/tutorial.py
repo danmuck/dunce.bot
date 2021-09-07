@@ -62,7 +62,7 @@ class tutorial(Cog):
 
     # animal facts
     @command(name = 'fact')
-    @cooldown(3, 60, BucketType.guild)                  # can use [3] times per [60] seconds if you are [server member]
+    # @cooldown(3, 60, BucketType.guild)                  # can use [3] times per [60] seconds if you are [server member]
     async def  animal_fact(self, ctx, animal: str):
         if animal.lower() in('dog', 'cat', 'panda', 'koala', 'fox', 'bird', 'red panda', 'raccoon', 'kangaroo'):
             URL = f'https://some-random-api.ml/animal/{animal.lower()}'

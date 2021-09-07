@@ -1,6 +1,7 @@
 from discord import Forbidden
-from discord.ext.commands import Cog, command
-from ..db import db 
+from discord.ext.commands import Cog
+from ..db import db
+
 
 class greetings(Cog):
     def __init__(self, client):
@@ -16,21 +17,23 @@ class greetings(Cog):
         db.execute("INSERT INTO exp (UserID) VALUES (?)", member.id)
         print(f'db: adding user {member.id} to database...')
         db.commit()
-        await self.client.get_channel(884116429421559859).send(f'welcome to **{member.guild.name}** {member.mention}')      # welcome-spam channel id
+        # welcome-spam channel id
+        await self.client.get_channel(884116429421559859).send(f'welcome to **{member.guild.name}** {member.mention}')
         try:
-            await member.send(f'welcome to **{member.guild.name}**\n\tplease stop by <#884116429421559859> and check pins') # sends dm with welcome-spam channel id
+            # sends dm with welcome-spam channel id
+            await member.send(f'welcome to **{member.guild.name}**\n\tplease stop by <#884116429421559859> and check pins')
         except Forbidden:
             pass
-        await member.add_roles(*(member.guild.get_role(id_) for id_ in (884515444688584734, 884515686804774953)))       # default-role ids
-
+        # default-role ids
+        await member.add_roles(*(member.guild.get_role(id_) for id_ in (884515444688584734, 884515686804774953)))
 
     @Cog.listener()
     async def on_member_remove(self, member):
         db.execute("DELETE FROM exp WHERE UserID = ?", member.id)
         print(f'db: removing user {member.id} from database...')
         db.commit()
-        await self.client.get_channel(884116429421559859).send(f'```{member.display_name} has left {member.guild.name}... shame on them```')      # welcome-spam channel id
-
+        # welcome-spam channel id
+        await self.client.get_channel(884116429421559859).send(f'```{member.display_name} has left {member.guild.name}... shame on them```')
 
 
 def setup(client):
