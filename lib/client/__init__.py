@@ -126,7 +126,7 @@ class Bot(BotBase):
         print('\n\n\n\t-[ big idiot bot is sentient ]-\n\n\n')
 
     async def on_disconnect(self):
-        print('\n\n\n\t-[ dunce.bot is in the corner ]-\n\n\n')
+        print('\n\n\n\t-[ dunce.bot is in the corner ]-\n\n\n\t-[ dunce.bot | OFFLINE ]-\n\n\n')
 # timed reminders ---
 
     async def rules_reminder(self):
@@ -211,7 +211,7 @@ class Bot(BotBase):
 
         else:
             # console: client reconnected
-            print('dunce: reconnected\n\n\n\t-[ dunce.bot | OFFLINE ]-\n\n\n')
+            print('dunce: reconnected\n\n\n\t-[ dunce.bot | ONLINE ]-\n\n\n')
 # tasks ---
 
 

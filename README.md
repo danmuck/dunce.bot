@@ -58,4 +58,6 @@
 ##### macos 
 `pip install discord.py apscheduler aiosqlite python-dotenv`
 
-###### note: [create text file: 'token.0' in /client with _your_ bot token]
+###### note: IMPORTANT! create text file: 'token.0' in /client with _your_ bot token
+
+###### note: you need to edit in your own id numbers until its finished
