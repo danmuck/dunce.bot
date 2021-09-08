@@ -17,8 +17,9 @@ class admin_commands(Cog):
 
     @command(name="yeeter", aliases=["ytr"])
     @has_role(881287992382197850)  # admin role id
-    async def yeeter(self, ctx, amount=250):
-        await ctx.channel.purge(limit=amount)
+    async def yeeter(self, ctx):
+        await ctx.channel.purge(limit=None, check=lambda msg: not msg.pinned)
+        # await ctx.channel.purge(limit=amount)
 
     @command()
     @has_permissions(manage_messages=True)
