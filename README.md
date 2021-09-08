@@ -11,11 +11,11 @@
 ### download git: 
 
 
-#### linux [debian] 
+#### linux [debian]:
 `sudo apt update`   
 `sudo apt-get install git`
 
-#### macos [homebrew]
+#### macos [homebrew]:
  `brew install git`
 
 #### [windows](https://git-scm.com/downloads) 
