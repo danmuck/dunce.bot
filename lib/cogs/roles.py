@@ -34,6 +34,10 @@ class roles(Cog):
     async def associate(self, ctx, *, friends='friends at ccc?'):
         await ctx.send(f'``` I would like to hang out with my CCC friends. I know {friends} ```<@&881287992382197850> ')
 
+    @command(name = 'outsider', aliases=['outs', 'outside'])
+    async def  outsider(self, ctx):
+        await ctx.send(f'```welcome! pick a ?role or dont lol```')
+
     @Cog.listener()
     async def on_ready(self):
         if not self.client.ready:

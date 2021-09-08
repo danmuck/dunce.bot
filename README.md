@@ -12,6 +12,7 @@
 
 #### linux [debian]:
     `sudo apt update`   
+    
     `sudo apt-get install git`
 
 #### macos [homebrew]:
@@ -34,7 +35,7 @@
 - #### check version:
     ###### note: could be `pip3`
         `pip --version` 
-    or 
+        or 
         `pip --V` 
     
     

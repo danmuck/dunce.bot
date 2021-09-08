@@ -19,7 +19,7 @@ class new_member(Cog):
         print(f'db: adding user {member.id} to database...')
         db.commit()
         # welcome-spam channel id
-        await self.client.get_channel(884853014228267038).send(f'welcome to **{member.guild.name}** {member}')
+        await self.client.get_channel(884853014228267038).send(f'welcome to **{member.guild.name}** {str(member)[-5]}')
         try:
             # sends dm with welcome-spam channel id
             await member.send(f'welcome to **{member.guild.name}**\n\tplease stop by <#878370102549041212> and check pins')
