@@ -7,8 +7,8 @@
 ---
 
 ## fhi:
-### download git: 
 
+### download git: 
 
 #### linux [debian]:
 `sudo apt update`   
@@ -19,6 +19,7 @@
 
 #### [windows](https://git-scm.com/downloads) 
 
+---
 ### install python:
 ###### note: use `python3 --V` or `python3 --version` to check current version
 
@@ -26,6 +27,8 @@
     `sudo apt-get install python3`
 
 #### [windows](https://python.org/downloads/)
+
+---
 
 ### install pip: 
 - #### check version:
