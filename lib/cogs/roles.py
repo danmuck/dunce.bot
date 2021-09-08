@@ -16,7 +16,7 @@ class roles(Cog):
 
     @command(name = "ccc", aliases=["compsci" , "student"])
     async def ccc(self, ctx):
-        await ctx.send(f'``` I am a CCC student  ```<@&881287992382197850>')
+        await ctx.send(f'``` I am a CCC student  ```<@&876630793974345740>')
 
     @command(name = "joe", aliases=["dr.logic"])
     async def joe(self, ctx):
@@ -24,15 +24,15 @@ class roles(Cog):
 
     @command(name = 'mod', aliases = [ 'moderator' , 'mods' ])
     async def mod(self, ctx):
-        await ctx.send(f'``` **Keep sanity in the public channels primarily** Please communicate with other admins before pushing structural changes. >> mod ```<@&881287992382197850> ')
+        await ctx.send(f'``` **Keep sanity in the public channels primarily** Please communicate with other admins before pushing structural changes. >> mod ```<@&876630793974345740> ')
 
     @command(name = "admin", aliases=["administrator"])
     async def admin(self, ctx, *, spec='im a god'):
-        await ctx.send(f'``` **This is a contributor role and it is expected that you understand this.** Please communicate with other admins before pushing structural changes. >> admin {spec}```<@&881287992382197850>')
+        await ctx.send(f'``` **This is a contributor role and it is expected that you understand this.** Please communicate with other admins before pushing structural changes. >> admin {spec}```<@&876630793974345740>')
 
     @command(name = "associate", aliases=["ass" , "as"])
     async def associate(self, ctx, *, friends='friends at ccc?'):
-        await ctx.send(f'``` I would like to hang out with my CCC friends. I know {friends} ```<@&881287992382197850> ')
+        await ctx.send(f'``` I would like to hang out with my CCC friends. I know {friends} ```<@&876630793974345740> ')
 
     @Cog.listener()
     async def on_ready(self):
