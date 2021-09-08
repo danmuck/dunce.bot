@@ -10,12 +10,12 @@
 
 ### download git: 
 
-#### linux [debian]:
-    `sudo apt update`   
-    `sudo apt-get install git`
+#### linux [debian]
+`sudo apt update`   
+`sudo apt-get install git`
 
-#### macos [homebrew]:
-     `brew install git`
+#### macos [homebrew]
+ `brew install git`
 
 #### [windows](https://git-scm.com/downloads) 
 
@@ -24,7 +24,7 @@
 ###### note: use `python3 --V` or `python3 --version` to check current version
 
 #### linux (debian):
-    `sudo apt-get install python3`
+`sudo apt-get install python3`
 
 #### [windows](https://python.org/downloads/)
 
@@ -33,7 +33,7 @@
 ### install pip: 
 - #### check version:
     ###### note: could be `pip3`
-        `pip --version` 
+    `pip --version` 
     or 
         `pip --V` 
     
@@ -50,13 +50,13 @@
 
 ###### note: [ dotenv import optional ] if you'd rather comment the import lines out as they are not actively used
 ##### linux
-    `pip3 -m install -U discord.py apscheduler aiosqlite python-dotenv`
+    pip3 -m install -U discord.py apscheduler aiosqlite python-dotenv
 
 ##### windows
-    `py -m pip install -U discord.py apscheduler aiosqlite python-dotenv`
+    py -m pip install -U discord.py apscheduler aiosqlite python-dotenv
 
 ##### macos 
-    `pip install discord.py apscheduler aiosqlite python-dotenv`
+    pip install discord.py apscheduler aiosqlite python-dotenv
 
 ###### note: IMPORTANT! create text file: 'token.0' in /client with _your_ bot token
 
