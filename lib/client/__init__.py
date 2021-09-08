@@ -223,7 +223,7 @@ async def change_status():
 @tasks.loop(minutes=15)
 async def clear_test():
     # text channel id
-    await client.get_channel(883778568004456458).purge(limit=250)
+    await client.get_channel(883778568004456458).purge(limit=250, check=lambda msg: not msg.pinned)
     await client.get_channel(883778568004456458).send(f'its my spam, i do what i want with it')
 
 # end ---

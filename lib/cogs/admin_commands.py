@@ -24,7 +24,7 @@ class admin_commands(Cog):
     @command()
     @has_permissions(manage_messages=True)
     async def clear(self, ctx, amount=10):
-        await ctx.channel.purge(limit=amount)
+        await ctx.channel.purge(limit=amount, check=lambda msg: not msg.pinned)
 
     @command()
     @has_permissions(kick_members=True)
