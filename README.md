@@ -11,9 +11,9 @@
 ### download git: 
 
 #### linux [debian]:
-    `sudo apt update`   
+`sudo apt update`   
     
-    `sudo apt-get install git`
+`sudo apt-get install git`
 #### linux [debian]
 `sudo apt update`   
 `sudo apt-get install git`
@@ -35,21 +35,21 @@
 ---
 
 ### install pip: 
-- #### check version:
-    ###### note: could be `pip3`
-        `pip --version` 
-        or 
-    `pip --version` 
-    or 
-        `pip --V` 
+#### check version:
+###### note: could be `pip3`
+`pip --version` 
+or 
+`pip --version` 
+or 
+`pip --V` 
     
     
-- #### if no directory:
+#### if no directory:
 
-    linux (debian):
-        `sudo apt-get update`
-        `sudo apt-get -y install -U python3-pip`
-        `pip3 --version`
+linux (debian):
+`sudo apt-get update`
+`sudo apt-get -y install -U python3-pip`
+`pip3 --version`
 
 ---
 ### dependencies:
