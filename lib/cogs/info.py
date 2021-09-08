@@ -1,3 +1,4 @@
+from discord.channel import CategoryChannel
 from discord.ext.commands import Cog
 from discord.ext.commands import command
 from typing import Optional
@@ -11,7 +12,6 @@ class info(Cog):
     @command(name='userinfo', aliases=['memberinfo', 'ui'])
     async def user_info(self, ctx, target: Optional[Member]):
         target = target or ctx.author
-
         embed = Embed(title='user info', colour=target.colour, timestamp=datetime.utcnow())
         fields = [      ('` name `', str(target), False),
                         ('` id `', target.id, False),
@@ -24,14 +24,31 @@ class info(Cog):
                         ]   # ('`boosted`', bool(target.premium_since), True)
         for name, value, inline in fields:
             embed.add_field(name=name, value=value, inline=inline)
-        # embed.set_thumbnail(url=target.avatar_url)
+        # embed.set_thumbnail(url=ctx.avatar_url)
         await ctx.send(embed=embed)
-        # response = ctx.send(f'{target}')
-        # pass
+        # response = ctx.send(f'{ctx}')
 
     @command(name = 'serverinfo', aliases=['guildinfo', 'si', 'gi'])
     async def  server_info(self, ctx):
-        pass
+        embed = Embed(title='server info', colour=ctx.guild.owner.colour, timestamp=datetime.utcnow())
+        fields = [      ('` name `', str(ctx.guild.name), False),
+                        ('` id `', ctx.guild.id, True),
+                        ('`  owner  `', ctx.guild.owner, True),
+                        ('`  created at  `', ctx.guild.created_at.strftime('%m/%d/%Y %H:%M'), True),
+                        ('`  members  `', len(ctx.guild.members), True),
+                        ('` humans `', len(list(filter(lambda m: not m.bot, ctx.guild.members))), True),
+                        ('` bots `', len(list(filter(lambda m: m.bot, ctx.guild.members))), True),
+                        ('` banned members `', len(await ctx.guild.bans()), True),
+                        ('` roles `', len(ctx.guild.roles), True),
+                        ('` invites `', len(await ctx.guild.invites()), True),
+                        ('` text channels `', len(ctx.guild.text_channels), True),
+                        ('` voice channels `', len(ctx.guild.voice_channels), True),
+                        ('` categories `', len(ctx.guild.categories), True),
+                        ('\u200b', '\u200b', True)]  
+        for name, value, inline in fields:
+            embed.add_field(name=name, value=value, inline=inline)
+        # embed.set_thumbnail(url=target.avatar_url)
+        await ctx.send(embed=embed)
 
     @Cog.listener()
     async def on_ready(self):
