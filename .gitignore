@@ -4,6 +4,7 @@
 *.json
 *.log
 *.DS_Store
+Dockerfile.txt
 
 # possible copyright ignores (example files)
 data/images/ex_logo.jpg

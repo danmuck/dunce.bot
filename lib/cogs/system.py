@@ -1,33 +1,15 @@
-
-
-
+from ..db import db
+from discord.ext.commands import command, has_permissions
+from discord.ext.commands import Cog, CheckFailure
 from dotenv import load_dotenv
 load_dotenv()
-# discord.py ---
-import discord, random, os
-from discord import Member, Embed
-from discord.ext import tasks, commands
-from discord.ext.commands import Cog, BucketType, CheckFailure
-from discord.ext.commands import command, cooldown, has_permissions
-from discord.utils import get
-
-# random ---
-from random import choice, randint
-from typing import Optional
-from itertools import cycle
-# aiohttp ---
-from aiohttp import request
-# database ---
-from ..db import db
 
 
 
 class system(Cog):
     def __init__(self, client):
         self.client = client
-
-
-# command prefix ---
+    # command prefix ---
     @command(name='prefix')
     @has_permissions(manage_guild=True)
     async def change_prefix(self, ctx, new: str):
@@ -53,6 +35,7 @@ class system(Cog):
     async def on_ready(self):
         if not self.client.ready:
             self.client.cogs_ready.ready_up('system')
+
 
 def setup(client):
     client.add_cog(system(client))

@@ -1,26 +1,18 @@
-import discord
-import random
-import os
-# discord.py imports
+import discord, random, os
 from discord import Intents, Embed, File
 from discord.errors import HTTPException, Forbidden
 from discord.ext import tasks
 from discord.ext.commands import Bot as BotBase
 from discord.ext.commands import (CommandNotFound, Context, BadArgument,
                                     MissingRequiredArgument, CommandOnCooldown, when_mentioned_or)
-
-# global imports ?
 from datetime import datetime
 from glob import glob
-
-# asynchio imports
 from asyncio import sleep
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 from discord.ext.commands.errors import BadArgument, MissingPermissions
 from itertools import cycle
 
-# database import
 from ..db import db
 
 
@@ -29,8 +21,14 @@ OWNER_IDS = [876630793974345740]    # i am owner
 COGS = [path.split('/')[-1][:-3] for path in glob('lib/cogs/*.py')]
 IGNORE_EXCEPTIONS = (CommandNotFound, BadArgument, MissingPermissions)
 STATUS = (['god', 'trapqueen', 'buddha', 'zeus',
-                'qanon chatroom', 'doja cat', 'creator', 'yourself', 
-                'pretend', 'bush did 9/11 sim'])
+            'qanon chatroom', 'doja cat', 'creator', 'yourself',
+            'pretend', 'bush did 9/11 sim', 'ole vlad', 'with...', 
+            'kim jong-un', '17:38', 'elvis', 'napoleon bonaparte',
+            'napoleon dynamite', 'street fighter', 'myself',
+            'yeezy', 'cardi', 'north west', 'nas', 'area 51 raid team',
+            'anonymous', 'the pope', 'playing', 'armchair psychologist',
+            'einstein', 'the corporate ladder', 'google it', 'jeopardy',
+            'pinocchio', 'botnet', 'with the source code', 'scientist'])
 
 
 class ready(object):
@@ -126,7 +124,8 @@ class Bot(BotBase):
         print('\n\n\n\t-[ big idiot bot is sentient ]-\n\n\n')
 
     async def on_disconnect(self):
-        print('\n\n\n\t-[ dunce.bot is in the corner ]-\n\n\n\t-[ dunce.bot | OFFLINE ]-\n\n\n')
+        print(
+            '\n\n\n\t-[ dunce.bot is in the corner ]-\n\n\n\t-[ dunce.bot | OFFLINE ]-\n\n\n')
 # timed reminders ---
 
     async def rules_reminder(self):
@@ -207,7 +206,8 @@ class Bot(BotBase):
 #            await channel.send(f'dunce.bot is now : online')               # send login message
             self.ready = True
             # console: client is ready message
-            print('\ndunce: im ready!?\n\n\n\n\t-[ dunce.bot | ONLINE ]-\n\n\n')
+            print(
+                '\ndunce: im ready!?\n\n\n\n\t-[ dunce.bot | ONLINE ]-\n\n\n')
 
         else:
             # console: client reconnected
@@ -218,9 +218,7 @@ class Bot(BotBase):
 @tasks.loop(seconds=30)
 async def change_status():
     await client.change_presence(status=discord.Status.idle, activity=discord.Game(random.choice(STATUS)))
-
-
-@tasks.loop(minutes=15)
+@tasks.loop(minutes=30)
 async def clear_test():
     # text channel id
     await client.get_channel(883778568004456458).purge(limit=250, check=lambda msg: not msg.pinned)
