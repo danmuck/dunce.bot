@@ -1,4 +1,3 @@
-# user ignores
 *.env
 *.vscode
 *.json
@@ -7,13 +6,7 @@
 *.yml
 *.debug
 *.dockerignore
-*.gitignore
 Dockerfile
-
-
-
-
-
 
 # possible copyright ignores (example files)
 data/images/ex_logo.jpg
@@ -23,3 +16,4 @@ data/images/ex_logo.jpg
 *.db-journal
 *__pycache__
 lib/client/token.0
+*notrack/
