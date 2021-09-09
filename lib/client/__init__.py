@@ -92,7 +92,18 @@ class Bot(BotBase):
         # console: cogs loaded / complete status
         print(f'cogs: loading complete\n\n\n\n\t-[ cogs loaded ]-\n\n\n')
 
-
+    def update_db(self):
+        db.multiexec("INSERT OR IGNORE INTO guilds (GuildID) VALUES (?)", ((guild.id,) for guild in self.guilds))
+        db.multiexec("INSERT OR IGNORE INTO exp (UserID) VALUES (?)", 
+                            ((member.id,) for member in self.guild.members if not member.bot))
+                            # ((member.id) for guild in self.guilds for member in guild.members if not member.bot)
+        to_remove = []
+        stored_members = db.column("SELECT UserID FROM exp")
+        for id_ in stored_members:
+            if not self.guild.get_member(id_):
+                to_remove.append(id_)
+        db.multiexec("DELETE FROM exp WHERE UserID = ?", ((id_,) for id_ in to_remove))
+        db.commit()
 # run client with token ---
 
     def run(self, version):
@@ -197,6 +208,11 @@ class Bot(BotBase):
             print(f'tasks: rules_reminder starting...')
             self.scheduler.start()
             print(f'\n\n\n\t-[ tasks started ]-\n\n\n')
+
+            self.update_db()
+            print(f'db: updating new members/guilds')
+
+
 
             while not self.cogs_ready.all_ready():
                 # sleep is for incase cog takes too long to load
