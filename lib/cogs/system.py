@@ -1,6 +1,8 @@
 from ..db import db
-from discord.ext.commands import command, has_permissions
+from discord.ext.commands import command, has_permissions, when_mentioned_or
 from discord.ext.commands import Cog, CheckFailure
+from discord.utils import get
+from discord import Role
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -30,11 +32,35 @@ class system(Cog):
     async def dunce_ping(self, ctx):
         await ctx.send(f"{round(self.client.latency * 1000)}ms")
 
+    # def get_roleT(client, message):
+    #     roleT = db.field(
+    #         "SELECT RoleID FROM roles WHERE GuildName = ?", str(message.guild.name))
+    #     if roleT == None:
+    #         print(f'db: roles added to database...')
+    #         db.execute(
+    #             'INSERT INTO roles (RoleID, GuildName) VALUES (?, ?)', client.guild.roles, str(message.guild.name))
+    #         db.commit()
+    #         roleT = db.field(
+    #             "SELECT RoleID FROM guilds WHERE GuildName = ?", client.guild.roles, str(message.guild.name))
+    #         # set up for multiserver bot
+    #         return when_mentioned_or(roleT)(client, message)
+    #     else:
+    #         return when_mentioned_or(roleT)(client, message)
+
 # end ---
     @Cog.listener()
     async def on_ready(self):
         if not self.client.ready:
             self.client.cogs_ready.ready_up('system')
+
+            # these lines need work
+            # roles = str(self.client.guild.roles)
+            # db.execute("INSERT INTO roles (Roles, GuildID) VALUES (?, ?)", roles, self.client.guild.id) # this needs to pull the ids from the roles list only
+            # db.commit()
+
+        
+
+
 
 
 def setup(client):

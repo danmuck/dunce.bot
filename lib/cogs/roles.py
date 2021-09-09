@@ -1,5 +1,6 @@
 from discord.ext.commands import Cog, command
-
+from discord.utils import get
+import discord
 class roles(Cog):
     def __init__(self, client):
         self.PREFIX = '?'
@@ -15,8 +16,12 @@ class roles(Cog):
         print('\nNew Member Alert!\n')
 
     @command(name = "ccc", aliases=["compsci" , "student"], hidden=True)
+    # async def ccc(self, ctx):
     async def ccc(self, ctx):
+        # await member.add_roles(*(member.guild.get_role(id_) for id_ in (884533782051426304, 884860921829281913)))
+        # await ctx.author.add_roles(*(ctx.guild.get_role(id_) for id_ in (884515444688584734, 884515444688584734)))
         await ctx.send(f'``` I am a CCC student  ```<@&881287992382197850>')
+        # await ctx.author(ctx.author.add_roles(ctx.client.self.guild.get_role(881288659775680512)))
 
     @command(name = "joe", aliases=["dr.logic"], hidden=True)
     async def joe(self, ctx):
@@ -36,7 +41,7 @@ class roles(Cog):
 
     @command(name = 'outsider', aliases=['outs', 'outside'])
     async def  outsider(self, ctx):
-        await ctx.send(f'```welcome! pick a ?role or dont lol```')
+        await ctx.send(f'```welcome! pick a ?role or dont... lol```')
 
     @Cog.listener()
     async def on_ready(self):

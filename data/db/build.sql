@@ -10,3 +10,8 @@ CREATE TABLE IF NOT EXISTS guilds (
     GuildID integer PRIMARY KEY,
     Prefix text DEFAULT "?"
 );
+
+CREATE TABLE IF NOT EXISTS roles (
+    GuildID integer PRIMARY KEY,
+    Roles text DEFAULT "roles"
+);

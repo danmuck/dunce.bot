@@ -4,7 +4,15 @@
 *.json
 *.log
 *.DS_Store
-Dockerfile.txt
+*.yml
+*.debug
+*.dockerignore
+Dockerfile
+
+
+
+
+
 
 # possible copyright ignores (example files)
 data/images/ex_logo.jpg
