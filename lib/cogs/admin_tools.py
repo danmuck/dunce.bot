@@ -8,7 +8,7 @@ from re import search
 from typing import Optional
 
 from ..db import db
-class admin_commands(Cog):
+class admin_tools(Cog):
     def __init__(self, client):
         self.client = client
         # self.url_regex = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
@@ -16,7 +16,7 @@ class admin_commands(Cog):
     @Cog.listener()
     async def on_ready(self):
         if not self.client.ready:
-            self.client.cogs_ready.ready_up('admin_commands')
+            self.client.cogs_ready.ready_up('admin_tools')
 
     @command(name="yeeter", aliases=["ytr"])
     @has_role(881287992382197850)  # admin role id
@@ -56,4 +56,4 @@ class admin_commands(Cog):
             # print(f'TESTING!!! {([x[0] for x in url])}')
 
 def setup(client):
-    client.add_cog(admin_commands(client))
+    client.add_cog(admin_tools(client))
