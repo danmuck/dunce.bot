@@ -15,3 +15,10 @@ CREATE TABLE IF NOT EXISTS roles (
     GuildID integer PRIMARY KEY,
     Roles text DEFAULT "roles"
 );
+
+-- CREATE TABLE IF NOT EXISTS starboard (
+--     RootMessageID integer PRIMARY KEY,
+--     StarMessageID integer,
+--     Stars integer DEFAULT 1
+
+-- );

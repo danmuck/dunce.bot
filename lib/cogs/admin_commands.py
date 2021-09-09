@@ -1,11 +1,12 @@
 import discord
 from discord.ext import commands
-from discord.ext.commands import Cog
+from discord.ext.commands import Cog, CheckFailure, Greedy
 from discord.ext.commands import command
-from discord.ext.commands.core import has_permissions, has_role
+from discord.ext.commands.core import has_permissions, has_role, bot_has_permissions
+from re import search
+from typing import Optional
 
-
-
+from ..db import db
 class admin_commands(Cog):
     def __init__(self, client):
         self.client = client
@@ -27,15 +28,20 @@ class admin_commands(Cog):
         await ctx.channel.purge(limit=amount, check=lambda msg: not msg.pinned)
 
     @command()
+    # @bot_has_permissions(kick_members=True)
     @has_permissions(kick_members=True)
     async def kick(self, ctx, member: discord.Member, *, reason=None):
         await member.kick(reason=reason)
 
     @command()
+    # @bot_has_permissions(ban_members=True)
     @has_permissions(ban_members=True)
     async def ban(self, ctx, member: discord.Member, *, reason=None):
         await member.ban(reason=reason)
 # end ---
+    # @Cog.listener()
+    # async def on_message(self, message):
+    #     if search(url_regex, message.content):
 
 
 def setup(client):
