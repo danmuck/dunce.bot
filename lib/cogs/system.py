@@ -5,12 +5,16 @@ from discord.utils import get
 from discord import Role
 from dotenv import load_dotenv
 load_dotenv()
+import re
+from re import search
 
 
 
 class system(Cog):
     def __init__(self, client):
         self.client = client
+        self.url_regex = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
+
     # command prefix ---
     @command(name='prefix')
     @has_permissions(manage_guild=True)
@@ -48,6 +52,12 @@ class system(Cog):
     #         return when_mentioned_or(roleT)(client, message)
 
 # end ---
+    @Cog.listener()
+    async def on_message(self, message):
+        if search(self.url_regex, message.content):
+            url = re.findall(self.url_regex, str(message.content))
+            print(f'\nNEW LINKS: {[x[0] for x in url]} in #{message.channel}')
+
     @Cog.listener()
     async def on_ready(self):
         if not self.client.ready:

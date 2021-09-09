@@ -22,3 +22,9 @@ CREATE TABLE IF NOT EXISTS roles (
 --     Stars integer DEFAULT 1
 
 -- );
+
+-- CREATE TABLE IF NOT EXISTS links (
+--     ChannelID integer,
+--     Link text PRIMARY KEY,
+--     Category text DEFAULT "none"
+-- );
