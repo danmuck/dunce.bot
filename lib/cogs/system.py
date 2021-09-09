@@ -54,13 +54,15 @@ class system(Cog):
 # end ---
     @Cog.listener()
     async def on_message(self, message):
-        if search(self.url_regex, message.content):
+        if search(self.url_regex, message.content) and not message.author.bot:
             url = re.findall(self.url_regex, str(message.content))
             print(f'\nNEW LINKS: {[x[0] for x in url]} in #{message.channel}')
+            await self.logs_channel.send(f'```#{message.channel}: {[x[0] for x in url]}```')
 
     @Cog.listener()
     async def on_ready(self):
         if not self.client.ready:
+            self.logs_channel = self.client.get_channel(884851550206435410)
             self.client.cogs_ready.ready_up('system')
 
             # these lines need work
