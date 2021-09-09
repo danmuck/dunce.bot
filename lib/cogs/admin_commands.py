@@ -30,17 +30,20 @@ class admin_commands(Cog):
         await ctx.channel.purge(limit=amount, check=lambda msg: not msg.pinned)
 
     @command()
-    # @bot_has_permissions(kick_members=True)
+    @bot_has_permissions(kick_members=True)
     @has_permissions(kick_members=True)
+    @has_role(881287992382197850 or 881292901445935114)
     async def kick(self, ctx, member: discord.Member, *, reason=None):
         await member.kick(reason=reason)
 
     @command()
-    # @bot_has_permissions(ban_members=True)
+    @bot_has_permissions(ban_members=True)
     @has_permissions(ban_members=True)
+    @has_role(881287992382197850 or 881292901445935114)
     async def ban(self, ctx, member: discord.Member, *, reason=None):
         await member.ban(reason=reason)
 # end ---
+    # ADDED TO SYSTEM COG // keeping for notes for now
     # @Cog.listener()
     # async def on_message(self, message):
     #     if search(self.url_regex, message.content):
@@ -54,10 +57,3 @@ class admin_commands(Cog):
 
 def setup(client):
     client.add_cog(admin_commands(client))
-
-
-
-# s = '''http://www.santa.com'''
-# match = re.search(r'href=[\'"]?([^\'" >]+)', s)
-# if match:
-#     print match.group(0)

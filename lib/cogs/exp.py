@@ -15,6 +15,7 @@ class exp(Cog):
 
         if datetime.utcnow() > datetime.fromisoformat(xplock):
             await self.add_xp(message, xp, lvl)
+            
 
     async def add_xp(self, message, xp, lvl):
         xp_add = randint(4, 20)
