@@ -40,10 +40,6 @@ class system(Cog):
     async def  dirtpig(self, ctx):
         await ctx.send(f'hey {ctx.message.author.display_name} fuck you lol')
 
-    @command(hidden=True, name = 'dirtpig', aliases=['???????????????????????????????????'])
-    async def  dirtpig(self, ctx):
-        await ctx.send(f'hey {ctx.message.author.display_name} fuck you lol')
-
     # def get_roleT(client, message):
     #     roleT = db.field(
     #         "SELECT RoleID FROM roles WHERE GuildName = ?", str(message.guild.name))
