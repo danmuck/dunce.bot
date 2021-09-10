@@ -57,8 +57,9 @@ class system(Cog):
         if search(self.url_regex, message.content) and not message.author.bot:
             url = re.findall(self.url_regex, str(message.content))
             actual_url = ([actual_url[0] for actual_url in url])
-            print(f'\nNEW LINKS: {str(actual_url)} in #{message.channel}')
-            await self.news_channel.send(f'[ {message.author.display_name} posted https://{(actual_url[0])[8:]} in <#{message.channel.id}> ]')
+            for urls in actual_url:
+                print(f'\nNEW LINKS: {urls} in #{message.channel}')
+                await self.news_channel.send(f'[ {message.author.display_name} posted {f"{urls}"} in <#{message.channel.id}> ]')
 
     @Cog.listener()
     async def on_ready(self):
