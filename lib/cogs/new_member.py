@@ -16,7 +16,7 @@ class new_member(Cog):
     async def on_member_join(self, member):
         print(f'\n\talert: {member} has entered the chat\n')
         db.execute("INSERT INTO exp (UserID) VALUES (?)", member.id)
-        print(f'db: adding user {member.id} to database...')
+        print(f'db: adding user {member}|{member.id} to database...')
         db.commit()
         # welcome-spam channel id
         await self.client.get_channel(884116429421559859).send(f'welcome to **{member.guild.name}** {member}')
@@ -32,7 +32,7 @@ class new_member(Cog):
     async def on_member_remove(self, member):
         print(f'\n\talert: {member} has left the chat\n')
         db.execute("DELETE FROM exp WHERE UserID = ?", member.id)
-        print(f'db: removing user {member.id} from database...')
+        print(f'db: removing user {member.display_name}|{member.id} from database...')
         db.commit()
         # welcome-spam channel id
         await self.client.get_channel(884116429421559859).send(f'```{member.display_name} has left {member.guild.name}... shame on them```')

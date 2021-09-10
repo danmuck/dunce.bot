@@ -1,26 +1,18 @@
-import discord
-import random
-import os
-# discord.py imports
+import discord, random, os
 from discord import Intents, Embed, File
 from discord.errors import HTTPException, Forbidden
 from discord.ext import tasks
 from discord.ext.commands import Bot as BotBase
 from discord.ext.commands import (CommandNotFound, Context, BadArgument,
                                     MissingRequiredArgument, CommandOnCooldown, when_mentioned_or)
-
-# global imports ?
 from datetime import datetime
 from glob import glob
-
-# asynchio imports
 from asyncio import sleep
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 from discord.ext.commands.errors import BadArgument, MissingPermissions
 from itertools import cycle
 
-# database import
 from ..db import db
 
 
@@ -29,8 +21,14 @@ OWNER_IDS = [876630793974345740]    # i am owner
 COGS = [path.split('/')[-1][:-3] for path in glob('lib/cogs/*.py')]
 IGNORE_EXCEPTIONS = (CommandNotFound, BadArgument, MissingPermissions)
 STATUS = (['god', 'trapqueen', 'buddha', 'zeus',
-                'qanon chatroom', 'doja cat', 'creator', 'yourself', 
-                'pretend', 'bush did 9/11 sim'])
+            'qanon chatroom', 'doja cat', 'creator', 'yourself',
+            'pretend', 'bush did 9/11 sim', 'ole vlad', 'with...', 
+            'kim jong-un', '17:38', 'elvis', 'napoleon bonaparte',
+            'napoleon dynamite', 'street fighter', 'myself',
+            'yeezy', 'cardi', 'north west', 'nas', 'area 51 raid team',
+            'anonymous', 'the pope', 'playing', 'armchair psychologist',
+            'einstein', 'the corporate ladder', 'google it', 'jeopardy',
+            'pinocchio', 'botnet', 'with the source code', 'scientist'])
 
 
 class ready(object):
@@ -40,7 +38,7 @@ class ready(object):
 
     def ready_up(self, cog):
         setattr(self, cog, True)
-        print(f'cogs: {cog} cog is ready')
+        print(f'cogs: {cog} ready')
 
     def all_ready(self):
         return all([getattr(self, cog) for cog in COGS])
@@ -92,9 +90,20 @@ class Bot(BotBase):
             print(f'cogs: {cog} cog loading')
 
         # console: cogs loaded / complete status
-        print(f'\n\tcogs: loading complete')
+        print(f'cogs: loading complete\n\n\n\n\t-[ cogs loaded ]-\n\n\n')
 
-
+    def update_db(self):
+        db.multiexec("INSERT OR IGNORE INTO guilds (GuildID) VALUES (?)", ((guild.id,) for guild in self.guilds))
+        db.multiexec("INSERT OR IGNORE INTO exp (UserID) VALUES (?)", 
+                            ((member.id,) for member in self.guild.members if not member.bot))
+                            # ((member.id) for guild in self.guilds for member in guild.members if not member.bot)
+        to_remove = []
+        stored_members = db.column("SELECT UserID FROM exp")
+        for id_ in stored_members:
+            if not self.guild.get_member(id_):
+                to_remove.append(id_)
+        db.multiexec("DELETE FROM exp WHERE UserID = ?", ((id_,) for id_ in to_remove))
+        db.commit()
 # run client with token ---
 
     def run(self, version):
@@ -102,13 +111,13 @@ class Bot(BotBase):
 
         # console: client setting up
         print(
-            f'*** dunce.bot ***\n** by: danmuck **\n\ndunce: starting my initial setup...\n')
+            f'\n\n\t*****************\n\t*               *\n\t**  dunce.bot  **\n\t** by: danmuck **\n\t*               *\n\t*****************\n\n\n\n\ndunce: starting my initial setup...\n')
         self.setup()
 
         with open('./lib/client/token.0', 'r', encoding='utf-8') as tf:
             self.TOKEN = tf.read()
 
-        print('\n\ndunce: hello friend :)\ndunce: checking my token...')
+        print('dunce: hello friend :)\ndunce: checking my token...')
         super().run(self.TOKEN, reconnect=True)
 
     async def process_commands(self, message):
@@ -123,10 +132,11 @@ class Bot(BotBase):
 # connect/disconnect messages ---
 
     async def on_connect(self):
-        print('\ndunce: big idiot is sentient\n\n')
+        print('\n\n\n\t-[ big idiot bot is sentient ]-\n\n\n')
 
     async def on_disconnect(self):
-        print('\n\n\n\t[ dunce.bot is in the corner ]\n\n\n')
+        print(
+            '\n\n\n\t-[ dunce.bot is in the corner ]-\n\n\n\t-[ dunce.bot | OFFLINE ]-\n\n\n')
 # timed reminders ---
 
     async def rules_reminder(self):
@@ -197,6 +207,12 @@ class Bot(BotBase):
             # console: starting task
             print(f'tasks: rules_reminder starting...')
             self.scheduler.start()
+            print(f'\n\n\n\t-[ tasks started ]-\n\n\n')
+
+            self.update_db()
+            print(f'db: updating new members/guilds')
+
+
 
             while not self.cogs_ready.all_ready():
                 # sleep is for incase cog takes too long to load
@@ -206,20 +222,19 @@ class Bot(BotBase):
 #            await channel.send(f'dunce.bot is now : online')               # send login message
             self.ready = True
             # console: client is ready message
-            print('dunce: im ready\n')
+            print(
+                '\ndunce: im ready!?\n\n\n\n\t-[ dunce.bot | ONLINE ]-\n\n\n')
 
         else:
             # console: client reconnected
-            print('dunce: reconnected\n')
+            print('dunce: reconnected\n\n\n\t-[ dunce.bot | ONLINE ]-\n\n\n')
 # tasks ---
 
 
 @tasks.loop(seconds=30)
 async def change_status():
     await client.change_presence(status=discord.Status.idle, activity=discord.Game(random.choice(STATUS)))
-
-
-@tasks.loop(minutes=15)
+@tasks.loop(minutes=30)
 async def clear_test():
     # text channel id
     await client.get_channel(883702088482291762).purge(limit=250)

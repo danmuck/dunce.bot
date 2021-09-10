@@ -1,33 +1,21 @@
-
-
-
+from ..db import db
+from discord.ext.commands import command, has_permissions, when_mentioned_or
+from discord.ext.commands import Cog, CheckFailure
+from discord.utils import get
+from discord import Role
 from dotenv import load_dotenv
 load_dotenv()
-# discord.py ---
-import discord, random, os
-from discord import Member, Embed
-from discord.ext import tasks, commands
-from discord.ext.commands import Cog, BucketType, CheckFailure
-from discord.ext.commands import command, cooldown, has_permissions
-from discord.utils import get
-
-# random ---
-from random import choice, randint
-from typing import Optional
-from itertools import cycle
-# aiohttp ---
-from aiohttp import request
-# database ---
-from ..db import db
+import re
+from re import search
 
 
 
 class system(Cog):
     def __init__(self, client):
         self.client = client
+        self.url_regex = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
 
-
-# command prefix ---
+    # command prefix ---
     @command(name='prefix')
     @has_permissions(manage_guild=True)
     async def change_prefix(self, ctx, new: str):
@@ -48,11 +36,54 @@ class system(Cog):
     async def dunce_ping(self, ctx):
         await ctx.send(f"{round(self.client.latency * 1000)}ms")
 
+    @command(hidden=True, name = 'dirtpig', aliases=['???????????????????????????????????'])
+    async def  dirtpig(self, ctx):
+        await ctx.send(f'hey {ctx.message.author.display_name} fuck you lol')
+
+    # def get_roleT(client, message):
+    #     roleT = db.field(
+    #         "SELECT RoleID FROM roles WHERE GuildName = ?", str(message.guild.name))
+    #     if roleT == None:
+    #         print(f'db: roles added to database...')
+    #         db.execute(
+    #             'INSERT INTO roles (RoleID, GuildName) VALUES (?, ?)', client.guild.roles, str(message.guild.name))
+    #         db.commit()
+    #         roleT = db.field(
+    #             "SELECT RoleID FROM guilds WHERE GuildName = ?", client.guild.roles, str(message.guild.name))
+    #         # set up for multiserver bot
+    #         return when_mentioned_or(roleT)(client, message)
+    #     else:
+    #         return when_mentioned_or(roleT)(client, message)
+
 # end ---
+    @Cog.listener()
+    async def on_message(self, message):
+        if search(self.url_regex, message.content) and not message.author.bot:
+            url = re.findall(self.url_regex, str(message.content))
+            actual_url = ([actual_url[0] for actual_url in url])
+            # terst = list(*((url)))
+            for urls in actual_url:
+                print(f'\nNEW LINKS: {urls} in #{message.channel}')
+                # print((terst[0]))
+                await self.logs_channel.send(f'{message.author.display_name} :  {f"{urls}"} in <#{message.channel.id}>')
+                # await self.logs_channel.send(f'<#{message.channel.id}> : {f"https://".join([item[0][8:] for item in (actual_url)])}')
+                # {f"https://" + [urls for urls in actual_url]}
+
     @Cog.listener()
     async def on_ready(self):
         if not self.client.ready:
+            self.logs_channel = self.client.get_channel(884548573730074624)
             self.client.cogs_ready.ready_up('system')
+
+            # these lines need work
+            # roles = str(self.client.guild.roles)
+            # db.execute("INSERT INTO roles (Roles, GuildID) VALUES (?, ?)", roles, self.client.guild.id) # this needs to pull the ids from the roles list only
+            # db.commit()
+
+        
+
+
+
 
 def setup(client):
     client.add_cog(system(client))

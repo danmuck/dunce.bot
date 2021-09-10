@@ -28,7 +28,7 @@ def commit():
 
 def autosave(sched):
     sched.add_job(commit, CronTrigger(second=0))            # add job to scheduler to commit database every minute (change to minute to set to hourly)
-    print(f'db: starting scheduled autosave... \n\n\tsaving every minute...\n')
+    print(f'db: starting scheduled autosave... \n\ndb: saving every minute...\n')
 
 def close():
     cxn.close()
