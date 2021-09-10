@@ -58,12 +58,13 @@ class system(Cog):
             url = re.findall(self.url_regex, str(message.content))
             actual_url = ([actual_url[0] for actual_url in url])
             print(f'\nNEW LINKS: {str(actual_url)} in #{message.channel}')
-            await self.logs_channel.send(f'[ {message.author.display_name} posted https://{(actual_url[0])[8:]} in <#{message.channel.id}> ]')
+            await self.news_channel.send(f'[ {message.author.display_name} posted https://{(actual_url[0])[8:]} in <#{message.channel.id}> ]')
 
     @Cog.listener()
     async def on_ready(self):
         if not self.client.ready:
             self.logs_channel = self.client.get_channel(884851550206435410)
+            self.news_channel = self.client.get_channel(881174749877776394)
             self.client.cogs_ready.ready_up('system')
 
             # these lines need work
