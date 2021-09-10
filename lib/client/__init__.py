@@ -1,10 +1,10 @@
+# imports --- some are unused and for personal reference
 import discord, random, os
 from discord import Intents, Embed, File
 from discord.errors import HTTPException, Forbidden
 from discord.ext import tasks
 from discord.ext.commands import Bot as BotBase
-from discord.ext.commands import (CommandNotFound, Context, BadArgument,
-                                    MissingRequiredArgument, CommandOnCooldown, when_mentioned_or)
+from discord.ext.commands import (CommandNotFound, Context, BadArgument, MissingRequiredArgument, CommandOnCooldown, when_mentioned_or)
 from datetime import datetime
 from glob import glob
 from asyncio import sleep
@@ -30,7 +30,7 @@ STATUS = (['god', 'trapqueen', 'buddha', 'zeus',
             'einstein', 'the corporate ladder', 'google it', 'jeopardy',
             'pinocchio', 'botnet', 'with the source code', 'scientist'])
 
-
+# initialize cogs ---
 class ready(object):
     def __init__(self):
         for cog in COGS:
@@ -44,8 +44,6 @@ class ready(object):
         return all([getattr(self, cog) for cog in COGS])
 
 # get prefix ---
-
-
 def get_prefix(client, message):
     prefix = db.field(
         "SELECT Prefix FROM guilds WHERE GuildID = ?", message.guild.id)
@@ -94,8 +92,8 @@ class Bot(BotBase):
 
     def update_db(self):
         db.multiexec("INSERT OR IGNORE INTO guilds (GuildID) VALUES (?)", ((guild.id,) for guild in self.guilds))
-        db.multiexec("INSERT OR IGNORE INTO exp (UserID) VALUES (?)", 
-                            ((member.id,) for member in self.guild.members if not member.bot))
+        db.multiexec("INSERT OR IGNORE INTO exp (UserID) VALUES (?)", ((member.id,) for member in self.guild.members if not member.bot))
+        # db.execute("UPDATE exp SET UserName = ? WHERE UserID = ?", (str(dict(member.name) for member in self.guild.members if not member.bot)), ((member.id) for member in self.guild.members if not member.bot))
                             # ((member.id) for guild in self.guilds for member in guild.members if not member.bot)
         to_remove = []
         stored_members = db.column("SELECT UserID FROM exp")
@@ -104,8 +102,8 @@ class Bot(BotBase):
                 to_remove.append(id_)
         db.multiexec("DELETE FROM exp WHERE UserID = ?", ((id_,) for id_ in to_remove))
         db.commit()
+        
 # run client with token ---
-
     def run(self, version):
         self.VERSION = version
 
@@ -215,9 +213,9 @@ class Bot(BotBase):
 
 
             while not self.cogs_ready.all_ready():
-                # sleep is for incase cog takes too long to load
+                # sleep is for in case cog takes too long to load
                 await sleep(0.5)
-
+# login message ---
 #            channel = self.get_channel(884116429421559859)          # welcome-spam channel id
 #            await channel.send(f'dunce.bot is now : online')               # send login message
             self.ready = True
