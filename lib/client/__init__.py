@@ -142,7 +142,7 @@ class Bot(BotBase):
     async def rules_reminder(self):
         # welcome-spam channel id
         channel = self.get_channel(884853014228267038)
-        await channel.send(f'```<#884853014228267038> or <@881287992382197850> for help [ IGNORE IF BROKEN: rules_reminder [weekly] UPDATE ME ]```')
+        await channel.send(f'```<#878370102549041212> or <@881287992382197850> for help [ IGNORE IF BROKEN: rules_reminder [weekly] UPDATE ME ]```')
 
 
 # error handling ---
