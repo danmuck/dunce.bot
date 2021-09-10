@@ -1,6 +1,8 @@
 from discord.ext.commands import Cog, CheckFailure, command, has_permissions
 from datetime import datetime, timedelta
 from random import randint
+from typing import Optional
+from discord import Member
 from ..db import db
 
 
@@ -27,6 +29,13 @@ class exp(Cog):
 
         if new_lvl > lvl:
                 await self.logs_channel.send(f'```congrats {message.author.display_name} \nnew level = {new_lvl:,}```')
+
+    @command(name = 'check_level', aliases=['lvl'])
+    async def  check_level(self, ctx, member: Optional[Member]):
+        member = member or ctx.author
+        xp, lvl = db.record("SELECT XP, Level FROM exp WHERE UserID = ?", member.id)
+        await ctx.send(f'{member.display_name} is level {lvl} with {xp}xp')
+
 
     @Cog.listener()
     async def on_ready(self):

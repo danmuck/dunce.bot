@@ -18,25 +18,25 @@ class admin_tools(Cog):
         if not self.client.ready:
             self.client.cogs_ready.ready_up('admin_tools')
 
-    @command(name="yeeter", aliases=["ytr"])
+    @command(name="yeeter", aliases=["ytr"], hidden=True)
     @has_role(883047679180034109)  # admin role id
     async def yeeter(self, ctx):
         await ctx.channel.purge(limit=None, check=lambda msg: not msg.pinned)
         # await ctx.channel.purge(limit=amount)
 
-    @command()
+    @command(hidden=True)
     @has_permissions(manage_messages=True)
     async def clear(self, ctx, amount=10):
         await ctx.channel.purge(limit=amount, check=lambda msg: not msg.pinned)
 
-    @command()
+    @command(hidden=True)
     @bot_has_permissions(kick_members=True)
     @has_permissions(kick_members=True)
     @has_role(883047679180034109 or 884515686804774953)
     async def kick(self, ctx, member: discord.Member, *, reason=None):
         await member.kick(reason=reason)
 
-    @command()
+    @command(hidden=True)
     @bot_has_permissions(ban_members=True)
     @has_permissions(ban_members=True)
     @has_role(883047679180034109 or 884515686804774953)

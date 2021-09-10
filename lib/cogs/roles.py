@@ -13,7 +13,7 @@ class roles(Cog):
     @command(name = "role", aliases=["roles"])
     async def role(self, ctx):
         await ctx.send('``` Please select a preferred role by typing a command:\n \n?ccc \n?mod \n?admin *hardware | software | networking | webdev*  \n?associate *who do you know from ccc* ```')
-        print('\nNew Member Alert!\n')
+        print('\nRoles Alert!\n')
 
     @command(name = "ccc", aliases=["compsci" , "student"], hidden=True)
     # async def ccc(self, ctx):

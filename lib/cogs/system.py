@@ -16,7 +16,7 @@ class system(Cog):
         self.url_regex = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
 
     # command prefix ---
-    @command(name='prefix')
+    @command(name='prefix', hidden=True)
     @has_permissions(manage_guild=True)
     async def change_prefix(self, ctx, new: str):
         if len(new) > 1:
