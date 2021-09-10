@@ -236,7 +236,6 @@ async def change_status():
     await client.change_presence(status=discord.Status.idle, activity=discord.Game(random.choice(STATUS)))
 @tasks.loop(minutes=30)
 async def clear_test():
-    # spam-burner channel id
     await client.get_channel(883778568004456458).purge(limit=250)
     await client.get_channel(883778568004456458).send(f'its my spam, i do what i want with it')
 
