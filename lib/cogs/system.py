@@ -35,6 +35,10 @@ class system(Cog):
     @command(name='dunce_ping', aliases=["png", 'ping'], hidden=True)
     async def dunce_ping(self, ctx):
         await ctx.send(f"{round(self.client.latency * 1000)}ms")
+    
+    @command(name = 'dirtpig', aliases=['?????????????????????????????'])
+    async def  dirtpig(self, ctx):
+        await ctx.send(f'hey {ctx.message.author.display_name} fuck you lol')
 
     # def get_roleT(client, message):
     #     roleT = db.field(
@@ -58,7 +62,7 @@ class system(Cog):
             url = re.findall(self.url_regex, str(message.content))
             actual_url = ([actual_url[0] for actual_url in url])
             for urls in actual_url:
-                print(f'\nNEW LINKS: {urls} in #{message.channel}')
+                print(f'\nNEWS: {urls} in #{message.channel}')
                 await self.news_channel.send(f'[ {message.author.display_name} posted {f"{urls}"} in <#{message.channel.id}> ]')
 
     @Cog.listener()
