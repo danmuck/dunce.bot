@@ -26,7 +26,7 @@ class new_member(Cog):
         except Forbidden:
             pass
         # default-role ids [outsider]
-        await member.add_roles(*(member.guild.get_role(id_) for id_ in (884515686804774953, 884514547891834901)))
+        await member.add_roles(*(member.guild.get_role(id_) for id_ in (884515561877422120, 884514547891834901)))
 
     @Cog.listener()
     async def on_member_remove(self, member):
