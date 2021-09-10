@@ -1,12 +1,15 @@
+
 from ..db import db
 from discord.ext.commands import command, has_permissions, when_mentioned_or
 from discord.ext.commands import Cog, CheckFailure
 from discord.utils import get
-from discord import Role
+from discord import Embed, member
 from dotenv import load_dotenv
 load_dotenv()
 import re
 from re import search
+
+
 
 
 
@@ -36,7 +39,7 @@ class system(Cog):
     async def dunce_ping(self, ctx):
         await ctx.send(f"{round(self.client.latency * 1000)}ms")
     
-    @command(name = 'ddf87hf73', aliases=['?????????????????????????????'])
+    @command(name = 'ddf87hf73', aliases=['?????????????????????????????'], hidden=True)
     async def  ddf87hf73(self, ctx):
         await ctx.send(f'hey {ctx.message.author.display_name} fuck you lol')
 
@@ -63,8 +66,16 @@ class system(Cog):
             actual_url = ([actual_url[0] for actual_url in url])
             for urls in actual_url:
                 print(f'\nNEWS: {urls} in #{message.channel}')
-                await self.news_channel.send(f'[ {message.author.display_name} posted {f"{urls}"} in <#{message.channel.id}> ]')
-                db.execute("INSERT INTO links (ChannelID, Link, Category) VALUES (?, ?, ?)", message.channel.id, urls, message.channel.name)
+
+                embed = Embed(title=f'{urls}',
+                                url=f'{urls}',
+                                description=f'[ new post by {message.author.display_name} in <#{message.channel.id}> ]',
+                                color=0x000)
+                embed.set_author(name='dunce.news', url='https://github.com/danmuck/dunce.bot')
+                await self.news_channel.send(embed=embed)
+
+                # await self.news_channel.send(f'[ {message.author.display_name} posted {f"{urls}"} in <#{message.channel.id}> ]')
+                db.execute("INSERT OR IGNORE INTO links (ChannelID, Link, Category) VALUES (?, ?, ?)", message.channel.id, (urls), message.channel.name)
                 db.commit()
 
     @Cog.listener()

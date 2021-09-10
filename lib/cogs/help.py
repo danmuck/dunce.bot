@@ -70,7 +70,9 @@ class help(Cog):
         #                         delete_message_after=True,
         #                         timeout=60.0)
         #     await menu.start(ctx)
-            await ctx.send('`try: ?help`')
+            # await ctx.send('`try: ?help`')
+            embed = Embed(title='help menu', description=' try command: [ ?help ] ')
+            await ctx.send(embed=embed)
 
         else:
             if (cmd := get(self.client.commands, name=cmd)):
