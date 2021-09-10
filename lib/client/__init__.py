@@ -140,7 +140,7 @@ class Bot(BotBase):
     async def rules_reminder(self):
         # welcome-spam channel id
         channel = self.get_channel(884853014228267038)
-        await channel.send(f'```<#884116429421559859> or <@876630793974345740> for help [ IGNORE IF BROKEN: rules_reminder [weekly] UPDATE ME ]```')
+        await channel.send(f'```<#878370102549041212> or <@881287992382197850> for help [ IGNORE IF BROKEN: rules_reminder [weekly] UPDATE ME ]```')
 
 
 # error handling ---
@@ -234,7 +234,7 @@ async def change_status():
     await client.change_presence(status=discord.Status.idle, activity=discord.Game(random.choice(STATUS)))
 @tasks.loop(minutes=30)
 async def clear_test():
-    # text channel id
+    # spam burner channel id
     await client.get_channel(883778568004456458).purge(limit=250)
     await client.get_channel(883778568004456458).send(f'its my spam, i do what i want with it')
 
