@@ -56,25 +56,25 @@ class system(Cog):
     #         return when_mentioned_or(roleT)(client, message)
 
 # end ---
-@Cog.listener()
-async def on_message(self, message):
-    if search(self.url_regex, message.content) and not message.author.bot:
-        url = re.findall(self.url_regex, str(message.content))
-        actual_url = ([actual_url[0] for actual_url in url])
-        for urls in actual_url:
-            print(f'\nNEWS: {urls} in #{message.channel}')
-
-            embed = Embed(title=f'{urls}',
-                            url=f'{urls}',
-                            description=f'[ new post by {message.author.display_name} in <#{message.channel.id}> ]',
-                            color=0x000)
-            embed.set_author(name='dunce.news', url='https://github.com/danmuck/dunce.bot')
-            await self.news_channel.send(embed=embed)
-
-            # await self.news_channel.send(f'[ {message.author.display_name} posted {f"{urls}"} in <#{message.channel.id}> ]')
-            db.execute("INSERT OR IGNORE INTO links (ChannelID, Link, Category) VALUES (?, ?, ?)", message.channel.id, (urls), message.channel.name)
-            db.commit()
-
+    @Cog.listener()
+    async def on_message(self, message):
+        if search(self.url_regex, message.content) and not message.author.bot:
+            url = re.findall(self.url_regex, str(message.content))
+            actual_url = ([actual_url[0] for actual_url in url])
+            for urls in actual_url:
+                print(f'\nNEWS: {urls} in #{message.channel}')
+    
+                embed = Embed(title=f'{urls}',
+                                url=f'{urls}',
+                                description=f'[ new post by {message.author.display_name} in <#{message.channel.id}> ]',
+                                color=0x000)
+                embed.set_author(name='dunce.news', url='https://github.com/danmuck/dunce.bot')
+                await self.news_channel.send(embed=embed)
+    
+                # await self.news_channel.send(f'[ {message.author.display_name} posted {f"{urls}"} in <#{message.channel.id}> ]')
+                db.execute("INSERT OR IGNORE INTO links (ChannelID, Link, Category) VALUES (?, ?, ?)", message.channel.id, (urls),  message.channel.name)
+                db.commit()
+    
     @Cog.listener()
     async def on_ready(self):
         if not self.client.ready:
