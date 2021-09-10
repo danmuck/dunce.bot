@@ -58,7 +58,6 @@ class tutorial(Cog):
         if isinstance(exc, BadArgument):
             await ctx.send(f'```cant find that homie```')
 
-
     # send client message
     @command(name='echo', aliases=['say'])
     # can use [1] time per [15] seconds if you are [server member]

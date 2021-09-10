@@ -3,7 +3,7 @@ from discord.utils import get
 # from discord.ext.menus import MenuPages, ListPageSource
 from discord.ext.commands import Cog, command 
 from typing import Optional
-import discord
+
 def syntax(command):
     cmd_and_aliases = ' | '.join([str(command), *command.aliases])
     params = []
@@ -70,13 +70,11 @@ class help(Cog):
         #                         delete_message_after=True,
         #                         timeout=60.0)
         #     await menu.start(ctx)
-            # await ctx.send('`try: ?help`')
-            embed = Embed(title='help menu', description=' try command: [ ?help ] ')
-            await ctx.send(embed=embed)
+            await help
 
         else:
-            if (cmd := get(self.client.commands, name=cmd)):
-                await self.cmd_help(ctx, cmd)
+            if (command := get(self.client.commands, name=cmd)):
+                await self.cmd_help(ctx, command)
 
             else:
                 await ctx.send(f'error: command does not exist')
