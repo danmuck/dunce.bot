@@ -56,9 +56,9 @@ class system(Cog):
     async def on_message(self, message):
         if search(self.url_regex, message.content) and not message.author.bot:
             url = re.findall(self.url_regex, str(message.content))
-            actual_url = [actual_url[0] for actual_url in url]
-            print(f'\nNEW LINKS: {actual_url} in #{message.channel}')
-            await self.logs_channel.send(f'```#{message.channel}: {actual_url}```')
+            actual_url = ([actual_url[0] for actual_url in url])
+            print(f'\nNEW LINKS: {str(actual_url)} in #{message.channel}')
+            await self.logs_channel.send(f'{message.author.display_name} : https://{(actual_url[0])[8:]} in <#{message.channel.id}>')
 
     @Cog.listener()
     async def on_ready(self):
