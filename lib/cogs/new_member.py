@@ -19,14 +19,14 @@ class new_member(Cog):
         print(f'db: adding user {member}|{member.id} to database...')
         db.commit()
         # welcome-spam channel id
-        await self.client.get_channel(884116429421559859).send(f'welcome to **{member.guild.name}** {member}')
+        await self.client.get_channel(884853014228267038).send(f'welcome to **{member.guild.name}** {member}')
         try:
             # sends dm with welcome-spam channel id
             await member.send(f'welcome to **{member.guild.name}**\n\tplease stop by <#878370102549041212> and check pins')
         except Forbidden:
             pass
         # default-role ids [outsider]
-        await member.add_roles(*(member.guild.get_role(id_) for id_ in (884515561877422120, 884514547891834901)))
+        await member.add_roles(*(member.guild.get_role(id_) for id_ in (884533782051426304, 884860921829281913)))
 
     @Cog.listener()
     async def on_member_remove(self, member):
@@ -35,7 +35,7 @@ class new_member(Cog):
         print(f'db: removing user {member.display_name}|{member.id} from database...')
         db.commit()
         # welcome-spam channel id
-        await self.client.get_channel(884116429421559859).send(f'```{member.display_name} has left {member.guild.name}... shame on them```')
+        await self.client.get_channel(884853014228267038).send(f'```{member.display_name} has left {member.guild.name}... shame on them```')
 
 
 def setup(client):

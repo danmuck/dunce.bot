@@ -81,8 +81,8 @@ class system(Cog):
     @Cog.listener()
     async def on_ready(self):
         if not self.client.ready:
-            self.logs_channel = self.client.get_channel(884548573730074624)
-            self.news_channel = self.client.get_channel(884548573730074624)
+            self.logs_channel = self.client.get_channel(884851550206435410)
+            self.news_channel = self.client.get_channel(881174749877776394)
             self.client.cogs_ready.ready_up('system')
 
             # these lines need work
