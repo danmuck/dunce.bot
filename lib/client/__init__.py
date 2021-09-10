@@ -210,7 +210,7 @@ class Bot(BotBase):
             print(f'\n\n\n\t-[ tasks started ]-\n\n\n')
 
             self.update_db()
-            print(f'db: updating new members/guilds')
+            print(f'db: updating new members')
 
 
 
