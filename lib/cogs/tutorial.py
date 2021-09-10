@@ -42,7 +42,7 @@ class tutorial(Cog):
             rolls = [randint(1, value) for i in range(dice)]
 
             # BUG: make it return in codeblock
-            await ctx.send(f' + '.join([str(r) for r in rolls]) + f' = {sum(rolls)}')
+            await ctx.send((f"```{f' + '.join([str(r) for r in rolls]) + f' = {sum(rolls)}'}```"))
 
         else:
             await ctx.send(f'```too many dice for my lil hands```')
