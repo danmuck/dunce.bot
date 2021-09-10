@@ -68,6 +68,8 @@ class system(Cog):
             for urls in actual_url:
                 print(f'\nNEWS: {urls} in #{message.channel}')
                 await self.news_channel.send(f'[ {message.author.display_name} posted {f"{urls}"} in <#{message.channel.id}> ]')
+                db.execute("INSERT INTO links (ChannelID, Link, Category) VALUES (?, ?, ?)", message.channel.id, urls, message.channel.name)
+                db.commit()
 
     @Cog.listener()
     async def on_ready(self):

@@ -50,7 +50,7 @@ class tutorial(Cog):
     # slap a homie
 
     @command(name='slap', aliases=['hit'])
-    async def slap_member(self, ctx, member: Member, *, reason: Optional[str] = 'no reason'):
+    async def slap_member(self, ctx, member: Member, *, reason: Optional[str] = 'bein a dick'):
         await ctx.send(f'{ctx.author.display_name} slapped {member.mention} for {reason}!')
 
     @slap_member.error

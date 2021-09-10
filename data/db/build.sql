@@ -23,8 +23,8 @@ CREATE TABLE IF NOT EXISTS roles (
 
 -- );
 
--- CREATE TABLE IF NOT EXISTS links (
---     ChannelID integer,
---     Link text PRIMARY KEY,
---     Category text DEFAULT "none"
--- );
+CREATE TABLE IF NOT EXISTS links (
+    ChannelID integer,
+    Link text PRIMARY KEY,
+    Category text DEFAULT "n/a"
+);
