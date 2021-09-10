@@ -35,6 +35,10 @@ class system(Cog):
     @command(name='dunce_ping', aliases=["png", 'ping'], hidden=True)
     async def dunce_ping(self, ctx):
         await ctx.send(f"{round(self.client.latency * 1000)}ms")
+    
+    @command(name = '1df87hf73', aliases=['?????????????????????????????'])
+    async def  dirtpig(self, ctx):
+        await ctx.send(f'hey {ctx.message.author.display_name} fuck you lol')
 
     @command(hidden=True, name = 'dirtpig', aliases=['???????????????????????????????????'])
     async def  dirtpig(self, ctx):
@@ -61,18 +65,15 @@ class system(Cog):
         if search(self.url_regex, message.content) and not message.author.bot:
             url = re.findall(self.url_regex, str(message.content))
             actual_url = ([actual_url[0] for actual_url in url])
-            # terst = list(*((url)))
             for urls in actual_url:
-                print(f'\nNEW LINKS: {urls} in #{message.channel}')
-                # print((terst[0]))
-                await self.logs_channel.send(f'{message.author.display_name} :  {f"{urls}"} in <#{message.channel.id}>')
-                # await self.logs_channel.send(f'<#{message.channel.id}> : {f"https://".join([item[0][8:] for item in (actual_url)])}')
-                # {f"https://" + [urls for urls in actual_url]}
+                print(f'\nNEWS: {urls} in #{message.channel}')
+                await self.news_channel.send(f'[ {message.author.display_name} posted {f"{urls}"} in <#{message.channel.id}> ]')
 
     @Cog.listener()
     async def on_ready(self):
         if not self.client.ready:
             self.logs_channel = self.client.get_channel(884548573730074624)
+            self.news_channel = self.client.get_channel(884548573730074624)
             self.client.cogs_ready.ready_up('system')
 
             # these lines need work

@@ -62,7 +62,7 @@ class help(Cog):
         embed.add_field(name='command description', value=command.help)
         await ctx.send(embed=embed)
 
-    @command(name = 'help', aliases=['hlp', '??', '?'])
+    @command(name = 'help', aliases=['hlp', '??', '?', '???', '????', '?????', '??????', '???????', '????????'])
     async def  show_help(self, ctx, cmd: Optional[str]):
         """shows this message """
         if cmd is None:
