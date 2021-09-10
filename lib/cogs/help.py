@@ -70,11 +70,12 @@ class help(Cog):
         #                         delete_message_after=True,
         #                         timeout=60.0)
         #     await menu.start(ctx)
-            await help
+            embed = Embed(title='help menu', description=' try command: [ ?help ] ')
+            await ctx.send(embed=embed)
 
         else:
-            if (command := get(self.client.commands, name=cmd)):
-                await self.cmd_help(ctx, command)
+            if (cmd := get(self.client.commands, name=cmd)):
+                await self.cmd_help(ctx, cmd)
 
             else:
                 await ctx.send(f'error: command does not exist')
