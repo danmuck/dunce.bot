@@ -28,7 +28,7 @@ class logs(Cog):
     @Cog.listener()
     async def on_ready(self):
         if not self.client.ready:
-            self.log_channel = self.client.get_channel(884548573730074624)      # BUG: get from database
+            self.log_channel = self.client.get_channel(884851550206435410)      # BUG: get from database
             self.client.cogs_ready.ready_up('logs')
 
     @Cog.listener()

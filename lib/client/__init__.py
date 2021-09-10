@@ -141,8 +141,8 @@ class Bot(BotBase):
 
     async def rules_reminder(self):
         # welcome-spam channel id
-        channel = self.get_channel(884116429421559859)
-        await channel.send(f'```<#884116429421559859> or <@876630793974345740> for help [ IGNORE IF BROKEN: rules_reminder [weekly] UPDATE ME ]```')
+        channel = self.get_channel(884853014228267038)
+        await channel.send(f'```<#884853014228267038> or <@881287992382197850> for help [ IGNORE IF BROKEN: rules_reminder [weekly] UPDATE ME ]```')
 
 
 # error handling ---
@@ -153,7 +153,7 @@ class Bot(BotBase):
             await args[0].send(f'```on_command_error: check console```')
 
         # send an error message to error-spam channel id
-        channel = self.get_channel(884131996194967572)
+        channel = self.get_channel(881174439880958003)
         await channel.send('```on_error: check console```')
         # raise error to the console
         raise
@@ -194,9 +194,9 @@ class Bot(BotBase):
     async def on_ready(self):
         if not self.ready:
             await client.change_presence(status=discord.Status.idle, activity=discord.Game('YOURSELF'))
-            self.guild = self.get_guild(882994482579140739)         # server id
+            self.guild = self.get_guild(878370102091853824)         # server id
             # spam channel id for [standard out] channel
-            self.stdout = self.get_channel(882994482579140742)
+            self.stdout = self.get_channel(881226606490841088)
     # scheduled tasks on_ready ---
             change_status.start()
             print(f'tasks: change_status starting...')
@@ -236,9 +236,9 @@ async def change_status():
     await client.change_presence(status=discord.Status.idle, activity=discord.Game(random.choice(STATUS)))
 @tasks.loop(minutes=30)
 async def clear_test():
-    # text channel id
-    await client.get_channel(883702088482291762).purge(limit=250)
-    await client.get_channel(883702088482291762).send(f'its my spam, i do what i want with it')
+    # spam-burner channel id
+    await client.get_channel(883778568004456458).purge(limit=250)
+    await client.get_channel(883778568004456458).send(f'its my spam, i do what i want with it')
 
 # end ---
 # on_message response ---

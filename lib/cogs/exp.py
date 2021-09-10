@@ -40,7 +40,7 @@ class exp(Cog):
     @Cog.listener()
     async def on_ready(self):
         if not self.client.ready:
-            self.logs_channel = self.client.get_channel(884548573730074624)
+            self.logs_channel = self.client.get_channel(884851550206435410)
             self.client.cogs_ready.ready_up('exp')
 
     @Cog.listener()
