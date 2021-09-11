@@ -12,7 +12,7 @@ class exp(Cog):
 
     async def process_xp(self, message):
         xp, lvl, xplock = db.record("SELECT XP, Level, XPLock FROM exp WHERE UserID = ?", message.author.id)
-        print(f'\nNEW MESSAGE: [ @{message.author.display_name} in #{message.channel.name} ] | lvl = {lvl} xp = {xp} | LOCK EXPIRES = {xplock}\n')
+        print(f'\n\n\nNEW MESSAGE: [ @{message.author.display_name} in #{message.channel.name} ] | lvl = {lvl} xp = {xp} | LOCK EXPIRES = {xplock}\n')
         print(f'"{str(message.content)}"\n')
 
         if datetime.utcnow() > datetime.fromisoformat(xplock):
