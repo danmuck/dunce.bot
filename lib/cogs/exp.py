@@ -28,15 +28,25 @@ class exp(Cog):
                     xp_add, new_lvl, (datetime.utcnow()+timedelta(seconds=60)).isoformat(sep=' ', timespec='seconds'), message.author.display_name, message.author.id)
 
         if new_lvl > lvl:
-                await self.logs_channel.send(f'```congrats {message.author.display_name} \nnew level = {new_lvl:,}```')
+                await self.logs_channel.send(f'``` congrats {message.author.display_name} \nnew level = {new_lvl:,} ```')
 
     @command(name = 'check_level', aliases=['lvl'])
     async def  check_level(self, ctx, member: Optional[Member]):
         member = member or ctx.author
-        xp, lvl = db.record("SELECT XP, Level FROM exp WHERE UserID = ?", member.id)
-        await ctx.send(f'{member.display_name} is level {lvl} with {xp}xp')
+        xp, lvl = db.record("SELECT XP, Level FROM exp WHERE UserID = ?", member.id) or (None, None)
+        if lvl is not None:
+            await ctx.send(f'``` {member.display_name} is level {lvl} with {xp}xp ```')
+        else:
+            await ctx.send(f'``` prolly a bot ```')
 
-
+    @command(name = 'check_rank', aliases=['rank'])
+    async def  check_rank(self, ctx, member: Optional[Member]):
+        member = member or ctx.author
+        ids = db.column("SELECT UserID FROM exp ORDER BY XP DESC")
+        try:
+            await ctx.send(f'``` {member.display_name} is rank #{ids.index(member.id)+1} out of {len(ids)} users ```')
+        except ValueError:
+            await ctx.send(f'``` prolly a bot ```')
     @Cog.listener()
     async def on_ready(self):
         if not self.client.ready:
