@@ -47,6 +47,11 @@ class exp(Cog):
             await ctx.send(f'``` {member.display_name} is rank #{ids.index(member.id)+1} out of {len(ids)} users ```')
         except ValueError:
             await ctx.send(f'``` prolly a bot ```')
+
+    @command(name = 'leaderboard', aliases=['lb'])
+    async def  leaderboard(self, ctx):
+        records = db.records("SELECT UserID, XP, Level FROM exp ORDER BY XP DESC")
+        await ctx.send(f'``` {records.index(ctx.author.member.id)[-10:10]} ```')
     @Cog.listener()
     async def on_ready(self):
         if not self.client.ready:
