@@ -1,4 +1,4 @@
-from discord.ext.commands import Cog, CheckFailure, command, has_permissions
+from discord.ext.commands import Cog, command
 from datetime import datetime, timedelta
 from random import randint
 from typing import Optional
@@ -12,23 +12,29 @@ class exp(Cog):
 
     async def process_xp(self, message):
         xp, lvl, xplock = db.record("SELECT XP, Level, XPLock FROM exp WHERE UserID = ?", message.author.id)
-        print(f'\nNEW MESSAGE: [ @{message.author.display_name} in #{message.channel.name} ] | lvl = {lvl} xp = {xp} | LOCK EXPIRES = {xplock}\n')
-        print(f'"{str(message.content)}"\n')
-
         if datetime.utcnow() > datetime.fromisoformat(xplock):
             await self.add_xp(message, xp, lvl)
+
+        if not message.author.bot:
+            print(f'\nNEW MESSAGE: [ @{message.author.display_name} in #{message.channel.name} ] | lvl = {lvl} xp = {xp} | LOCK EXPIRES = {xplock}\n')
+            print(f'"{str(message.content)}"\n')
+
+        
             
     async def add_xp(self, message, xp, lvl):
         xp_add = randint(4, 20)
         new_lvl = int(((xp+xp_add)//42)** 0.55)
-        print(f'+{xp_add}xp to user {message.author.display_name}: new level is {new_lvl}\n')
 
         db.execute("UPDATE exp SET XP = XP + ?, Level = ?, XPLock = ?, UserName = ? WHERE UserID = ?", 
                     xp_add, new_lvl, (datetime.utcnow()+timedelta(seconds=60)).isoformat(sep=' ', timespec='seconds'), message.author.display_name, message.author.id)
         db.commit()
 
         if new_lvl > lvl:
-                await self.logs_channel.send(f'```congrats {message.author.display_name} \nnew level = {new_lvl:,}```')
+                print(f'+{xp_add}xp to user {message.author.display_name}: [ lvl {new_lvl} ] LEVEL UP!\n')
+                await self.logs_channel.send(f'```congrats {message.author.display_name} \n\nnew level: [ {new_lvl:,} ]```')
+        else:
+            if not message.author.bot: 
+                print(f'+{xp_add}xp to user {message.author.display_name}: [ lvl {new_lvl} ]\n')
 
     # @command(name = 'check_level', aliases=['lvl'])
     # async def  check_level(self, ctx, member: Optional[Member]):
@@ -71,8 +77,8 @@ class exp(Cog):
 
     @Cog.listener()
     async def on_message(self, message):
-        if not message.author.bot:
-            await self.process_xp(message)
+        # if not message.author.bot:
+        await self.process_xp(message)
 
 
 # end ---

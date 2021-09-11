@@ -92,7 +92,9 @@ class Bot(BotBase):
 
     def update_db(self):
         db.multiexec("INSERT OR IGNORE INTO guilds (GuildID) VALUES (?)", ((guild.id,) for guild in self.guilds))
-        db.multiexec("INSERT OR IGNORE INTO exp (UserID) VALUES (?)", ((member.id,) for member in self.guild.members if not member.bot))
+        db.multiexec("INSERT OR IGNORE INTO exp (UserID) VALUES (?)", ((member.id,) for member in self.guild.members)) # [if not message.author.bot] (add this line in after members *without the chevrons, to stop tracking bot xp)
+
+# dan code - not working
         # db.execute("UPDATE exp SET UserName = ? WHERE UserID = ?", (str(dict(member.name) for member in self.guild.members if not member.bot)), ((member.id) for member in self.guild.members if not member.bot))
                             # ((member.id) for guild in self.guilds for member in guild.members if not member.bot)
         to_remove = []
