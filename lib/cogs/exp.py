@@ -25,6 +25,7 @@ class exp(Cog):
 
         db.execute("UPDATE exp SET XP = XP + ?, Level = ?, XPLock = ?, UserName = ? WHERE UserID = ?", 
                     xp_add, new_lvl, (datetime.utcnow()+timedelta(seconds=60)).isoformat(sep=' ', timespec='seconds'), message.author.display_name, message.author.id)
+        db.commit()
 
         if new_lvl > lvl:
                 await self.logs_channel.send(f'```congrats {message.author.display_name} \nnew level = {new_lvl:,}```')
@@ -34,6 +35,7 @@ class exp(Cog):
     #     member = member or ctx.author
     #     xp, lvl = db.record("SELECT XP, Level FROM exp WHERE UserID = ?", member.id)
     #     await ctx.send(f'{member.display_name} is level {lvl} with {xp}xp')
+
     @command(name = 'check_level', aliases=['lvl'])
     async def  check_level(self, ctx, member: Optional[Member]):
         member = member or ctx.author
@@ -51,6 +53,7 @@ class exp(Cog):
             await ctx.send(f'``` {member.display_name} is rank #{ids.index(member.id)+1} out of {len(ids)} users ```')
         except ValueError:
             await ctx.send(f'``` prolly a bot ```')
+
 # leaderboard needs work but it is okay for now since no one will use it
     @command(name = 'leaderboard', aliases=['lb'])
     async def  leaderboard(self, ctx):
