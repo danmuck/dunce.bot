@@ -27,7 +27,6 @@ class exp(Cog):
 
         db.execute("UPDATE exp SET XP = XP + ?, Level = ?, XPLock = ?, UserName = ? WHERE UserID = ?", 
                     xp_add, new_lvl, (datetime.utcnow()+timedelta(seconds=60)).isoformat(sep=' ', timespec='seconds'), message.author.display_name, message.author.id)
-        db.commit()
 
         if new_lvl > lvl:
                 print(f'+{xp_add}xp to user {message.author.display_name}: [ lvl {new_lvl} ] LEVEL UP!\n')
@@ -35,6 +34,9 @@ class exp(Cog):
         else:
             if not message.author.bot: 
                 print(f'+{xp_add}xp to user {message.author.display_name}: [ lvl {new_lvl} ]\n')
+
+        db.commit()
+        
 
     # @command(name = 'check_level', aliases=['lvl'])
     # async def  check_level(self, ctx, member: Optional[Member]):
