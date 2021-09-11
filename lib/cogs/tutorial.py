@@ -64,7 +64,7 @@ class tutorial(Cog):
     @cooldown(1, 15, BucketType.guild)
     async def echo_message(self, ctx, *, message):
         await ctx.message.delete()
-        await ctx.send(message)
+        await ctx.send(f'```{message}```')
 
     # animal facts
     @command(name='fact')
