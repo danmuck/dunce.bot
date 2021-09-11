@@ -26,6 +26,7 @@ class exp(Cog):
 
         db.execute("UPDATE exp SET XP = XP + ?, Level = ?, XPLock = ?, UserName = ? WHERE UserID = ?", 
                     xp_add, new_lvl, (datetime.utcnow()+timedelta(seconds=60)).isoformat(sep=' ', timespec='seconds'), message.author.display_name, message.author.id)
+        db.commit()
 
         if new_lvl > lvl:
                 await self.logs_channel.send(f'``` congrats {message.author.display_name} \nnew level = {new_lvl:,} ```')
