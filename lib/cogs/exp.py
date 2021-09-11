@@ -18,7 +18,6 @@ class exp(Cog):
         if datetime.utcnow() > datetime.fromisoformat(xplock):
             await self.add_xp(message, xp, lvl)
             
-
     async def add_xp(self, message, xp, lvl):
         xp_add = randint(4, 20)
         new_lvl = int(((xp+xp_add)//42)** 0.55)
@@ -30,12 +29,36 @@ class exp(Cog):
         if new_lvl > lvl:
                 await self.logs_channel.send(f'```congrats {message.author.display_name} \nnew level = {new_lvl:,}```')
 
+    # @command(name = 'check_level', aliases=['lvl'])
+    # async def  check_level(self, ctx, member: Optional[Member]):
+    #     member = member or ctx.author
+    #     xp, lvl = db.record("SELECT XP, Level FROM exp WHERE UserID = ?", member.id)
+    #     await ctx.send(f'{member.display_name} is level {lvl} with {xp}xp')
     @command(name = 'check_level', aliases=['lvl'])
     async def  check_level(self, ctx, member: Optional[Member]):
         member = member or ctx.author
-        xp, lvl = db.record("SELECT XP, Level FROM exp WHERE UserID = ?", member.id)
-        await ctx.send(f'{member.display_name} is level {lvl} with {xp}xp')
+        xp, lvl = db.record("SELECT XP, Level FROM exp WHERE UserID = ?", member.id) or (None, None)
+        if lvl is not None:
+            await ctx.send(f'``` {member.display_name} is level {lvl} with {xp}xp ```')
+        else:
+            await ctx.send(f'``` prolly a bot ```')
 
+    @command(name = 'check_rank', aliases=['rank'])
+    async def  check_rank(self, ctx, member: Optional[Member]):
+        member = member or ctx.author
+        ids = db.column("SELECT UserID FROM exp ORDER BY XP DESC")
+        try:
+            await ctx.send(f'``` {member.display_name} is rank #{ids.index(member.id)+1} out of {len(ids)} users ```')
+        except ValueError:
+            await ctx.send(f'``` prolly a bot ```')
+# leaderboard needs work but it is okay for now since no one will use it
+    @command(name = 'leaderboard', aliases=['lb'])
+    async def  leaderboard(self, ctx):
+        records = db.records("SELECT UserName FROM exp ORDER BY XP DESC")
+        record = ([record[0] for record in records])
+        for record in records:
+            if not None:
+                await ctx.send(f"``` {str(record)[2:-3]} has {str(db.records('SELECT XP FROM exp WHERE UserName = ?', str(record)[2:-3]))[2:-3]}xp ```")
 
     @Cog.listener()
     async def on_ready(self):

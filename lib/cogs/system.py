@@ -73,7 +73,7 @@ class system(Cog):
                                 color=0x000)
                 embed.set_author(name='dunce.news', url='https://github.com/danmuck/dunce.bot')
                 await self.news_channel.send(embed=embed)
-                await self.logs_channel.send(f'``` #{message.channel}: [ {urls} ]')
+                await self.logs_channel.send(f'``` #{message.channel}: [ {urls} ] ```')
                 # await self.news_channel.send(f'[ {message.author.display_name} posted {f"{urls}"} in <#{message.channel.id}> ]')
                 db.execute("INSERT OR IGNORE INTO links (ChannelID, Link, Category) VALUES (?, ?, ?)", message.channel.id, (urls), message.channel.name)
                 db.commit()
