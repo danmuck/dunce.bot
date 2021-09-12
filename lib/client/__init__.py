@@ -1,4 +1,5 @@
 # imports --- some are unused and for personal reference
+from re import findall
 import discord, random, os
 from discord import Intents, Embed, File
 from discord.errors import HTTPException, Forbidden
@@ -12,7 +13,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 from discord.ext.commands.errors import BadArgument, MissingPermissions
 from itertools import cycle
-
+from datetime import datetime, timedelta
 from ..db import db
 
 
@@ -20,7 +21,7 @@ OWNER_IDS = [876630793974345740]    # i am owner
 # go through /cogs directory and return the name of any cogs -.py as array (split rules for removing it)
 COGS = [path.split('/')[-1][:-3] for path in glob('lib/cogs/*.py')]
 IGNORE_EXCEPTIONS = (CommandNotFound, BadArgument, MissingPermissions)
-STATUS = (['god', 'trapqueen', 'buddha', 'zeus',
+STATUS = ('god', 'trapqueen', 'buddha', 'zeus',
             'qanon chatroom', 'doja cat', 'creator', 'yourself',
             'pretend', 'bush did 9/11 sim', 'ole vlad', 'with...', 
             'kim jong-un', '17:38', 'elvis', 'napoleon bonaparte',
@@ -28,7 +29,13 @@ STATUS = (['god', 'trapqueen', 'buddha', 'zeus',
             'yeezy', 'cardi', 'north west', 'nas', 'area 51 raid team',
             'anonymous', 'the pope', 'playing', 'armchair psychologist',
             'einstein', 'the corporate ladder', 'google it', 'jeopardy',
-            'pinocchio', 'botnet', 'with the source code', 'scientist'])
+            'pinocchio', 'botnet', 'with the source code', 'scientist')
+
+# STATUS_PUSH = ([status_text[0] for status_text in STATUS])
+# db.execute("INSERT OR IGNORE INTO stuffs (Statuses) VALUES (?)", (random(list(STATUS))))
+# (datetime.utcnow()+timedelta(seconds=60)).isoformat(sep=' ', timespec='seconds')
+
+
 
 # initialize cogs ---
 class ready(object):
@@ -45,8 +52,7 @@ class ready(object):
 
 # get prefix ---
 def get_prefix(client, message):
-    prefix = db.field(
-        "SELECT Prefix FROM guilds WHERE GuildID = ?", message.guild.id)
+    prefix = db.field("SELECT Prefix FROM guilds WHERE GuildID = ?", message.guild.id)
     if prefix == None:
         print(f'db: guild added to database: command prefix set to default: ?')
         db.execute(
@@ -94,9 +100,10 @@ class Bot(BotBase):
         db.multiexec("INSERT OR IGNORE INTO guilds (GuildID) VALUES (?)", ((guild.id,) for guild in self.guilds))
         db.multiexec("INSERT OR IGNORE INTO exp (UserID) VALUES (?)", ((member.id,) for member in self.guild.members)) # [if not message.author.bot] (add this line in after members *without the chevrons, to stop tracking bot xp)
 
-# dan code - not working
+        # dan code - not working
         # db.execute("UPDATE exp SET UserName = ? WHERE UserID = ?", (str(dict(member.name) for member in self.guild.members if not member.bot)), ((member.id) for member in self.guild.members if not member.bot))
                             # ((member.id) for guild in self.guilds for member in guild.members if not member.bot)
+
         to_remove = []
         stored_members = db.column("SELECT UserID FROM exp")
         for id_ in stored_members:
@@ -128,7 +135,7 @@ class Bot(BotBase):
                 await self.invoke(ctx)
 
             else:
-                await ctx.send(f'```dunce.bot is taking a break```')
+                await ctx.send(f'``` dunce.bot is taking a break ```')
 # connect/disconnect messages ---
 
     async def on_connect(self):
@@ -195,9 +202,8 @@ class Bot(BotBase):
         if not self.ready:
             await client.change_presence(status=discord.Status.idle, activity=discord.Game('YOURSELF'))
             self.guild = self.get_guild(882994482579140739)         # server id
-            # spam channel id for [standard out] channel
-            self.stdout = self.get_channel(882994482579140742)
-    # scheduled tasks on_ready ---
+            self.stdout = self.get_channel(882994482579140742)      # spam channel id for [standard out] channel
+# scheduled tasks on_ready ---
             change_status.start()
             print(f'tasks: change_status starting...')
             clear_test.start()
@@ -210,7 +216,7 @@ class Bot(BotBase):
             print(f'\n\n\n\t-[ tasks started ]-\n\n\n')
 
             self.update_db()
-            print(f'db: updating new members')
+            print(f'db: updating new members...')
 
 
 
@@ -234,6 +240,8 @@ class Bot(BotBase):
 @tasks.loop(seconds=30)
 async def change_status():
     await client.change_presence(status=discord.Status.idle, activity=discord.Game(random.choice(STATUS)))
+
+
 @tasks.loop(minutes=30)
 async def clear_test():
     # text channel id

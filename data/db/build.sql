@@ -29,3 +29,8 @@ CREATE TABLE IF NOT EXISTS links (
     Link text PRIMARY KEY,
     Category text DEFAULT "n/a"
 );
+
+CREATE TABLE IF NOT EXISTS stuffs (
+    Added text DEFAULT CURRENT_TIMESTAMP,
+    Statuses text PRIMARY KEY
+)

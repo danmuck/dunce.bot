@@ -4,7 +4,7 @@ from discord.ext.commands import command
 from typing import Optional
 from discord import Member, Embed
 from datetime import datetime
-
+from ..db import db
 class info(Cog):
     def __init__(self, client):
         self.client = client

@@ -66,9 +66,11 @@ class exp(Cog):
     @command(name = 'leaderboard', aliases=['lb'])
     async def  leaderboard(self, ctx):
         records = db.records("SELECT UserName FROM exp ORDER BY XP DESC")
+        # names = db.records("SELECT UserName FROM exp ORDER BY XP DESC")
         record = ([record[0] for record in records])
+        # name = ([name[0] for name in names])
         for record in records:
-            if not None:
+            if record != '?':
                 await ctx.send(f"``` {str(record)[2:-3]} has {str(db.records('SELECT XP FROM exp WHERE UserName = ?', str(record)[2:-3]))[2:-3]}xp ```")
 
     @Cog.listener()
