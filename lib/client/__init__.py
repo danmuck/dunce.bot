@@ -118,7 +118,7 @@ class Bot(BotBase):
 
         # console: client setting up
         print(
-            f'\n\n\t*****************\n\t*               *\n\t**  dunce.bot  **\n\t** by: danmuck **\n\t*               *\n\t*****************\n\n\n\n\ndunce: starting my initial setup...\n')
+            f'\n\n\t\t*****************\n\t\t*               *\n\t\t**  dunce.bot  **\n\t\t** by: danmuck **\n\t\t*               *\n\t\t*****************\n\n\n\n\ndunce: starting my initial setup...\n')
         self.setup()
 
         with open('./lib/client/token.0', 'r', encoding='utf-8') as tf:
