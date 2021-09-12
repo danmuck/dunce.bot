@@ -18,3 +18,5 @@ data/images/ex_logo.jpg
 lib/client/token.0
 *notrack/
 SAVE/
+cli/
+cli-launcher.py
