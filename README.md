@@ -53,7 +53,6 @@ linux (debian):
 ---
 ### dependencies:
 
-###### note: [ dotenv import optional ] if you'd rather comment the import lines out as they are not actively used
 ##### linux
     pip3 -m install -U discord.py apscheduler aiosqlite python-dotenv
 
