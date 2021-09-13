@@ -27,7 +27,8 @@ CREATE TABLE IF NOT EXISTS roles (
 CREATE TABLE IF NOT EXISTS links (
     ChannelID integer,
     Link text PRIMARY KEY,
-    Category text DEFAULT "n/a"
+    Category text DEFAULT "n/a",
+    OrigMessage text DEFAULT "n/a"
 );
 
 CREATE TABLE IF NOT EXISTS stuffs (

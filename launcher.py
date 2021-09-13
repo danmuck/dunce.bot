@@ -20,11 +20,13 @@ if login == LOGIN and password == PASSWORD:
     print(f'\n\n\n\t-[ WELCOME TO DUNCE.BOT ({VERSION}) ]-\n\n')
 
     # run bot ---
-    BIC = input('BIC:')
-    if BIC == 'dunce':
+    BIC = input('BIC: ')
+    if BIC == 'run bot':
         client.run(VERSION)
     elif BIC == 'test':
         print(f'TESTING')
+    elif BIC == 'db man':
+        print(f'testing db man')
     else: pass
 
 
