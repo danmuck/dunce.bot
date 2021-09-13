@@ -63,6 +63,11 @@ linux (debian):
 ##### macos 
     pip install discord.py apscheduler aiosqlite python-dotenv
 
-###### note: IMPORTANT! create text file: 'token.0' in /client with _your_ bot token
+---
 
-###### note: you need to edit in your own id numbers until its finished (~~I might be lying about this, test it out~~ im dumb)
+## IMPORTANT! 
+##### create text file: 'token.0' in /client with _your_ bot token
+
+##### create .env file: '.env' in /dunce.bot (your project dir) with `LOGIN = '_username_'` and `PASSWORD = '_pass_'` 
+
+##### note: you need to edit in your own id numbers until i implement complete multi server functionality

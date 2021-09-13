@@ -1,5 +1,33 @@
+# client import
+from logging import debug
 from lib.client import client
-VERSION = '1.1.6'
-print(f'\n\t-[ WELCOME TO DUNCE.BOT v{VERSION} ]-\n')
-#end ---
-client.run(VERSION)
+# .env import
+import os
+from dotenv import load_dotenv
+load_dotenv()
+VERSION = 'dev'
+
+
+
+# login ---
+print(f'\n\t-[ submit credentials ]-\n\n')
+print(f'Big Idiot Console [ LOGIN ]\n')
+login = input('username: ')
+password = input('password: ')
+LOGIN = os.getenv('LOGIN')
+PASSWORD = os.getenv('PASSWORD')
+if login == LOGIN and password == PASSWORD:
+    print(f'\n\n\n\t-[ WELCOME TO DUNCE.BOT ({VERSION}) ]-\n\n')
+
+    # run bot ---
+    BIC = input('BIC:')
+    if BIC == 'dunce':
+        client.run(VERSION)
+    elif BIC == 'test':
+        print(f'TESTING')
+    else: pass
+
+
+else:
+    print(f'\n\n\n\t-[ ACCESS DENIED ]-\n\n\n\n\n\nexiting program...\n\n\n')
+    quit()
