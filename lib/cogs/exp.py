@@ -34,6 +34,7 @@ class exp(Cog):
         else:
             if not message.author.bot: 
                 print(f'+{xp_add}xp to user {message.author.display_name}: [ lvl {new_lvl} ]\n')
+                # pass
 
         db.commit()
         
