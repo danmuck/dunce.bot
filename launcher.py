@@ -1,5 +1,4 @@
 # client import
-from logging import debug
 from lib.client import client
 # .env import
 import os
