@@ -70,3 +70,9 @@ linux (debian):
 ##### create .env file: '.env' in /dunce.bot (your project dir) with `LOGIN = '_username_'` and `PASSWORD = '_pass_'` 
 
 ##### note: you need to edit in your own id numbers until i implement complete multi server functionality
+
+#### `python3 launcher.py` to launch
+
+#### or
+
+#### `python3 cli-launcher.py` to launch with BIC
