@@ -1,6 +1,5 @@
 from discord.ext.commands import Cog, command
-from discord.utils import get
-import discord
+
 
 # notes: set up auto role assign db.record when XP is lvl X assign role X
 from ..db import db
