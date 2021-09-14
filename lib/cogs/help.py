@@ -1,7 +1,7 @@
 from discord import Embed
 from discord.utils import get
 # from discord.ext.menus import MenuPages, ListPageSource
-from discord.ext.commands import Cog, command 
+from discord.ext.commands import Cog, command
 from typing import Optional
 
 def syntax(command):
@@ -10,7 +10,8 @@ def syntax(command):
 
     for key, value in command.params.items():
         if key not in ('self', 'ctx'):
-            params.append(f'[{key}]' if "NoneType" in str(value) else f'<{key}>')
+            params.append(f'[{key}]' if "NoneType" in str(
+                value) else f'<{key}>')
 
     params = ' '.join([command.signature])
 
@@ -26,7 +27,7 @@ def syntax(command):
 #         len_data = len(self.entries)
 
 #         embed = Embed(title='help',
-#                             description='dunce.bot: how can i help you?', 
+#                             description='dunce.bot: how can i help you?',
 #                             colour=self.ctx.author.colour)
 #         embed.set_thumbnail(url=self.ctx.guild.me.avatar_url)
 #         embed.set_footer(text=f'{offset:,} - {min(len_data, offset+self.per_page-1):,} of {len_data:,} commands')
@@ -35,7 +36,7 @@ def syntax(command):
 #             embed.add_field(name=name, value=value, inline=False)
 
 #         return embed
-    
+
 #     async def format_page(self, menu, entries):
 #         fields = []
 
@@ -44,33 +45,35 @@ def syntax(command):
 
 #         return await self.write_page(menu, fields)
 
+
 class help(Cog):
     def __init__(self, client):
         self.client = client
         # self.client.remove_command('help')  #remove default help command
-    
+
     @Cog.listener()
     async def on_ready(self):
         if not self.client.ready:
             self.client.cogs_ready.ready_up('help')
 
-
     async def cmd_help(self, ctx, command):
-        embed = Embed(title=f'help with `{command}`', 
+        embed = Embed(title=f'help with `{command}`',
                             description=syntax(command),
                             colour=ctx.author.colour)
         embed.add_field(name='command description', value=command.help)
         await ctx.send(embed=embed)
-    
-    @command(name = 'halp', aliases=['hlp', '??', '?', '???', '????', '?????', '??????', '???????', '????????'])
-    async def  show_help(self, ctx, cmd: Optional[str]):
+
+    @command(name='halp', aliases=['hlp', '??', '?', '???', '????', '?????', '??????', '???????', '????????'])
+    async def show_help(self, ctx, cmd: Optional[str]):
         """shows this message """
         if cmd is None:
-        #     menu = MenuPages(source=helpmenu(ctx, list(self.client.commands)),
-        #                         delete_message_after=True,
-        #                         timeout=60.0)
-        #     await menu.start(ctx)
-            embed = Embed(title='help menu', description=' try command: [ ?help ] ')
+            #     menu = MenuPages(source=helpmenu(ctx, list(self.client.commands)),
+            #                         delete_message_after=True,
+            #                         timeout=60.0)
+            #     await menu.start(ctx)
+            # await ctx.send('`try: ?help`')
+            embed = Embed(title='help menu',
+                            description=' try command: [ ?help ] ')
             await ctx.send(embed=embed)
 
         else:
@@ -81,5 +84,7 @@ class help(Cog):
                 await ctx.send(f'error: command does not exist')
 
 # run cog ---
+
+
 def setup(client):
     client.add_cog(help(client))

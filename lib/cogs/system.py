@@ -37,8 +37,10 @@ class system(Cog):
         await ctx.send(f"{round(self.client.latency * 1000)}ms")
     
     @command(name = 'ddf87hf73', aliases=['?????????????????????????????'], hidden=True)
-    async def  ddf87hf73(self, ctx):
+
+    async def ddf87hf73(self, ctx):
         await ctx.send(f'``` hey! {ctx.message.author.display_name} fuck you lol :) ```')
+
 
     # def get_roleT(client, message):
     #     roleT = db.field(
@@ -72,7 +74,9 @@ class system(Cog):
                 await self.news_channel.send(embed=embed)
                 await self.logs_channel.send(f'``` #{message.channel}: [ {urls} ] ```')
                 # await self.news_channel.send(f'[ {message.author.display_name} posted {f"{urls}"} in <#{message.channel.id}> ]')
-                db.execute("INSERT OR IGNORE INTO links (ChannelID, Link, Category) VALUES (?, ?, ?)", message.channel.id, (urls),  message.channel.name)
+
+                db.execute("INSERT OR IGNORE INTO links (ChannelID, Link, Category, OrigMessage) VALUES (?, ?, ?, ?)", message.channel.id, (urls), message.channel.name, str(message.content))
+
                 db.commit()
     
     @Cog.listener()
