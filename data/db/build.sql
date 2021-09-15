@@ -34,4 +34,11 @@ CREATE TABLE IF NOT EXISTS links (
 CREATE TABLE IF NOT EXISTS stuffs (
     Added text DEFAULT CURRENT_TIMESTAMP,
     Statuses text PRIMARY KEY
-)
+);
+
+CREATE TABLE IF NOT EXISTS items (
+    ItemID int PRIMARY KEY,
+    Name text DEFAULT Null,
+    Description text DEFAULT Null,
+    Category text DEFAULT Null
+);

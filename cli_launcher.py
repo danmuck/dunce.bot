@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 VERSION = 'BIC'
 
+
 import re
 from re import search
 
@@ -58,8 +59,18 @@ def BIC(cmd):
                     print(f'{row}\n')
                 BIC('')
                 print(f'BROKEN')
+            elif search_db == 'items':
+                db.cur.execute("SELECT * FROM items ORDER BY ItemID")
+                items = db.cur.fetchall()
+                for item in items:
+                    print(f'\n\t[ {item[3]} ]\nitem_name: {item[1]}\nitem_desc: {item[2]}\nitem_id: {item[0]}')
+                    print(f'\nDB.MGMT: fetched all...')
+                BIC('')
+
             else: BIC('')
-                
+        elif db_man == 'build':
+            print(f'NO WORKING')  
+            BIC('')    
         else: BIC('')
 
     elif cmd == 'mess':
@@ -67,6 +78,22 @@ def BIC(cmd):
         if mess == 'exit':
             BIC('')
 
+    elif cmd == 'game':
+        BIC_game = input(f'\t*PRESS ENTER TO START*\n')
+        if BIC_game == '':
+            g_home = input('HOME: ')
+            if g_home == 'new':
+                print(f'FOLLOW PROMPTS')
+                g_user = input('USER_NAME: ')
+                g_pass = input('PASSWORD: ')
+                print(f'USER_NAME: {g_user}\nPASSWORD: {g_pass}\n\nARE YOU SURE? (Y/n)')
+                g_confirm = input('(Y/n): ')
+                if g_confirm == 'Y':
+                    pass
+                else: BIC('')
+            else: BIC('') 
+        else: BIC('')
+# BIC end ---
     else: BIC('')
 
 

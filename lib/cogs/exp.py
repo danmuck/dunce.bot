@@ -23,7 +23,7 @@ class exp(Cog):
             
     async def add_xp(self, message, xp, lvl):
         xp_add = randint(4, 20)
-        new_lvl = int(((xp+xp_add)//69)** 0.55)
+        new_lvl = int(((xp+xp_add)//69)** 0.35)
 
         db.execute("UPDATE exp SET XP = XP + ?, Level = ?, XPLock = ?, UserName = ? WHERE UserID = ?", 
                     xp_add, new_lvl, (datetime.utcnow()+timedelta(seconds=60)).isoformat(sep=' ', timespec='seconds'), message.author.display_name, message.author.id)
