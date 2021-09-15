@@ -20,7 +20,7 @@ def BIC(cmd):
     if cmd == 'run':
         client.run(VERSION)
     elif cmd == 'help':
-        print(f''' \n      -[ BIC cmds ]-                  ?? ???
+        print(f''' \n\n\n      -[ BIC cmds ]-                  ?? ???
                 \n       ___     ___                  ??      ??
                 \n      [BIC]   [FIT]                         ??
                 \n       TTT     TTT                       ???
@@ -29,7 +29,7 @@ def BIC(cmd):
                 \n                                        ??
                 \n   :view        :game                   
                 \n                                        ??
-                \n   :            :                
+                \n   :new user    :                
                 \n                                 
             \n''')
         BIC('')
@@ -81,7 +81,9 @@ def BIC(cmd):
                     print(f'\nDB.MGMT: fetched all...')
                 BIC('')
 
-            else: BIC('')
+            else: 
+                print(f'\n\t-[ ABORTED ]-\n')
+                BIC('')
         elif db_man == 'build':
             print(f'NO WORKING')  
             BIC('')    
@@ -97,8 +99,8 @@ def BIC(cmd):
         if BIC_game == '':
             g_home = input('HOME: ')
             if g_home == 'new user':
-                print(f'\n\t-[ REGISTRATION ]-\n')
-                print(f'(pick an arbitrary password as its stored as plaintext)\n')
+                print(f'\n\t-[ gUSER REGISTRATION ]-\n')
+                print(f'(pick an arbitrary password as its stored as plaintext for now)\n')
                 g_user = input('USER_NAME: ')
                 g_pass = input('PASSWORD: ')
                 print(f'USER_NAME: {g_user}\nPASSWORD: {g_pass}\n\nARE YOU SURE? (Y/n)')
