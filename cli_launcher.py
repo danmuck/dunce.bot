@@ -72,13 +72,19 @@ def BIC(cmd):
                 for row in rows:
                     print(f'{row}\n')
                 BIC('')
-                print(f'BROKEN')
+                print(f'WORK ON ME')
             elif search_db == 'items':
                 db.cur.execute("SELECT * FROM items ORDER BY ItemID")
                 items = db.cur.fetchall()
                 for item in items:
                     print(f'\n\t[ {item[3]} ]\nitem_name: {item[1]}\nitem_desc: {item[2]}\nitem_id: {item[0]}')
                     print(f'\nDB.MGMT: fetched all...')
+            elif search_db == 'gusers':
+                db.cur.execute("SELECT * FROM gusers ORDER BY gUSERNAME")
+                rows = db.cur.fetchall()
+                print(f'\nDISPLAYING CONTENT: [ gusers ]\n')
+                for row in rows:
+                    print(f': {row[0]}\n')
                 BIC('')
 
             else: 
