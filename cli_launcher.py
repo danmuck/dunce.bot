@@ -96,14 +96,18 @@ def BIC(cmd):
         BIC_game = input(f'\t*PRESS ENTER TO START*\n')
         if BIC_game == '':
             g_home = input('HOME: ')
-            if g_home == 'new':
-                print(f'FOLLOW PROMPTS')
+            if g_home == 'new user':
+                print(f'\n\t-[ REGISTRATION ]-\n')
+                print(f'(pick an arbitrary password as its stored as plaintext)\n')
                 g_user = input('USER_NAME: ')
                 g_pass = input('PASSWORD: ')
                 print(f'USER_NAME: {g_user}\nPASSWORD: {g_pass}\n\nARE YOU SURE? (Y/n)')
                 g_confirm = input('(Y/n): ')
                 if g_confirm == 'Y':
-                    db.execute('INSERT INTO TABLE')
+                    db.execute('INSERT OR IGNORE INTO gusers (gUserName, gPassword) VALUES (?, ?)', g_user, g_pass)
+                    db.commit()
+                    print(f'DB.MGMT: gUSER {g_user} added to database')
+                    BIC('')
                 else: BIC('')
             else: BIC('') 
         else: BIC('')
