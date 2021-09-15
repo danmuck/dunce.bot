@@ -16,14 +16,14 @@ class exp(Cog):
             await self.add_xp(message, xp, lvl)
 
         if not message.author.bot:
-            print(f'\nNEW MESSAGE: [ @{message.author.display_name} in #{message.channel.name} ] | lvl = {lvl} xp = {xp} | LOCK EXPIRES = {xplock}\n')
+            print(f'\nNEW MESSAGE: [ @{message.author.display_name} in #{message.channel.name} ] | lvl = {lvl} xp = {xp} | LOCK EXPIRES: {str(xplock)[11:]}\n')
             print(f'"{str(message.content)}"\n')
 
         
             
     async def add_xp(self, message, xp, lvl):
         xp_add = randint(4, 20)
-        new_lvl = int(((xp+xp_add)//42)** 0.55)
+        new_lvl = int(((xp+xp_add)//69)** 0.35)
 
         db.execute("UPDATE exp SET XP = XP + ?, Level = ?, XPLock = ?, UserName = ? WHERE UserID = ?", 
                     xp_add, new_lvl, (datetime.utcnow()+timedelta(seconds=60)).isoformat(sep=' ', timespec='seconds'), message.author.display_name, message.author.id)
