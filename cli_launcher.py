@@ -19,6 +19,20 @@ def BIC(cmd):
     # run bot ---
     if cmd == 'run':
         client.run(VERSION)
+    elif cmd == 'help':
+        print(f''' \n      -[ BIC cmds ]-                  ?? ???
+                \n       ___     ___                  ??      ??
+                \n      [BIC]   [FIT]                         ??
+                \n       TTT     TTT                       ???
+                \n-------------------------               ??
+                \n   :run         :db man                 ??
+                \n                                        ??
+                \n   :view        :game                   
+                \n                                        ??
+                \n   :            :                
+                \n                                 
+            \n''')
+        BIC('')
 
     elif cmd == 'test':
         test = input(f'TESTING [:] ')
@@ -89,7 +103,7 @@ def BIC(cmd):
                 print(f'USER_NAME: {g_user}\nPASSWORD: {g_pass}\n\nARE YOU SURE? (Y/n)')
                 g_confirm = input('(Y/n): ')
                 if g_confirm == 'Y':
-                    pass
+                    db.execute('INSERT INTO TABLE')
                 else: BIC('')
             else: BIC('') 
         else: BIC('')
