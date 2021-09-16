@@ -13,7 +13,7 @@ VERSION = 'BIC'
 import re
 from re import search
 
-def BIC(cmd):
+def gbic(cmd):
     cmd = input(f'BIC: ')
 
     # run bot ---
@@ -32,22 +32,22 @@ def BIC(cmd):
                 \n   :new user    :                
                 \n                                 
             \n''')
-        BIC('')
+        gbic('')
 
     elif cmd == 'test':
         test = input(f'TESTING [:] ')
         if test == 'exit':
-            BIC('')
+            gbic('')
         elif test == 'ftest':
             input(f'F-TEST [:] ')
             if 'exit':
-                BIC('')
-        else: BIC('')
+                gbic('')
+        else: gbic('')
 
     elif cmd == 'db man':
         db_man = input(f'DATABASE.MGMT [:] ')
         if db_man == 'exit':
-            BIC('')
+            gbic('')
         elif db_man == 'view':
             search_db = input(f'SEARCH:')
             if search_db == 'links':
@@ -55,23 +55,23 @@ def BIC(cmd):
                 rows = db.cur.fetchall()
                 print(f'\nDISPLAYING CONTENT: [ links ]\n')
                 for row in rows:
-                    print(f'{row}\n')
-                BIC('')
+                    print(f'[ #{row[2]} ] {row[1]}\n\ncontext: \t"{row[3]}"\n\n\n')
+                gbic('')
             # input('SEARCH: ')
             elif search_db == 'exp':
                 db.cur.execute("SELECT * FROM exp ORDER BY XP DESC")
                 rows = db.cur.fetchall()
                 print(f'\nDISPLAYING CONTENT: [ exp ]\n')
                 for row in rows:
-                    print(f'{row}\n')
-                BIC('')
+                    print(f'user: {row[1]}\nlevel: {row[3]} \ntotal xp: {row[2]}\nlock expires: {str(row[4])[11:]} UTC\n\n')
+                gbic('')
             elif search_db == 'guilds':
                 db.cur.execute("SELECT * FROM guilds ORDER BY GuildID")
                 rows = db.cur.fetchall()
                 print(f'\nDISPLAYING CONTENT: [ guilds ]\n')
                 for row in rows:
                     print(f'{row}\n')
-                BIC('')
+                gbic('')
                 print(f'WORK ON ME')
             elif search_db == 'items':
                 db.cur.execute("SELECT * FROM items ORDER BY ItemID")
@@ -85,20 +85,20 @@ def BIC(cmd):
                 print(f'\nDISPLAYING CONTENT: [ gusers ]\n')
                 for row in rows:
                     print(f': {row[0]}\n')
-                BIC('')
+                gbic('')
 
             else: 
                 print(f'\n\t-[ ABORTED ]-\n')
-                BIC('')
+                gbic('')
         elif db_man == 'build':
             print(f'NO WORKING')  
-            BIC('')    
-        else: BIC('')
+            gbic('')    
+        else: gbic('')
 
     elif cmd == 'mess':
         mess = input(f'MESSAGE [:] ')
         if mess == 'exit':
-            BIC('')
+            gbic('')
 
     elif cmd == 'game':
         BIC_game = input(f'\t*PRESS ENTER TO START*\n')
@@ -115,12 +115,16 @@ def BIC(cmd):
                     db.execute('INSERT OR IGNORE INTO gusers (gUserName, gPassword) VALUES (?, ?)', g_user, g_pass)
                     db.commit()
                     print(f'DB.MGMT: gUSER {g_user} added to database')
-                    BIC('')
-                else: BIC('')
-            else: BIC('') 
-        else: BIC('')
+                    gbic('')
+                else: 
+                    gbic('')
+            else: 
+                gbic('') 
+        else: 
+            gbic('')
 # BIC end ---
-    else: BIC('')
+    else: 
+        gbic('')
 
 
 # login ---
@@ -132,12 +136,12 @@ LOGIN = os.getenv('LOGIN')
 PASSWORD = os.getenv('PASSWORD')
 if login == LOGIN and password == PASSWORD:
     print(f'\n\n\n\t-[ WELCOME TO DUNCE.BOT ({VERSION}) ]-\n\n')
-    BIC('')
+    gbic('')
 
 else:
     password = input('try again: ')
     if password == PASSWORD and login == LOGIN:
-        BIC('')
+        gbic('')
     else:
         print(f'\n\n\n\t-[ ACCESS DENIED ]-\n\n\n\n\n\nexiting program...\n\n\n')
         quit()
