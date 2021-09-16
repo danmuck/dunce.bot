@@ -89,7 +89,7 @@ def insert_items():
 
 #CUSTOM --- --- --- --- --- --- --- --- --- --- 
 def custom_item():
-    cust_id = (input('ID#: '))
+    cust_id = (input('\nID#: '))
     cust_name = (input('NAME: '))
     cust_desc = (input('DESC: '))
     cust_cat = (input('CAT: '))

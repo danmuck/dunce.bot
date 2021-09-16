@@ -118,19 +118,6 @@ def gbic(cmd):
         if mess == 'exit':
             gbic('')
 
-    elif cmd == 'add':
-        add_items = input(f'ADD.. [:] ')
-        if add_items == 'single':
-            gdb.insert_item()
-            gbic('add')
-        elif add_items == 'many':
-            gdb.insert_items()
-            gbic('add')
-        elif add_items == 'cust':
-            gdb.custom_item()
-            gbic('add')
-
-
     elif cmd == 'game':
         BIC_game = input(f'\t*PRESS ENTER TO START*\n')
         if BIC_game == '':
