@@ -1,5 +1,5 @@
 # client import
-from lib.db import db
+from lib.db import db, gdb
 from logging import debug
 from lib.client import client
 from sqlite3 import Cursor
@@ -99,6 +99,19 @@ def gbic(cmd):
         mess = input(f'MESSAGE [:] ')
         if mess == 'exit':
             gbic('')
+
+    elif cmd == 'add':
+        add_items = input(f'ADD.. [:] ')
+        if add_items == 'single':
+            gdb.insert_item()
+            gbic('')
+        elif add_items == 'many':
+            gdb.insert_items()
+            gbic('')
+        elif add_items == 'cust':
+            gdb.custom_item()
+            gbic('')
+
 
     elif cmd == 'game':
         BIC_game = input(f'\t*PRESS ENTER TO START*\n')
