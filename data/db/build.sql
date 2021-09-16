@@ -42,3 +42,8 @@ CREATE TABLE IF NOT EXISTS items (
     Description text DEFAULT Null,
     Category text DEFAULT Null
 );
+
+CREATE TABLE IF NOT EXISTS gusers (
+    gUserName text PRIMARY KEY,
+    gPassword text DEFAULT ""
+);

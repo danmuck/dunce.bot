@@ -39,8 +39,7 @@ class system(Cog):
     @command(name = 'ddf87hf73', aliases=['?????????????????????????????'], hidden=True)
 
     async def ddf87hf73(self, ctx):
-        await ctx.send(f'``` hey! {ctx.message.author.display_name} fuck you lol :) ```')
-
+        await ctx.send(f'```hey {ctx.message.author.display_name} fuck you lol\n\n\n\n\n😘\n\n\n\n\njk```')
 
     # def get_roleT(client, message):
     #     roleT = db.field(
@@ -64,8 +63,8 @@ class system(Cog):
             url = re.findall(self.url_regex, str(message.content))
             actual_url = ([actual_url[0] for actual_url in url])
             for urls in actual_url:
-                print(f'\nNEWS: {urls} in #{message.channel}')
-    
+                print(f'\nNEWS: {urls} in #{message.channel}\n')
+
                 embed = Embed(title=f'{urls}',
                                 url=f'{urls}',
                                 description=f'[ new post by {message.author.display_name} in <#{message.channel.id}> ]',
