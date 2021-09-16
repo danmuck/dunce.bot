@@ -29,7 +29,7 @@ def insert_item():
 
     print(f'\n\t-[ NEW ITEM ADDED ]-\n\n\nitem_id: {item_id}\nitem_name: {item_name}\nitem_desc: {item_desc}\nitem_cat: [ {item_cat} ]  \n')
 
-    print(f'DB.MGMT: [ items ] commited...\nDB.MGMT: database connection closed')
+    print(f'DB.MGMT: [ items ] commited...\n')
     conn.commit()
     # conn.close()
 
@@ -84,7 +84,7 @@ def insert_items():
     print(f'\n\t-[ NEW ITEM ADDED ]-\n\n\n[ {item_4[3]} ]\nitem_id: {item_4[0]}\nitem_name: {item_4[1]}\nitem_desc: {item_4[2]}\n')
     conn.commit()
     # conn.close()
-    print(f'DB.MGMT: [ items ] commited...\nDB.MGMT: database connection closed')
+    print(f'DB.MGMT: [ items ] commited...\n')
 
 #CUSTOM --- --- --- --- --- --- --- --- --- --- 
 
@@ -99,7 +99,7 @@ def custom_item():
 
     print(f'\n\t-[ NEW ITEM ADDED ]-\n\n\nitem_id: {cust_id}\nitem_name: {cust_name}\nitem_desc: {cust_desc}\nitem_cat: [ {cust_cat} ]  \n')
 
-    print(f'DB.MGMT: [ items ] commited...\nDB.MGMT: database connection closed')
+    print(f'DB.MGMT: [ items ] commited...\n')
     conn.commit()
     # conn.close()
 
