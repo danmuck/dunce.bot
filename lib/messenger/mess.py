@@ -9,12 +9,12 @@ BOT_TOKEN = os.getenv('BOT_TOKEN')
 
 
 
-channel_id = '882994482579140742'
+# channel_id = '882994482579140742'
 
-not_spam = '883501071752888324'
-python_spam = '886442917152051240'
-spam_ = '882994482579140742'
-test_spam = '883702088482291762'
+not_spam = '882971968507363359'
+python_spam = '881222079356219413' #discussion
+spam_ = '881226606490841088'
+test_spam = '883778568004456458'
 
 
 def message_():
