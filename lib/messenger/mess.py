@@ -19,7 +19,7 @@ test_spam = '883702088482291762'
 
 def message_():
     mess_con = input('\nSEND [:] ')
-    payload = {'content': mess_con}
+    payload = {'content': f'```{mess_con}```'}
     headers = {'authorization': U_TOKEN}
     channel_ = input('TO [:] ')
     if channel_ == 'not spam':

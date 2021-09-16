@@ -20,6 +20,8 @@ def gbic(cmd):
     # run bot ---
     if cmd == 'run':
         client.run(VERSION)
+        gbic('')
+
     elif cmd == 'help':
         print(f''' \n\n\n      -[ BIC cmds ]-                  ?? ???
                 \n       ___     ____                  ??      ??
