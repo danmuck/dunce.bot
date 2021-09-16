@@ -1,6 +1,6 @@
 #gBIC db commands
 from os.path import isfile
-from sqlite3 import connect
+from sqlite3 import connect, IntegrityError
 
 # from apscheduler.triggers.cron import CronTrigger
 
@@ -75,7 +75,7 @@ many_items = [
 ]
 
 def insert_items():
-    cur.executemany("INSERT INTO items VALUES (?, ?, ?, ?)", many_items)
+    cur.executemany("INSERT or IGNORE INTO items VALUES (?, ?, ?, ?)", many_items)
 
     print(f'\n\t-[ NEW ITEM ADDED ]-\n\n\n[ {item_0[3]} ]\nitem_id: {item_0[0]}\nitem_name: {item_0[1]}\nitem_desc: {item_0[2]}\n')
     print(f'\n\t-[ NEW ITEM ADDED ]-\n\n\n[ {item_1[3]} ]\nitem_id: {item_1[0]}\nitem_name: {item_1[1]}\nitem_desc: {item_1[2]}\n')
@@ -86,26 +86,35 @@ def insert_items():
     # conn.close()
     print(f'DB.MGMT: [ items ] commited...\n')
 
+
 #CUSTOM --- --- --- --- --- --- --- --- --- --- 
-
-
-
 def custom_item():
     cust_id = (input('ID#: '))
     cust_name = (input('NAME: '))
     cust_desc = (input('DESC: '))
     cust_cat = (input('CAT: '))
-    cur.execute("INSERT INTO items VALUES (?, ?, ?, ?)", [(cust_id), (cust_name or None), (cust_desc or None), (cust_cat or None)])
-
+    cur.execute("INSERT or IGNORE INTO items VALUES (?, ?, ?, ?)", [(cust_id), (cust_name or None), (cust_desc or None), (cust_cat or None)])
+    
     print(f'\n\t-[ NEW ITEM ADDED ]-\n\n\nitem_id: {cust_id}\nitem_name: {cust_name}\nitem_desc: {cust_desc}\nitem_cat: [ {cust_cat} ]  \n')
+    
 
     print(f'DB.MGMT: [ items ] commited...\n')
     conn.commit()
     # conn.close()
 
 
+#FETCH
+def fetch_items():
+    cur.execute('SELECT rowid, * FROM items ORDER BY ItemID ASC')
+    items = cur.fetchall()
+    for item in items:
+        print(f'\n\t[ {item[4]} ]\nitem_name: {item[2]}\nitem_desc: {item[3]}\nitem_id: {item[1]}\n\n')
+    print(f'\nDB.MGMT: fetched all...\n')
 
 if __name__ == '__main__':
-    insert_item()
+    fetch_items()
+    conn.close()
+    print(f'\nDB.MGMT: items fetched...\nDB.MGMT: database connection closed')  
+
 # end ---
     

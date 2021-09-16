@@ -14,7 +14,7 @@ import re
 from re import search
 
 def gbic(cmd):
-    cmd = input(f'BIC: ')
+    cmd = cmd or input(f'BIC: ')
 
     # run bot ---
     if cmd == 'run':
@@ -45,18 +45,20 @@ def gbic(cmd):
         else: gbic('')
 
     elif cmd == 'db man':
-        db_man = input(f'DATABASE.MGMT [:] ')
+        db_man = input(f'DB.MGMT.. [:] ')
         if db_man == 'exit':
             gbic('')
         elif db_man == 'view':
-            search_db = input(f'SEARCH:')
+            search_db = input(f'VIEW: ')
             if search_db == 'links':
                 db.cur.execute("SELECT * FROM links ORDER BY ChannelID")
                 rows = db.cur.fetchall()
                 print(f'\nDISPLAYING CONTENT: [ links ]\n')
                 for row in rows:
                     print(f'[ #{row[2]} ] {row[1]}\n\ncontext: \t"{row[3]}"\n\n\n')
-                gbic('')
+                # cmd = 'db man'
+                gbic('db man')
+
             # input('SEARCH: ')
             elif search_db == 'exp':
                 db.cur.execute("SELECT * FROM exp ORDER BY XP DESC")
@@ -64,35 +66,51 @@ def gbic(cmd):
                 print(f'\nDISPLAYING CONTENT: [ exp ]\n')
                 for row in rows:
                     print(f'user: {row[1]}\nlevel: {row[3]} \ntotal xp: {row[2]}\nlock expires: {str(row[4])[11:]} UTC\n\n')
-                gbic('')
+                    print(f'DB.MGMT: fetched all...\n')
+                gbic('db man')
+
             elif search_db == 'guilds':
                 db.cur.execute("SELECT * FROM guilds ORDER BY GuildID")
                 rows = db.cur.fetchall()
                 print(f'\nDISPLAYING CONTENT: [ guilds ]\n')
                 for row in rows:
-                    print(f'{row}\n')
-                gbic('')
+                    print(f'{row}\n\n')
+                    print(f'DB.MGMT: fetched all...\n')
+                gbic('db man')
+
                 print(f'WORK ON ME')
+
             elif search_db == 'items':
-                db.cur.execute("SELECT * FROM items ORDER BY ItemID")
-                items = db.cur.fetchall()
-                for item in items:
-                    print(f'\n\t[ {item[3]} ]\nitem_name: {item[1]}\nitem_desc: {item[2]}\nitem_id: {item[0]}')
-                    print(f'\nDB.MGMT: fetched all...')
+                gdb.fetch_items()
+                gbic(cmd='db man')
+                
             elif search_db == 'gusers':
                 db.cur.execute("SELECT * FROM gusers ORDER BY gUSERNAME")
                 rows = db.cur.fetchall()
                 print(f'\nDISPLAYING CONTENT: [ gusers ]\n')
                 for row in rows:
                     print(f': {row[0]}\n')
+                    print(f'DB.MGMT: fetched all...\n')
                 gbic('')
 
             else: 
                 print(f'\n\t-[ ABORTED ]-\n')
                 gbic('')
         elif db_man == 'build':
-            print(f'NO WORKING')  
-            gbic('')    
+            db.build()
+            gbic('')
+
+        elif db_man == 'items':
+            add_items = input(f'ADD ITEMS.. [:] ')
+            if add_items == 'add':
+                gdb.custom_item()
+                gbic('add')
+            elif add_items == 'many':
+                gdb.insert_items()
+                gbic('add')
+            else:
+                gbic('db man')
+
         else: gbic('')
 
     elif cmd == 'mess':
@@ -104,13 +122,13 @@ def gbic(cmd):
         add_items = input(f'ADD.. [:] ')
         if add_items == 'single':
             gdb.insert_item()
-            gbic('')
+            gbic('add')
         elif add_items == 'many':
             gdb.insert_items()
-            gbic('')
+            gbic('add')
         elif add_items == 'cust':
             gdb.custom_item()
-            gbic('')
+            gbic('add')
 
 
     elif cmd == 'game':
