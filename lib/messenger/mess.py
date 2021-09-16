@@ -29,7 +29,7 @@ def message_():
 
     elif channel_ == 'python':
         channel_id = python_spam
-        print(f'\nPOSTAL [:] sending message to #python-spam\n')
+        print(f'\nPOSTAL [:] sending message to #discussion\n')
         return requests.post(f'https://discord.com/api/v9/channels/{channel_id}/messages', data=payload, headers=headers)
 
     elif channel_ == 'spam':
@@ -39,7 +39,7 @@ def message_():
 
     else:
         channel_id = test_spam
-        print(f'\nPOSTAL [:] sending message to #test-spam\n')
+        print(f'\nPOSTAL [:] sending message to #spam-burner\n')
         return requests.post(f'https://discord.com/api/v9/channels/{channel_id}/messages', data=payload, headers=headers)
 
 if __name__ == '__main__':
