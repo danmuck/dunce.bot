@@ -1,5 +1,6 @@
 # client import
 from lib.db import db, gdb
+from lib.messenger import mess
 from logging import debug
 from lib.client import client
 from sqlite3 import Cursor
@@ -14,22 +15,27 @@ import re
 from re import search
 
 def gbic(cmd):
-    cmd = cmd or input(f'BIC: ')
+    cmd = cmd or input(f'\nBIC: ')
 
     # run bot ---
     if cmd == 'run':
         client.run(VERSION)
     elif cmd == 'help':
         print(f''' \n\n\n      -[ BIC cmds ]-                  ?? ???
-                \n       ___     ___                  ??      ??
-                \n      [BIC]   [FIT]                         ??
-                \n       TTT     TTT                       ???
+                \n       ___     ____                  ??      ??
+                \n      [BIC]   [FITO]                         ??
+                \n       TTT     TTTT                       ???
                 \n-------------------------               ??
-                \n   :run         :db man                 ??
+                \n   :run        [:]view                 ??
                 \n                                        ??
-                \n   :view        :game                   
+                \n   :db man     [:]items                   
                 \n                                        ??
-                \n   :new user    :                
+                \n   :post       [:]send                
+                \n                 
+                \n   :            :                
+                \n                  
+                \n   :            :                
+
                 \n                                 
             \n''')
         gbic('')
@@ -47,6 +53,7 @@ def gbic(cmd):
     elif cmd == 'db man':
         db_man = input(f'DB.MGMT.. [:] ')
         if db_man == 'exit':
+            # print(f'\n\t-[ DB.MGMT EXIT ]-\n')
             gbic('')
         elif db_man == 'view':
             search_db = input(f'VIEW: ')
@@ -91,32 +98,44 @@ def gbic(cmd):
                 for row in rows:
                     print(f': {row[0]}\n')
                     print(f'DB.MGMT: fetched all...\n')
-                gbic('')
+                gbic('db man')
 
             else: 
-                print(f'\n\t-[ ABORTED ]-\n')
-                gbic('')
+                gbic('db man')
         elif db_man == 'build':
             db.build()
-            gbic('')
+            gbic('db man')
 
         elif db_man == 'items':
-            add_items = input(f'ADD ITEMS.. [:] ')
+            add_items = input(f'DB.items.. [:] ')
             if add_items == 'add':
                 gdb.custom_item()
-                gbic('add')
+                gbic('db man')
+                db_man == 'items'
             elif add_items == 'many':
                 gdb.insert_items()
-                gbic('add')
+                gbic('db man')
+            elif add_items == 'del':
+                gdb.delete_item()
+                gbic('db man')
+                db_man == 'items'
+            elif add_items == 'view':
+                gdb.fetch_items()
+                gbic('db man')
             else:
                 gbic('db man')
 
-        else: gbic('')
+        else: gbic('db man')
 
-    elif cmd == 'mess':
-        mess = input(f'MESSAGE [:] ')
-        if mess == 'exit':
+    elif cmd == 'post':
+        messenger = input(f'POSTAL [:] ')
+        if messenger == 'send':
+            mess.message_()
+            gbic('post')
+        if messenger == 'exit':
             gbic('')
+        else:
+            gbic('post')
 
     elif cmd == 'game':
         BIC_game = input(f'\t*PRESS ENTER TO START*\n')
