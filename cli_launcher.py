@@ -1,5 +1,6 @@
 # client import
 from lib.db import db, gdb
+from lib.messenger import mess
 from logging import debug
 from lib.client import client
 from sqlite3 import Cursor
@@ -14,22 +15,29 @@ import re
 from re import search
 
 def gbic(cmd):
-    cmd = input(f'BIC: ')
+    cmd = cmd or input(f'\nBIC: ')
 
     # run bot ---
     if cmd == 'run':
         client.run(VERSION)
+        gbic('')
+
     elif cmd == 'help':
         print(f''' \n\n\n      -[ BIC cmds ]-                  ?? ???
-                \n       ___     ___                  ??      ??
-                \n      [BIC]   [FIT]                         ??
-                \n       TTT     TTT                       ???
+                \n       ___     ____                  ??      ??
+                \n      [BIC]   [FITO]                         ??
+                \n       TTT     TTTT                       ???
                 \n-------------------------               ??
-                \n   :run         :db man                 ??
+                \n   :run        [:]view                 ??
                 \n                                        ??
-                \n   :view        :game                   
+                \n   :db man     [:]items                   
                 \n                                        ??
-                \n   :new user    :                
+                \n   :post       [:]send                
+                \n                 
+                \n   :            :                
+                \n                  
+                \n   :            :                
+
                 \n                                 
             \n''')
         gbic('')
@@ -45,18 +53,21 @@ def gbic(cmd):
         else: gbic('')
 
     elif cmd == 'db man':
-        db_man = input(f'DATABASE.MGMT [:] ')
+        db_man = input(f'DB.MGMT.. [:] ')
         if db_man == 'exit':
+            # print(f'\n\t-[ DB.MGMT EXIT ]-\n')
             gbic('')
         elif db_man == 'view':
-            search_db = input(f'SEARCH:')
+            search_db = input(f'VIEW: ')
             if search_db == 'links':
                 db.cur.execute("SELECT * FROM links ORDER BY ChannelID")
                 rows = db.cur.fetchall()
                 print(f'\nDISPLAYING CONTENT: [ links ]\n')
                 for row in rows:
                     print(f'[ #{row[2]} ] {row[1]}\n\ncontext: \t"{row[3]}"\n\n\n')
-                gbic('')
+                # cmd = 'db man'
+                gbic('db man')
+
             # input('SEARCH: ')
             elif search_db == 'exp':
                 db.cur.execute("SELECT * FROM exp ORDER BY XP DESC")
@@ -64,54 +75,69 @@ def gbic(cmd):
                 print(f'\nDISPLAYING CONTENT: [ exp ]\n')
                 for row in rows:
                     print(f'user: {row[1]}\nlevel: {row[3]} \ntotal xp: {row[2]}\nlock expires: {str(row[4])[11:]} UTC\n\n')
-                gbic('')
+                    print(f'DB.MGMT: fetched all...\n')
+                gbic('db man')
+
             elif search_db == 'guilds':
                 db.cur.execute("SELECT * FROM guilds ORDER BY GuildID")
                 rows = db.cur.fetchall()
                 print(f'\nDISPLAYING CONTENT: [ guilds ]\n')
                 for row in rows:
-                    print(f'{row}\n')
-                gbic('')
+                    print(f'{row}\n\n')
+                    print(f'DB.MGMT: fetched all...\n')
+                gbic('db man')
+
                 print(f'WORK ON ME')
+
             elif search_db == 'items':
-                db.cur.execute("SELECT * FROM items ORDER BY ItemID")
-                items = db.cur.fetchall()
-                for item in items:
-                    print(f'\n\t[ {item[3]} ]\nitem_name: {item[1]}\nitem_desc: {item[2]}\nitem_id: {item[0]}')
-                    print(f'\nDB.MGMT: fetched all...')
+                gdb.fetch_items()
+                gbic(cmd='db man')
+                
             elif search_db == 'gusers':
                 db.cur.execute("SELECT * FROM gusers ORDER BY gUSERNAME")
                 rows = db.cur.fetchall()
                 print(f'\nDISPLAYING CONTENT: [ gusers ]\n')
                 for row in rows:
                     print(f': {row[0]}\n')
-                gbic('')
+                    print(f'DB.MGMT: fetched all...\n')
+                gbic('db man')
 
             else: 
-                print(f'\n\t-[ ABORTED ]-\n')
-                gbic('')
+                gbic('db man')
         elif db_man == 'build':
-            print(f'NO WORKING')  
-            gbic('')    
-        else: gbic('')
+            db.build()
+            gbic('db man')
 
-    elif cmd == 'mess':
-        mess = input(f'MESSAGE [:] ')
-        if mess == 'exit':
-            gbic('')
+        elif db_man == 'items':
+            add_items = input(f'DB.items.. [:] ')
+            if add_items == 'add':
+                gdb.custom_item()
+                gbic('db man')
+                db_man == 'items'
+            elif add_items == 'many':
+                gdb.insert_items()
+                gbic('db man')
+            elif add_items == 'del':
+                gdb.delete_item()
+                gbic('db man')
+                db_man == 'items'
+            elif add_items == 'view':
+                gdb.fetch_items()
+                gbic('db man')
+            else:
+                gbic('db man')
 
-    elif cmd == 'add':
-        add_items = input(f'ADD.. [:] ')
-        if add_items == 'single':
-            gdb.insert_item()
-            gbic('')
-        elif add_items == 'many':
-            gdb.insert_items()
-            gbic('')
-        elif add_items == 'cust':
-            gdb.custom_item()
-            gbic('')
+        else: gbic('db man')
 
+    elif cmd == 'post':
+        messenger = input(f'POSTAL [:] ')
+        if messenger == 'send':
+            mess.message_()
+            gbic('post')
+        if messenger == 'exit':
+            gbic('')
+        else:
+            gbic('post')
 
     elif cmd == 'game':
         BIC_game = input(f'\t*PRESS ENTER TO START*\n')

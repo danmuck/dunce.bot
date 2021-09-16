@@ -4,11 +4,12 @@ from random import randint
 from typing import Optional
 from discord import Member
 from ..db import db
-
+import re
 
 class exp(Cog):
     def __init__(self, client):
         self.client = client
+        self.url_regex = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
 
     async def process_xp(self, message):
         xp, lvl, xplock = db.record("SELECT XP, Level, XPLock FROM exp WHERE UserID = ?", message.author.id)
@@ -16,8 +17,10 @@ class exp(Cog):
             await self.add_xp(message, xp, lvl)
 
         if not message.author.bot:
+            message_cont = re.sub(self.url_regex, '[ link-removed ]', str(message.content), flags=re.MULTILINE)
             print(f'\nNEW MESSAGE: [ @{message.author.display_name} in #{message.channel.name} ] | lvl = {lvl} xp = {xp} | LOCK EXPIRES: {str(xplock)[11:]}\n')
-            print(f'"{str(message.content)}"\n')
+            print(f'"{message_cont}"\n')
+            db.commit()
 
         
             
@@ -36,7 +39,7 @@ class exp(Cog):
                 print(f'+{xp_add}xp to user {message.author.display_name}: [ lvl {new_lvl} ]\n')
                 # pass
 
-        db.commit()
+        # db.commit()
         
 
     # @command(name = 'check_level', aliases=['lvl'])
