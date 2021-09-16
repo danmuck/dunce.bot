@@ -12,7 +12,6 @@ cur = conn.cursor()
 
 
 #SINGLE --- --- --- --- --- --- --- --- --- ---
-
 item_id = ('000015')
 # item_id required [count it]
 item_name = ('bippity')
@@ -35,7 +34,6 @@ def insert_item():
 
 
 #MANY --- --- --- --- --- --- --- --- --- --- 
-
 item_0 = (
     '000000',
     'book of dirtpig',
@@ -102,7 +100,7 @@ def custom_item():
     conn.commit()
     # conn.close()
 
-#DELETE ---
+#DELETE --- --- --- --- --- --- --- --- --- ---
 def delete_item():
     item = input('DB.DELETE: ')
     cur.execute('DELETE FROM items WHERE ItemID = (?)', (item,))
@@ -110,12 +108,12 @@ def delete_item():
     print(f'DB.DELETE: RIP item #{item}')
     print(f'\nDB.DELETE: changes commited...\n')
 
-#PURGE ---
+#PURGE --- --- --- --- --- --- --- --- --- ---
 def purge_items():
     items = cur.execute('DELETE FROM items')
     print(f'\nDB.DELETE: RIP {(item for item in items)}\n')
 
-#FETCH
+#FETCH --- --- --- --- --- --- --- --- --- ---
 def fetch_items():
     cur.execute('SELECT rowid, * FROM items ORDER BY ItemID ASC')
     items = cur.fetchall()

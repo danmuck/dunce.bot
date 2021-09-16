@@ -77,7 +77,7 @@ class system(Cog):
                 await self.logs_channel.send(f'``` #{message.channel}: [ {urls} ] ```')
                 # await self.news_channel.send(f'[ {message.author.display_name} posted {f"{urls}"} in <#{message.channel.id}> ]')
                 db.execute("INSERT OR IGNORE INTO links (ChannelID, Link, Category, OrigMessage) VALUES (?, ?, ?, ?)", message.channel.id, (urls), message.channel.name, message_cont)
-                # db.commit()
+                db.commit()
 
     @Cog.listener()
     async def on_ready(self):

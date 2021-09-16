@@ -1,4 +1,6 @@
 # client import
+from re import search
+import re
 from lib.db import db, gdb
 from lib.messenger import mess
 from logging import debug
@@ -11,9 +13,6 @@ load_dotenv()
 VERSION = 'BIC'
 
 
-import re
-from re import search
-
 def gbic(cmd):
     cmd = cmd or input(f'\nBIC: ')
 
@@ -23,22 +22,19 @@ def gbic(cmd):
         gbic('')
 
     elif cmd == 'help':
-        print(f''' \n\n\n      -[ BIC cmds ]-                  ?? ???
-                \n       ___     ____                  ??      ??
-                \n      [BIC]   [FITO]                         ??
-                \n       TTT     TTTT                       ???
-                \n-------------------------               ??
-                \n   :run        [:]view                 ??
-                \n                                        ??
-                \n   :db man     [:]items                   
-                \n                                        ??
-                \n   :post       [:]send                
-                \n                 
-                \n   :            :                
-                \n                  
-                \n   :            :                
+        print(f''' \n\n\n                          -[ BIC cmds ]-
+                \n                           ___     ____
+                \n                          [BIC]   [FITO]                                 
+                \n                           TTT     TTTT
+                \n-------------------------------------------------------------------- ||
+                \n   :run         :dbm        :post        :game       [:]items
+                \n
+                \n   :           [:]view     [:]send      [:]new user   :     
+                \n
+                \n   :           [:]items     :           [:]           :
+                \n
+                \n   :           [:]build     :           [:]          [*]exit
 
-                \n                                 
             \n''')
         gbic('')
 
@@ -50,9 +46,10 @@ def gbic(cmd):
             input(f'F-TEST [:] ')
             if 'exit':
                 gbic('')
-        else: gbic('')
+        else:
+            gbic('')
 
-    elif cmd == 'db man':
+    elif cmd == 'dbm':
         db_man = input(f'DB.MGMT.. [:] ')
         if db_man == 'exit':
             # print(f'\n\t-[ DB.MGMT EXIT ]-\n')
@@ -64,19 +61,19 @@ def gbic(cmd):
                 rows = db.cur.fetchall()
                 print(f'\nDISPLAYING CONTENT: [ links ]\n')
                 for row in rows:
-                    print(f'[ #{row[2]} ] {row[1]}\n\ncontext: \t"{row[3]}"\n\n\n')
-                # cmd = 'db man'
-                gbic('db man')
+                    print(
+                        f'[ #{row[2]} ] {row[1]}\n\ncontext: \t"{row[3]}"\n\n\n')
+                gbic('dbm')
 
-            # input('SEARCH: ')
             elif search_db == 'exp':
                 db.cur.execute("SELECT * FROM exp ORDER BY XP DESC")
                 rows = db.cur.fetchall()
                 print(f'\nDISPLAYING CONTENT: [ exp ]\n')
                 for row in rows:
-                    print(f'user: {row[1]}\nlevel: {row[3]} \ntotal xp: {row[2]}\nlock expires: {str(row[4])[11:]} UTC\n\n')
+                    print(
+                        f'user: {row[1]}\nlevel: {row[3]} \ntotal xp: {row[2]}\nlock expires: {str(row[4])[11:]} UTC\n\n')
                     print(f'DB.MGMT: fetched all...\n')
-                gbic('db man')
+                gbic('dbm')
 
             elif search_db == 'guilds':
                 db.cur.execute("SELECT * FROM guilds ORDER BY GuildID")
@@ -85,14 +82,14 @@ def gbic(cmd):
                 for row in rows:
                     print(f'{row}\n\n')
                     print(f'DB.MGMT: fetched all...\n')
-                gbic('db man')
+                gbic('dbm')
 
                 print(f'WORK ON ME')
 
             elif search_db == 'items':
                 gdb.fetch_items()
-                gbic(cmd='db man')
-                
+                gbic(cmd='dbm')
+
             elif search_db == 'gusers':
                 db.cur.execute("SELECT * FROM gusers ORDER BY gUSERNAME")
                 rows = db.cur.fetchall()
@@ -100,34 +97,35 @@ def gbic(cmd):
                 for row in rows:
                     print(f': {row[0]}\n')
                     print(f'DB.MGMT: fetched all...\n')
-                gbic('db man')
+                gbic('dbm')
 
-            else: 
-                gbic('db man')
+            else:
+                gbic('dbm')
         elif db_man == 'build':
             db.build()
-            gbic('db man')
+            gbic('dbm')
 
         elif db_man == 'items':
             add_items = input(f'DB.items.. [:] ')
             if add_items == 'add':
                 gdb.custom_item()
-                gbic('db man')
-                db_man == 'items'
+                gbic('dbm')
+                return db_man == 'items'
             elif add_items == 'many':
                 gdb.insert_items()
-                gbic('db man')
+                gbic('dbm')
             elif add_items == 'del':
                 gdb.delete_item()
-                gbic('db man')
-                db_man == 'items'
+                gbic('dbm')
+                return db_man == 'items'
             elif add_items == 'view':
                 gdb.fetch_items()
-                gbic('db man')
+                gbic('dbm')
             else:
-                gbic('db man')
+                gbic('dbm')
 
-        else: gbic('db man')
+        else:
+            gbic('dbm')
 
     elif cmd == 'post':
         messenger = input(f'POSTAL [:] ')
@@ -140,29 +138,51 @@ def gbic(cmd):
             gbic('post')
 
     elif cmd == 'game':
-        BIC_game = input(f'\t*PRESS ENTER TO START*\n')
-        if BIC_game == '':
-            g_home = input('HOME: ')
-            if g_home == 'new user':
-                print(f'\n\t-[ gUSER REGISTRATION ]-\n')
-                print(f'(pick an arbitrary password as its stored as plaintext for now)\n')
-                g_user = input('USER_NAME: ')
-                g_pass = input('PASSWORD: ')
-                print(f'USER_NAME: {g_user}\nPASSWORD: {g_pass}\n\nARE YOU SURE? (Y/n)')
-                g_confirm = input('(Y/n): ')
-                if g_confirm == 'Y':
-                    db.execute('INSERT OR IGNORE INTO gusers (gUserName, gPassword) VALUES (?, ?)', g_user, g_pass)
-                    db.commit()
-                    print(f'DB.MGMT: gUSER {g_user} added to database')
-                    gbic('')
-                else: 
-                    gbic('')
-            else: 
-                gbic('') 
-        else: 
+        bic_game = input(f'\ngBIC: ')
+        if bic_game == '':
+            gbic('game')
+        elif bic_game == 'exit':
             gbic('')
+        elif bic_game == 'new':
+            print(f'\n\t-[ gUSER REGISTRATION ]-\n')
+            print(f'(pick an arbitrary password as its stored as plaintext for now)\n')
+            g_user = input('USER_NAME: ')
+            g_pass = input('PASSWORD: ')
+            print(
+                f'USER_NAME: {g_user}\nPASSWORD: {g_pass}\n\nARE YOU SURE? (Y/n)')
+            g_confirm = input('(Y/n): ')
+            if g_confirm == 'Y' or 'y':
+                db.execute(
+                    'INSERT OR IGNORE INTO gusers (gUserName, gPassword) VALUES (?, ?)', g_user, g_pass)
+                db.commit()
+                print(f'DB.MGMT: gUSER {g_user} added to database')
+                gbic('game')
+            else:
+                gbic('game')
+        elif bic_game == 's':
+            print(f'SIGN IN')
+            guser = (input('gUSER: '))
+            gpassw = (input('gPASS: '))
+
+            def ruser():
+                user = str(gdb.cur.execute(
+                    "SELECT gUserName FROM gusers WHERE gUserName = ?", (guser,)))
+                return user
+
+            def rpass():
+                passw = str(gdb.cur.execute(
+                    "SELECT gPassword FROM gusers WHERE gUserName = ?", (guser,)))
+                return passw
+
+            if guser == ruser() and gpassw == rpass():
+                input('testing')
+            else:
+                gbic('game')
+
+        else:
+            gbic('game')
 # BIC end ---
-    else: 
+    else:
         gbic('')
 
 
@@ -182,7 +202,6 @@ else:
     if password == PASSWORD and login == LOGIN:
         gbic('')
     else:
-        print(f'\n\n\n\t-[ ACCESS DENIED ]-\n\n\n\n\n\nexiting program...\n\n\n')
+        print(
+            f'\n\n\n\t-[ ACCESS DENIED ]-\n\n\n\n\n\nexiting program...\n\n\n')
         quit()
-
-
