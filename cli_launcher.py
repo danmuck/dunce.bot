@@ -80,7 +80,7 @@ def gbic(cmd):
                     print(f'DB.MGMT: fetched all...\n')
                 gbic('db man')
 
-                print(f'WORK ON ME')
+                print(f'WORK ON ME IN system.py?')
 
             elif search_db == 'items':
                 gdb.fetch_items()
@@ -170,22 +170,42 @@ def gbic(cmd):
             gpassw = (input('gPASS: '))
 
             def ruser():
-                user = str(gdb.cur.execute(
-                    "SELECT gUserName FROM gusers WHERE gUserName = ?", (guser,)))
-                return user
+                gdb.cur.execute(
+                    "SELECT gUserName FROM gusers WHERE gUserName = ?", (guser,))
+                user = gdb.cur.fetchone()
+                return (user,)
 
             def rpass():
-                passw = str(gdb.cur.execute(
-                    "SELECT gPassword FROM gusers WHERE gUserName = ?", (guser,)))
-                return passw
+                gdb.cur.execute(
+                    "SELECT gPassword FROM gusers WHERE gUserName = ?", (gpassw,))
+                passw = gdb.cur.fetchone()
+                return (passw,)
 
-            if guser == ruser() and gpassw == rpass():
-                input('testing')
+            if (guser,) == ruser() and (gpassw,) == rpass():
+                print('testing')
+
             else:
                 gbic('game')
 
         else:
             gbic('game')
+
+    elif cmd == 'td':
+        todo_ = input('TODO [:] ')
+        if todo_ == 'view':
+            gdb.cur.execute('SELECT * FROM todo_ ORDER BY date_')
+            gdb.cur.fetchall()
+            gbic('td')
+        elif todo_== 'add':
+
+            gbic('td')
+        elif todo_ == 'del':
+
+            gbic('td')
+        elif todo_ == 'exit':
+            gbic('')
+        else:
+            gbic('td')
 # BIC end ---
     else:
         gbic('')
