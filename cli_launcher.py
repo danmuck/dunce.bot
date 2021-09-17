@@ -103,7 +103,13 @@ def gbic(cmd):
 
         elif db_man == 'items':
             add_items = input(f'DB.items.. [:] ')
-            if add_items == 'add':
+            if add_items == 'help':
+                print(f'''
+                        ITEM CLASSIFIERS
+                        \nweapon | armor | consume | common |  uncommon | rare | NFT | !event | test 
+                        \n!example = specific\n''')
+                gbic('db man')
+            elif add_items == 'add':
                 gdb.custom_item()
                 gbic('db man')
                 return db_man == 'items'
@@ -116,6 +122,9 @@ def gbic(cmd):
                 return db_man == 'items'
             elif add_items == 'view':
                 gdb.fetch_items()
+                gbic('db man') 
+            elif add_items == 'purge!':
+                gdb.purge_items()
                 gbic('db man')
             else:
                 gbic('db man')

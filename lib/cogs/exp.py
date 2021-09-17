@@ -22,8 +22,6 @@ class exp(Cog):
             print(f'"{message_cont}"\n\n\n')
             # db.commit()
 
-        
-            
     async def add_xp(self, message, xp, lvl):
         xp_add = randint(4, 20)
         new_lvl = int(((xp+xp_add)//69)** 0.35)
