@@ -19,7 +19,7 @@ class exp(Cog):
         if not message.author.bot:
             message_cont = re.sub(self.url_regex, '[link]', str(message.content), flags=re.MULTILINE)
             print(f'\nNEW MESSAGE: [ @{message.author.display_name} in #{message.channel.name} ] | lvl = {lvl} xp = {xp} | LOCK EXPIRES: {str(xplock)[11:]}\n')
-            print(f'"{message_cont}"\n')
+            print(f'"{message_cont}"\n\n\n')
             # db.commit()
 
         

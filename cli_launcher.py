@@ -1,11 +1,7 @@
 # client import
-from re import search
-import re
 from lib.db import db, gdb
 from lib.messenger import mess
-from logging import debug
 from lib.client import client
-from sqlite3 import Cursor
 # .env import
 import os
 from dotenv import load_dotenv
@@ -27,13 +23,13 @@ def gbic(cmd):
                 \n                          [BIC]   [FITO]                                 
                 \n                           TTT     TTTT
                 \n-------------------------------------------------------------------- ||
-                \n   :run         :dbm        :post        :game       [:]items
+                \n   :run         :db man     :post        :game       [:]items
                 \n
-                \n   :           [:]view     [:]send      [:]new user   :     
+                \n   :bot        [:]view     [:]send      [:]new user   :add     
                 \n
-                \n   :           [:]items     :           [:]           :
+                \n   :run        [:]items     :           [:]           :del
                 \n
-                \n   :           [:]build     :           [:]          [*]exit
+                \n   :?          [:]build     :           [:]          [*]exit
 
             \n''')
         gbic('')
@@ -49,7 +45,7 @@ def gbic(cmd):
         else:
             gbic('')
 
-    elif cmd == 'dbm':
+    elif cmd == 'db man':
         db_man = input(f'DB.MGMT.. [:] ')
         if db_man == 'exit':
             # print(f'\n\t-[ DB.MGMT EXIT ]-\n')
@@ -63,7 +59,7 @@ def gbic(cmd):
                 for row in rows:
                     print(
                         f'[ #{row[2]} ] {row[1]}\n\ncontext: \t"{row[3]}"\n\n\n')
-                gbic('dbm')
+                gbic('db man')
 
             elif search_db == 'exp':
                 db.cur.execute("SELECT * FROM exp ORDER BY XP DESC")
@@ -73,7 +69,7 @@ def gbic(cmd):
                     print(
                         f'user: {row[1]}\nlevel: {row[3]} \ntotal xp: {row[2]}\nlock expires: {str(row[4])[11:]} UTC\n\n')
                     print(f'DB.MGMT: fetched all...\n')
-                gbic('dbm')
+                gbic('db man')
 
             elif search_db == 'guilds':
                 db.cur.execute("SELECT * FROM guilds ORDER BY GuildID")
@@ -82,13 +78,13 @@ def gbic(cmd):
                 for row in rows:
                     print(f'{row}\n\n')
                     print(f'DB.MGMT: fetched all...\n')
-                gbic('dbm')
+                gbic('db man')
 
                 print(f'WORK ON ME')
 
             elif search_db == 'items':
                 gdb.fetch_items()
-                gbic(cmd='dbm')
+                gbic('db man')
 
             elif search_db == 'gusers':
                 db.cur.execute("SELECT * FROM gusers ORDER BY gUSERNAME")
@@ -97,35 +93,35 @@ def gbic(cmd):
                 for row in rows:
                     print(f': {row[0]}\n')
                     print(f'DB.MGMT: fetched all...\n')
-                gbic('dbm')
+                gbic('db man')
 
             else:
-                gbic('dbm')
+                gbic('db man')
         elif db_man == 'build':
             db.build()
-            gbic('dbm')
+            gbic('db man')
 
         elif db_man == 'items':
             add_items = input(f'DB.items.. [:] ')
             if add_items == 'add':
                 gdb.custom_item()
-                gbic('dbm')
+                gbic('db man')
                 return db_man == 'items'
             elif add_items == 'many':
                 gdb.insert_items()
-                gbic('dbm')
+                gbic('db man')
             elif add_items == 'del':
                 gdb.delete_item()
-                gbic('dbm')
+                gbic('db man')
                 return db_man == 'items'
             elif add_items == 'view':
                 gdb.fetch_items()
-                gbic('dbm')
+                gbic('db man')
             else:
-                gbic('dbm')
+                gbic('db man')
 
         else:
-            gbic('dbm')
+            gbic('db man')
 
     elif cmd == 'post':
         messenger = input(f'POSTAL [:] ')
@@ -137,10 +133,10 @@ def gbic(cmd):
         else:
             gbic('post')
 
-    elif cmd == 'game':
+    elif cmd == 'gb':
         bic_game = input(f'\ngBIC: ')
         if bic_game == '':
-            gbic('game')
+            gbic('gb')
         elif bic_game == 'exit':
             gbic('')
         elif bic_game == 'new':
@@ -156,9 +152,9 @@ def gbic(cmd):
                     'INSERT OR IGNORE INTO gusers (gUserName, gPassword) VALUES (?, ?)', g_user, g_pass)
                 db.commit()
                 print(f'DB.MGMT: gUSER {g_user} added to database')
-                gbic('game')
+                gbic('gb')
             else:
-                gbic('game')
+                gbic('gb')
         elif bic_game == 's':
             print(f'SIGN IN')
             guser = (input('gUSER: '))
