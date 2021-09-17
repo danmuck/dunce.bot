@@ -121,6 +121,9 @@ def fetch_items():
         print(f'\n\t[ {item[4]} ]\nitem_name: {item[2]}\nitem_desc: {item[3]}\nitem_id: {item[1]}\n\n')
     print(f'\nDB.items: fetched all...\n')
 
+# SEARCH
+# def search_items():
+#     cur.execute('SELECT row FROM ? WHERE ')
 if __name__ == '__main__':
     fetch_items()
     conn.close()
