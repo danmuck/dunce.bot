@@ -1,6 +1,6 @@
 # client import
 from lib.db import db, gdb
-from lib.messenger import mess
+from lib.messenger import mess, todo_
 from lib.client import client
 # .env import
 import os
@@ -191,21 +191,28 @@ def gbic(cmd):
             gbic('game')
 
     elif cmd == 'td':
-        todo_ = input('TODO [:] ')
-        if todo_ == 'view':
-            gdb.cur.execute('SELECT * FROM todo_ ORDER BY Added')
-            gdb.cur.fetchall()
+        todo = input('TODO [:] ')
+        if todo == 'view':
+            todo_.fetch_todo()
             gbic('td')
-        elif todo_== 'add':
+        elif todo== 'add':
+            todo_.insert_todo()
+            gbic('td')
+        elif todo == 'del':
 
             gbic('td')
-        elif todo_ == 'del':
-
-            gbic('td')
-        elif todo_ == 'exit':
+        elif todo == 'exit':
             gbic('')
         else:
             gbic('td')
+
+    elif cmd == 'exit':
+        print(f'\nyou sure?')
+        check = input('BIC: ')
+        if check == '':
+            quit()
+        else:
+            gbic('')
 # BIC end ---
     else:
         gbic('')

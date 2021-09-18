@@ -1,7 +1,5 @@
 # gBIC db commands
 # from cli_launcher import gbic
-from lib.db.db import commit
-from os.path import isfile
 from sqlite3 import connect, IntegrityError
 
 # from apscheduler.triggers.cron import CronTrigger
