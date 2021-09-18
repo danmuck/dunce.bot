@@ -1,4 +1,5 @@
 # gBIC db commands
+# from cli_launcher import gbic
 from lib.db.db import commit
 from os.path import isfile
 from sqlite3 import connect, IntegrityError
@@ -18,29 +19,49 @@ def custom_item():
     cust_name = (input('NAME: '))
     cust_desc = (input('DESC: '))
     cust_cat = (input('CAT: '))
-    cur.execute("INSERT or IGNORE INTO items VALUES (?, ?, ?, ?)", [
-                (cust_id), (cust_name or None), (cust_desc or None), (cust_cat or None)])
-
     print(
-        f'\n\t-[ NEW ITEM ADDED ]-\n\n\nitem_id: {cust_id}\nitem_name: {cust_name}\nitem_desc: {cust_desc}\nitem_cat: [ {cust_cat} ]  \n')
-
-    print(f'DB.ADD: changes commited...\n')
-    conn.commit()
-    # conn.close()
+        f'\n\t-[ NEW ITEM ]-\n\n\nitem_id: {cust_id}\nitem_name: {cust_name}\nitem_desc: {cust_desc}\nitem_cat: [ {cust_cat} ]  \n\ncommit? [Y/n]')
+    check = input('DB.ADD: ')
+    if check == 'y':
+        cur.execute("INSERT or IGNORE INTO items VALUES (?, ?, ?, ?)", [
+                (cust_id), (cust_name or None), (cust_desc or None), (cust_cat or None)])
+        conn.commit()
+        # conn.close()
+        print(f'DB.ADD: changes commited...\n\nadd another? [Y/n]')
+        again = input('DB.ADD: ')
+        if again == 'y':
+            custom_item()
+        else:
+            pass
+    elif check == 'exit':
+        pass
+    else:
+        pass
+            
 
 # DELETE --- --- --- --- --- --- --- --- --- ---
 def delete_item():
-    item = input('DB.DELETE: ')
+    item = input('DB.DEL: ')
     cur.execute('DELETE FROM items WHERE ItemID = (?)', (item,))
     conn.commit()
-    print(f'DB.DELETE: RIP item #{item}')
-    print(f'\nDB.DELETE: changes commited...\n')
+    print(f'DB.DEL: RIP item #{item}')
+    print(f'\nDB.DEL: changes commited...\n\ndelete another? [Y/n]')
+    more = input('DB.DEL: ')
+    if more == 'y':
+        delete_item()
+    else:
+        pass
 
 # PURGE --- --- --- --- --- --- --- --- --- ---
 def purge_items():
-    cur.execute('DELETE FROM items')
-    print(f'\nDB.DELETE: RIP items\n')
-    conn.commit()
+    print('\n\t-[ WARNING!!! ARE YOU SURE?! ]-\n\npurge all?')
+    check = input('DB.PURGE: ')
+    if check == 'yez':
+        cur.execute('DELETE FROM items')
+        conn.commit()
+        print(f'\nDB.DEL: RIP items\n')
+    else:
+        pass
 
 # FETCH --- --- --- --- --- --- --- --- --- ---
 def fetch_items():

@@ -102,7 +102,7 @@ def gbic(cmd):
             gbic('db man')
 
         elif db_man == 'items':
-            add_items = input(f'DB.items.. [:] ')
+            add_items = input(f'DB.items.. : ')
             if add_items == 'help':
                 print(f'''
                         ITEM CLASSIFIERS
@@ -193,7 +193,7 @@ def gbic(cmd):
     elif cmd == 'td':
         todo_ = input('TODO [:] ')
         if todo_ == 'view':
-            gdb.cur.execute('SELECT * FROM todo_ ORDER BY date_')
+            gdb.cur.execute('SELECT * FROM todo_ ORDER BY Added')
             gdb.cur.fetchall()
             gbic('td')
         elif todo_== 'add':

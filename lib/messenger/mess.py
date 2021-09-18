@@ -15,10 +15,10 @@ spam_burner = os.getenv('SPAM_BURNER')
 
 
 def message_():
-    mess_con = input('\nSEND [:] ')
+    mess_con = input('\nSEND: ')
     payload = {'content': f'{mess_con}'}
     headers = {'authorization': U_TOKEN}
-    channel_ = input('TO [:] ')
+    channel_ = input('TO: ')
     if channel_ == 'not spam':
         channel_id = not_spam
         print(f'\nPOSTAL [:] sending message to #not-spam\n')

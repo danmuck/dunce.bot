@@ -31,9 +31,9 @@ CREATE TABLE IF NOT EXISTS links (
     OrigMessage text DEFAULT "n/a"
 );
 
-CREATE TABLE IF NOT EXISTS stuffs (
+CREATE TABLE IF NOT EXISTS todo_ (
     Added text DEFAULT CURRENT_TIMESTAMP,
-    Statuses text PRIMARY KEY
+    Notes text PRIMARY KEY
 );
 
 CREATE TABLE IF NOT EXISTS items (
@@ -47,3 +47,4 @@ CREATE TABLE IF NOT EXISTS gusers (
     gUserName text PRIMARY KEY,
     gPassword text DEFAULT ""
 );
+
