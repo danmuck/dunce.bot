@@ -29,7 +29,7 @@ STATUS = ('god', 'trapqueen', 'buddha', 'zeus',
             'yeezy', 'cardi', 'north west', 'nas', 'area 51 raid team',
             'anonymous', 'the pope', 'playing', 'armchair psychologist',
             'einstein', 'the corporate ladder', 'google it', 'jeopardy',
-            'pinocchio', 'botnet', 'with the source code', 'scientist')
+            'pinocchio', 'in the botnet', 'with the source code', 'mad scientist')
 
 # STATUS_PUSH = ([status_text[0] for status_text in STATUS])
 # db.execute("INSERT OR IGNORE INTO stuffs (Statuses) VALUES (?)", (random(list(STATUS))))
