@@ -62,20 +62,26 @@ class system(Cog):
         if search(self.url_regex, message.content) and not message.author.bot:
             url = re.findall(self.url_regex, str(message.content))
             actual_url = ([actual_url[0] for actual_url in url])
-            message_cont = re.sub(self.url_regex, '[ link-removed ]', str(message.content), flags=re.MULTILINE)
-            for urls in actual_url:
-                print(f'\nNEWS: {urls} in #{message.channel}')
+            message_cont = re.sub(self.url_regex, '', str(message.content), flags=re.MULTILINE)
+            if message.channel.name != 'log-spam' and message.channel.name != 'tickets' and message.channel.name != 'server-admin':
+                for urls in actual_url:
+                    if urls.startswith('https://cdn.discordapp'):
+                        pass
 
-                embed = Embed(title=f'{urls}',
-                                url=f'{urls}',
-                                description=f'[ new post by {message.author.display_name} in <#{message.channel.id}> ]',
-                                color=0x000)
-                embed.set_author(name='dunce.news', url='https://github.com/danmuck/dunce.bot')
-                await self.news_channel.send(embed=embed)
-                await self.logs_channel.send(f'``` #{message.channel}: [ {urls} ] ```')
-                # await self.news_channel.send(f'[ {message.author.display_name} posted {f"{urls}"} in <#{message.channel.id}> ]')
-                db.execute("INSERT OR IGNORE INTO links (ChannelID, Link, Category, OrigMessage) VALUES (?, ?, ?, ?)", message.channel.id, (urls), message.channel.name, message_cont)
-                # db.commit()
+                    # elif message.channel.name == '889984608874156044' or message.channel.id == '889984623378051082':
+                    #     pass
+                    else:
+                        print(f'\nNEWS: {urls} in #{message.channel}')
+                        embed = Embed(title=f'{urls}',
+                                        url=f'{urls}',
+                                        description=f'[ new post by {message.author.display_name} in <#{message.channel.id}> ]',
+                                        color=0x000)
+                        embed.set_author(name='dunce.news', url='https://github.com/danmuck/dunce.bot')
+                        await self.news_channel.send(embed=embed)
+                        await self.logs_channel.send(f'``` #{message.channel}: [ {urls} ] ```')
+                        # await self.news_channel.send(f'[ {message.author.display_name} posted {f"{urls}"} in <#{message.channel.id}> ]')
+                        db.execute("INSERT OR IGNORE INTO links (ChannelID, Link, Category, OrigMessage) VALUES (?, ?, ?, ?)", message.channel.id, (urls), message.channel.name, message_cont)
+                        db.commit()
 
                 db.commit()
     

@@ -17,13 +17,11 @@ class exp(Cog):
             await self.add_xp(message, xp, lvl)
 
         if not message.author.bot:
-            message_cont = re.sub(self.url_regex, '[ link-removed ]', str(message.content), flags=re.MULTILINE)
+            message_cont = re.sub(self.url_regex, '[link]', str(message.content), flags=re.MULTILINE)
             print(f'\nNEW MESSAGE: [ @{message.author.display_name} in #{message.channel.name} ] | lvl = {lvl} xp = {xp} | LOCK EXPIRES: {str(xplock)[11:]}\n')
-            print(f'"{message_cont}"\n')
-            db.commit()
+            print(f'"{message_cont}"\n\n\n')
+            # db.commit()
 
-        
-            
     async def add_xp(self, message, xp, lvl):
         xp_add = randint(4, 20)
         new_lvl = int(((xp+xp_add)//69)** 0.35)
@@ -36,10 +34,9 @@ class exp(Cog):
                 await self.logs_channel.send(f'```congrats {message.author.display_name} \n\nnew level: [ {new_lvl:,} ]```')
         else:
             if not message.author.bot: 
-                print(f'+{xp_add}xp to user {message.author.display_name}: [ lvl {new_lvl} ]\n')
+                print(f'+{xp_add}xp to user {message.author.display_name}: [ lvl {new_lvl} ]')
                 # pass
-
-        # db.commit()
+        db.commit()
         
 
     # @command(name = 'check_level', aliases=['lvl'])
