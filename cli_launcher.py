@@ -9,6 +9,7 @@ load_dotenv()
 VERSION = 'BIC'
 
 
+
 def gbic(cmd):
     cmd = cmd or input(f'\nBIC: ')
 
@@ -19,17 +20,17 @@ def gbic(cmd):
 
     elif cmd == 'help':
         print(f''' \n\n\n                          -[ BIC cmds ]-
-                \n                           ___     ____
-                \n                          [BIC]   [FITO]                                 
-                \n                           TTT     TTTT
-                \n-------------------------------------------------------------------- ||
-                \n   :run         :db man     :post        :game       [:]items
-                \n
-                \n   :bot        [:]view     [:]send      [:]new user   :add     
-                \n
-                \n   :run        [:]items     :           [:]           :del
-                \n
-                \n   :?          [:]build     :           [:]          [*]exit
+                       \n                           ___     ____
+                       \n                          [BIC]   [FITO]                                 
+                       \n                           TTT     TTTT
+                       \n-------------------------------------------------------------------- ||
+                       \n   :run         :db man     :post        :game       [:]items
+                       \n
+                       \n   :bot        [:]view     [:]send      [:]new user   :add     
+                       \n
+                       \n   :run        [:]items     :           [:]           :del
+                       \n
+                       \n   :?          [:]build     :           [:]          [*]exit
 
             \n''')
         gbic('')
@@ -237,3 +238,6 @@ else:
         print(
             f'\n\n\n\t-[ ACCESS DENIED ]-\n\n\n\n\n\nexiting program...\n\n\n')
         quit()
+
+
+

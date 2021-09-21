@@ -66,18 +66,20 @@ class system(Cog):
             actual_url = ([actual_url[0] for actual_url in url])
             message_cont = re.sub(self.url_regex, '', str(message.content), flags=re.MULTILINE)
             for urls in actual_url:
-                print(f'\nNEWS: {urls} in #{message.channel}')
-
-                embed = Embed(title=f'{urls}',
-                                url=f'{urls}',
-                                description=f'[ new post by {message.author.display_name} in <#{message.channel.id}> ]',
-                                color=0x000)
-                embed.set_author(name='dunce.news', url='https://github.com/danmuck/dunce.bot')
-                await self.news_channel.send(embed=embed)
-                await self.logs_channel.send(f'``` #{message.channel}: [ {urls} ] ```')
-                # await self.news_channel.send(f'[ {message.author.display_name} posted {f"{urls}"} in <#{message.channel.id}> ]')
-                db.execute("INSERT OR IGNORE INTO links (ChannelID, Link, Category, OrigMessage) VALUES (?, ?, ?, ?)", message.channel.id, (urls), message.channel.name, message_cont)
-                db.commit()
+                if urls.startswith('https://cdn.discordapp'):
+                    pass
+                else:
+                    print(f'\nNEWS: {urls} in #{message.channel}')
+                    embed = Embed(title=f'{urls}',
+                                    url=f'{urls}',
+                                    description=f'[ new post by {message.author.display_name} in <#{message.channel.id}> ]',
+                                    color=0x000)
+                    embed.set_author(name='dunce.news', url='https://github.com/danmuck/dunce.bot')
+                    await self.news_channel.send(embed=embed)
+                    await self.logs_channel.send(f'``` #{message.channel}: [ {urls} ] ```')
+                    # await self.news_channel.send(f'[ {message.author.display_name} posted {f"{urls}"} in <#{message.channel.id}> ]')
+                    db.execute("INSERT OR IGNORE INTO links (ChannelID, Link, Category, OrigMessage) VALUES (?, ?, ?, ?)", message.channel.id, (urls), message. channel.name, message_cont)
+                    db.commit()
 
     @Cog.listener()
     async def on_ready(self):
