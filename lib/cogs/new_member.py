@@ -15,7 +15,7 @@ class new_member(Cog):
     @Cog.listener()
     async def on_member_join(self, member):
         print(f'\n\talert: {member} has entered the chat\n')
-        db.execute("INSERT INTO exp (UserID, UserName) VALUES (?, ?)", member.id, member)
+        db.execute("INSERT INTO exp (UserID, UserName) VALUES (?, ?)", str(member.id), str(member.name))
         print(f'db: adding user {member}|{member.id} to database...')
         db.commit()
         # welcome-spam channel id
