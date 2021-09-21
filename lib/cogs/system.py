@@ -63,7 +63,7 @@ class system(Cog):
             url = re.findall(self.url_regex, str(message.content))
             actual_url = ([actual_url[0] for actual_url in url])
             message_cont = re.sub(self.url_regex, '', str(message.content), flags=re.MULTILINE)
-            if message.channel.name != 'log-spam' and message.channel.name != 'tickets' and message.channel.name != 'server-admin':
+            if message.channel.name != 'log-spam' and message.channel.name != 'tickets' and message.channel.name != 'server-admin' and message.channel.name != 'spam-burner':
                 for urls in actual_url:
                     if urls.startswith('https://cdn.discordapp'):
                         pass
