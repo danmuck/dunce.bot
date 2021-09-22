@@ -67,9 +67,6 @@ class system(Cog):
                 for urls in actual_url:
                     if urls.startswith('https://cdn.discordapp'):
                         pass
-
-                    # elif message.channel.name == '889984608874156044' or message.channel.id == '889984623378051082':
-                    #     pass
                     else:
                         print(f'\nNEWS: {urls} in #{message.channel}')
                         embed = Embed(title=f'{urls}',

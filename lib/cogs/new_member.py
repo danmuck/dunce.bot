@@ -25,8 +25,8 @@ class new_member(Cog):
             await member.send(f'welcome to **{member.guild.name}**\n\tplease stop by <#878370102549041212> and check pins')
         except Forbidden:
             pass
-        # default-role ids [outsider]
-        await member.add_roles(*(member.guild.get_role(id_) for id_ in (884533782051426304, 884860921829281913)))
+        # default-role ids [welcome and needs-role]
+        await member.add_roles(*(member.guild.get_role(id_) for id_ in (884515561877422120, 884514547891834901)))
 
     @Cog.listener()
     async def on_member_remove(self, member):

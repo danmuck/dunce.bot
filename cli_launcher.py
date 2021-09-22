@@ -43,6 +43,7 @@ def gbic(cmd):
             input(f'F-TEST [:] ')
             if 'exit':
                 gbic('')
+
         else:
             gbic('')
 
