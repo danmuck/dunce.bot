@@ -66,15 +66,15 @@ class exp(Cog):
     async def  leaderboard(self, ctx):
         records = db.records("SELECT UserName FROM exp ORDER BY XP DESC")
         # names = db.records("SELECT UserName FROM exp ORDER BY XP DESC")
-        record = ([record[0] for record in records[0:9]])
+        record = ([record[0] for record in records])
         # name = ([name[0] for name in names])
         x = 0
         await ctx.send(f' ``` \t-[ leaderboard ]- ``` ')
         for record in records:
             x = x + 1
-            if str(record)[2].startswith('n/a') or (record) == None:
+            if str(record)[2].startswith('n/a') or (record)[0] == None:
                 pass
-            else:
+            elif x < 11:
                 await ctx.send(f"```{x}. {str(record)[2:-3]} has {str(db.records('SELECT XP FROM exp WHERE UserName = ?', str(record)[2:-3]))[2:-3]}xp ```")
 
     @Cog.listener()
