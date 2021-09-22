@@ -24,12 +24,13 @@ class exp(Cog):
 
     async def add_xp(self, message, xp, lvl):
         xp_add = randint(4, 20)
-        new_lvl = int(((xp+xp_add)//69)** 0.35)
+        new_lvl = int(((xp+xp_add)//69)** 0.45)
 
         db.execute("UPDATE exp SET XP = XP + ?, Level = ?, XPLock = ?, UserName = ? WHERE UserID = ?", 
                     xp_add, new_lvl, (datetime.utcnow()+timedelta(seconds=60)).isoformat(sep=' ', timespec='seconds'), message.author.display_name, message.author.id)
         print(f'''
-                    {int(((xp+100000)//69)** 0.35) }
+                    {int(((2000000)//69)** 0.45) }
+                    
         
         ''')
         if new_lvl > lvl:
@@ -71,11 +72,15 @@ class exp(Cog):
     async def  leaderboard(self, ctx):
         records = db.records("SELECT UserName FROM exp ORDER BY XP DESC")
         # names = db.records("SELECT UserName FROM exp ORDER BY XP DESC")
-        record = ([record[0] for record in records])
+        record = ([record[0] for record in records[0:9]])
         # name = ([name[0] for name in names])
+        x = 0
         for record in records:
-            if record != '?':
-                await ctx.send(f"``` {str(record)[2:-3]} has {str(db.records('SELECT XP FROM exp WHERE UserName = ?', str(record)[2:-3]))[2:-3]}xp ```")
+            x = x + 1
+            if str(record)[2].startswith('?'):
+                pass
+            else:
+                await ctx.send(f"```{x}. {str(record)[2:-3]} has {str(db.records('SELECT XP FROM exp WHERE UserName = ?', str(record)[2:-3]))[2:-3]}xp ```")
 
     @Cog.listener()
     async def on_ready(self):
