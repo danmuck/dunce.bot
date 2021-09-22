@@ -75,6 +75,7 @@ class exp(Cog):
         record = ([record[0] for record in records[0:9]])
         # name = ([name[0] for name in names])
         x = 0
+        await ctx.send(f' ``` \t-[ leaderboard ]- ``` ')
         for record in records:
             x = x + 1
             if str(record)[2].startswith('?'):
