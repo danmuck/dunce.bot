@@ -29,8 +29,6 @@ class exp(Cog):
         db.execute("UPDATE exp SET XP = XP + ?, Level = ?, XPLock = ?, UserName = ? WHERE UserID = ?", 
                     xp_add, new_lvl, (datetime.utcnow()+timedelta(seconds=60)).isoformat(sep=' ', timespec='seconds'), message.author.display_name, message.author.id)
         print(f'''
-                    {int(((2000000)//69)** 0.45) }
-                    
         
         ''')
         if new_lvl > lvl:
