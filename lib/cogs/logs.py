@@ -77,7 +77,7 @@ class logs(Cog):
             embed = Embed(title='member update',
                         description='[role update]', colour=after.colour, timestamp=datetime.utcnow())
             fields = [('before:', ', '.join([r.mention for r in before.roles]), False),
-                    ('after:', ', '.join([r.mention for r in after.roles]), False)]
+                    ('after:', ', '.join([r.mention for r in after.roles if not 'everyone']), False)]
             for name, value, inline in fields:
                 embed.add_field(name=name, value=value, inline=inline)
             await self.log_channel.send(embed=embed)
