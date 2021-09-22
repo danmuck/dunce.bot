@@ -72,7 +72,7 @@ class exp(Cog):
         await ctx.send(f' ``` \t-[ leaderboard ]- ``` ')
         for record in records:
             x = x + 1
-            if str(record)[2].startswith('?'):
+            if str(record)[2].startswith('n/a') or (record) == None:
                 pass
             else:
                 await ctx.send(f"```{x}. {str(record)[2:-3]} has {str(db.records('SELECT XP FROM exp WHERE UserName = ?', str(record)[2:-3]))[2:-3]}xp ```")
