@@ -24,9 +24,9 @@ def message_():
         print(f'\nPOSTAL [:] sending message to #not-spam\n')
         return requests.post(f'https://discord.com/api/v9/channels/{channel_id}/messages', data=payload, headers=headers)
 
-    elif channel_ == 'python':
+    elif channel_ == 'disc':
         channel_id = discussion
-        print(f'\nPOSTAL [:] sending message to #python-spam\n')
+        print(f'\nPOSTAL [:] sending message to #discussion\n')
         return requests.post(f'https://discord.com/api/v9/channels/{channel_id}/messages', data=payload, headers=headers)
 
     elif channel_ == 'spam':
@@ -36,7 +36,7 @@ def message_():
 
     else:
         channel_id = spam_burner
-        print(f'\nPOSTAL [:] sending message to #test-spam\n')
+        print(f'\nPOSTAL [:] sending message to #spam-burner\n')
         return requests.post(f'https://discord.com/api/v9/channels/{channel_id}/messages', data=payload, headers=headers)
 
 
