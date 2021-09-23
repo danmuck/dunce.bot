@@ -4,7 +4,9 @@ from random import randint
 from typing import Optional
 from discord import Member
 from ..db import db
-import re
+import re, os
+from dotenv import load_dotenv
+load_dotenv()
 
 class exp(Cog):
     def __init__(self, client):
@@ -84,7 +86,7 @@ class exp(Cog):
     @Cog.listener()
     async def on_ready(self):
         if not self.client.ready:
-            self.logs_channel = self.client.get_channel(884548573730074624)
+            self.logs_channel = self.client.get_channel(int(os.getenv('LOGS_CHANNEL')))
             self.client.cogs_ready.ready_up('exp')
 
     @Cog.listener()
