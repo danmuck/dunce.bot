@@ -2,6 +2,11 @@ import discord
 from discord.ext.commands import Cog
 from discord.ext.commands import command
 from discord.ext.commands.core import has_permissions, has_role, bot_has_permissions
+import re, os
+from re import search
+from typing import Optional
+from dotenv import load_dotenv
+load_dotenv()
 
 class admin_tools(Cog):
     def __init__(self, client):
@@ -26,14 +31,14 @@ class admin_tools(Cog):
     @command(hidden=True)
     @bot_has_permissions(kick_members=True)
     @has_permissions(kick_members=True)
-    @has_role(881287992382197850 or 881292901445935114)
+    @has_role((int(os.getenv('ADMIN_ROLE'))) or (int(os.getenv('MOD_ROLE'))))
     async def kick(self, ctx, member: discord.Member, *, reason=None):
         await member.kick(reason=reason)
 
     @command(hidden=True)
     @bot_has_permissions(ban_members=True)
     @has_permissions(ban_members=True)
-    @has_role(881287992382197850 or 881292901445935114)
+    @has_role((int(os.getenv('ADMIN_ROLE'))) or (int(os.getenv('MOD_ROLE'))))
     async def ban(self, ctx, member: discord.Member, *, reason=None):
         await member.ban(reason=reason)
 

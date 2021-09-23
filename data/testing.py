@@ -1,7 +1,7 @@
 
-for x in range(0, 2000000, 50):
+for x in range(0, 2000000, 200):
     # print(((y)//69)** 0.45)
-    checks = (((x)//69)** 0.42)
+    checks = (((x)//69)** 0.45)
     if checks <= 99 and ((str(checks + .01)[1] != str(checks)[1]) or (str(checks - .01)[1] != str(checks)[1])):
         print(f' lvl {checks} with {x}xp')
 

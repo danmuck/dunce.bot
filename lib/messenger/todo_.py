@@ -23,8 +23,17 @@ def fetch_todo():
     items = cur.fetchall()
     for item in items:
         print(
-            f'\n[{item[0]}: {item[2]}]\n\n{item[1]}')
+            f'\n[{item[0]}: {item[2]}]\n\n:\t{item[1]}')
     print(f'\nDB.items: fetched all...\n')
+    # conn.close()
+
+
+def delete_todo():
+    del_to = input("DB.DEL: ")
+    cur.execute('DELETE FROM todo_ WHERE rowid = ?', del_to)
+    conn.commit()
+    # conn.close()
+
 
 
 if __name__ == '__main__':

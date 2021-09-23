@@ -192,7 +192,7 @@ def gbic(cmd):
         else:
             gbic('game')
 
-    elif cmd == 'td':
+    elif cmd == 'td' or cmd == 'todo':
         todo = input('TODO [:] ')
         if todo == 'view':
             todo_.fetch_todo()
@@ -201,6 +201,7 @@ def gbic(cmd):
             todo_.insert_todo()
             gbic('td')
         elif todo == 'del':
+            todo_.delete_todo()
 
             gbic('td')
         elif todo == 'exit':

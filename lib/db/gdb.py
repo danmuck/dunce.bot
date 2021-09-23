@@ -54,7 +54,7 @@ def delete_item():
 def purge_items():
     print('\n\t-[ WARNING!!! ARE YOU SURE?! ]-\n\npurge all?')
     check = input('DB.PURGE: ')
-    if check == 'yez':
+    if check == 'yea':
         cur.execute('DELETE FROM items')
         conn.commit()
         print(f'\nDB.DEL: RIP items\n')

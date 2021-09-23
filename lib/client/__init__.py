@@ -18,6 +18,7 @@ from datetime import datetime, timedelta
 from ..db import db
 
 
+# GUILD_ID = db.cur.fetchone('SELECT GuildID FROM guilds WHERE GuildID = ?', )
 OWNER_IDS = [876630793974345740]    # i am owner
 # go through /cogs directory and return the name of any cogs -.py as array (split rules for removing it)
 COGS = [path.split('/')[-1][:-3] for path in glob('lib/cogs/*.py')]
@@ -150,9 +151,11 @@ class Bot(BotBase):
 # timed reminders ---
 
     async def rules_reminder(self):
-        # welcome-spam channel id
-        channel = self.get_channel(884853014228267038)
-        await channel.send(f'```<#878370102549041212> or <@881287992382197850> for help [ IGNORE IF BROKEN: rules_reminder [weekly] UPDATE ME ]```')
+        channel = self.get_channel(int(os.getenv('WELCOME_SPAM')))
+        welcome_channel = os.getenv('WELCOME_CHANNEL')
+        admin_id = os.getenv('ADMIN_ROLE')
+        # channel = self.get_channel(884116429421559859)
+        await channel.send(f'```<#{welcome_channel}> or <@{admin_id}> for help [ IGNORE IF BROKEN: rules_reminder [weekly] UPDATE ME ]```')
 
 
 # error handling ---
@@ -163,7 +166,8 @@ class Bot(BotBase):
             await args[0].send(f'```on_command_error: check console```')
 
         # send an error message to error-spam channel id
-        channel = self.get_channel(881174439880958003)
+        channel = self.get_channel(int(os.getenv('ERROR_CHANNEL')))
+        # channel = int(os.getenv('ERROR_CHANNEL'))
         await channel.send('```on_error: check console```')
         # raise error to the console
         raise
@@ -204,9 +208,11 @@ class Bot(BotBase):
     async def on_ready(self):
         if not self.ready:
             await client.change_presence(status=discord.Status.idle, activity=discord.Game('YOURSELF'))
-            self.guild = self.get_guild(878370102091853824)         # server id
-            self.stdout = self.get_channel(881226606490841088)
-    # scheduled tasks on_ready ---
+            self.guild = self.get_guild(int(os.getenv('SERVER_ID')))
+            # self.guild = self.get_guild(882994482579140739)         # server id
+            # self.stdout = os.getenv('SPAM_')
+            self.stdout = self.get_channel(int(os.getenv('SPAM_')))      # spam channel id for [standard out] channel
+# scheduled tasks on_ready ---
             change_status.start()
             print(f'tasks: change_status starting...')
             clear_test.start()
@@ -247,8 +253,9 @@ async def change_status():
 
 @tasks.loop(minutes=30)
 async def clear_test():
-    await client.get_channel(883778568004456458).purge(limit=250)
-    await client.get_channel(883778568004456458).send(f'its my spam, i do what i want with it')
+    # text channel id
+    await client.get_channel(int(os.getenv('SPAM_BURNER'))).purge(limit=250)
+    await client.get_channel(int(os.getenv('SPAM_BURNER'))).send(f'its my spam, i do what i want with it')
 
 # end ---
 # on_message response ---

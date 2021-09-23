@@ -4,7 +4,9 @@ from random import randint
 from typing import Optional
 from discord import Member
 from ..db import db
-import re
+import re, os
+from dotenv import load_dotenv
+load_dotenv()
 
 class exp(Cog):
     def __init__(self, client):
@@ -28,6 +30,9 @@ class exp(Cog):
 
         db.execute("UPDATE exp SET XP = XP + ?, Level = ?, XPLock = ?, UserName = ? WHERE UserID = ?", 
                     xp_add, new_lvl, (datetime.utcnow()+timedelta(seconds=60)).isoformat(sep=' ', timespec='seconds'), message.author.display_name, message.author.id)
+        print(f'''
+        
+        ''')
         if new_lvl > lvl:
                 print(f'+{xp_add}xp to user {message.author.display_name}: [ lvl {new_lvl} ] LEVEL UP!\n')
                 await self.logs_channel.send(f'```congrats {message.author.display_name} \n\nnew level: [ {new_lvl:,} ]```')
@@ -80,7 +85,7 @@ class exp(Cog):
     @Cog.listener()
     async def on_ready(self):
         if not self.client.ready:
-            self.logs_channel = self.client.get_channel(884851550206435410)
+            self.logs_channel = self.client.get_channel(int(os.getenv('LOGS_CHANNEL')))
             self.client.cogs_ready.ready_up('exp')
 
     @Cog.listener()
