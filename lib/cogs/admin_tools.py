@@ -3,9 +3,11 @@ from discord.ext import commands
 from discord.ext.commands import Cog, CheckFailure, Greedy
 from discord.ext.commands import command
 from discord.ext.commands.core import has_permissions, has_role, bot_has_permissions
-import re
+import re, os
 from re import search
 from typing import Optional
+from dotenv import load_dotenv
+load_dotenv()
 
 from ..db import db
 class admin_tools(Cog):
@@ -32,14 +34,14 @@ class admin_tools(Cog):
     @command(hidden=True)
     @bot_has_permissions(kick_members=True)
     @has_permissions(kick_members=True)
-    @has_role(883047679180034109 or 884515686804774953)
+    @has_role((int(os.getenv('ADMIN_ROLE'))) or (int(os.getenv('MOD_ROLE'))))
     async def kick(self, ctx, member: discord.Member, *, reason=None):
         await member.kick(reason=reason)
 
     @command(hidden=True)
     @bot_has_permissions(ban_members=True)
     @has_permissions(ban_members=True)
-    @has_role(883047679180034109 or 884515686804774953)
+    @has_role((int(os.getenv('ADMIN_ROLE'))) or (int(os.getenv('MOD_ROLE'))))
     async def ban(self, ctx, member: discord.Member, *, reason=None):
         await member.ban(reason=reason)
 # end ---
