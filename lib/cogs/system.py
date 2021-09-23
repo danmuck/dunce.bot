@@ -6,8 +6,9 @@ from discord.utils import get
 from discord import Embed, member
 from dotenv import load_dotenv
 load_dotenv()
-import re
+import re, os
 from re import search
+from lib.client import OWNER_IDS
 
 
 
@@ -28,7 +29,8 @@ class system(Cog):
             db.execute(
                 "UPDATE guilds SET Prefix = ? WHERE GuildID = ?", new, ctx.guild.id)
             db.commit()
-            await ctx.send(f'```prefix set to: {new}``` <@876630793974345740> ')
+
+            await ctx.send(f'```prefix set to: {new}``` <@{OWNER_IDS[0]}> ')
 
     @change_prefix.error
     async def change_prefix_error(sef, ctx, exc):
@@ -85,8 +87,8 @@ class system(Cog):
     @Cog.listener()
     async def on_ready(self):
         if not self.client.ready:
-            self.logs_channel = self.client.get_channel(884548573730074624)
-            self.news_channel = self.client.get_channel(884548573730074624)
+            self.logs_channel = self.client.get_channel(int(os.getenv('LOGS_CHANNEL')))
+            self.news_channel = self.client.get_channel(int(os.getenv('NEWS_CHANNEL')))
             self.client.cogs_ready.ready_up('system')
 
             # these lines need work
