@@ -78,8 +78,8 @@ class logs(Cog):
         elif before.roles != after.roles:
             embed = Embed(title='member update',
                         description='[role update]', colour=after.colour, timestamp=datetime.utcnow())
-            fields = [('old:', '\n '.join([str(r.mention) for r in before.roles[1:]]), False),
-                    ('new:', '\n '.join([r.mention for r in after.roles[1:]]), False)]
+            fields = [('old:', '\n '.join([str(r.mention) for r in before.roles[1:] or before.roles]), False),
+                    ('new:', '\n '.join([r.mention for r in after.roles[1:] or after.roles]), False)]
             for name, value, inline in fields:
                 embed.add_field(name=name, value=value, inline=inline)
             await self.log_channel.send(embed=embed)
