@@ -67,9 +67,7 @@ linux (debian):
 ## IMPORTANT! 
 ##### create text file: 'token.0' in /client with _your_ bot token
 
-##### create .env file: '.env' in /dunce.bot (your project dir) with `LOGIN = '_username_'` and `PASSWORD = '_pass_'` 
-
-##### note: you need to edit in your own id numbers until i implement complete multi server functionality
+##### note: you need to edit in your own id numbers into .env.txt AND remove the .txt from it
 
 #### `python3 launcher.py` to launch
 
