@@ -1,7 +1,9 @@
 from discord import Forbidden, Embed
 from datetime import datetime
 from discord.ext.commands import Cog
-import logging
+import logging, os
+from dotenv import load_dotenv
+load_dotenv()
 
 
 class logs(Cog):
@@ -28,7 +30,7 @@ class logs(Cog):
     @Cog.listener()
     async def on_ready(self):
         if not self.client.ready:
-            self.log_channel = self.client.get_channel(884548573730074624)      # BUG: get from database
+            self.log_channel = self.client.get_channel(int(os.getenv('LOGS_CHANNEL')))      # BUG: get from database
             self.client.cogs_ready.ready_up('logs')
 
     @Cog.listener()
@@ -76,8 +78,8 @@ class logs(Cog):
         elif before.roles != after.roles:
             embed = Embed(title='member update',
                         description='[role update]', colour=after.colour, timestamp=datetime.utcnow())
-            fields = [('before:', ', '.join([r.mention for r in before.roles]), False),
-                    ('after:', ', '.join([r.mention for r in after.roles if not 'everyone']), False)]
+            fields = [('old:', '\n '.join([str(r.mention) for r in before.roles[1:]]), False),
+                    ('new:', '\n '.join([r.mention for r in after.roles[1:]]), False)]
             for name, value, inline in fields:
                 embed.add_field(name=name, value=value, inline=inline)
             await self.log_channel.send(embed=embed)
