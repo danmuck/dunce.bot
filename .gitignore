@@ -8,6 +8,18 @@
 *.dockerignore
 Dockerfile
 
+myvenv
+venv/
+*.pyc
+*~
+*pyvenv.cfg
+/lib64
+/bin
+/lib/python3.8/
+/source
+/share
+
+
 # possible copyright ignores (example files)
 data/images/ex_logo.jpg
 
