@@ -28,20 +28,18 @@ class exp(Cog):
         xp_add = randint(4, 20)
         new_lvl = int(((xp+xp_add)//69)** 0.45)
 
-        db.execute("UPDATE exp SET XP = XP + ?, Level = ?, XPLock = ?, UserName = ? WHERE UserID = ?", 
+        db.execute("UPDATE exp SET XP = XP + ?, Level = ?, XPLock = ?, UserName = ? WHERE UserID = ?",
                     xp_add, new_lvl, (datetime.utcnow()+timedelta(seconds=60)).isoformat(sep=' ', timespec='seconds'), message.author.display_name, message.author.id)
         print(f'''
-        
         ''')
         if new_lvl > lvl:
                 print(f'+{xp_add}xp to user {message.author.display_name}: [ lvl {new_lvl} ] LEVEL UP!\n')
                 await self.logs_channel.send(f'```congrats {message.author.display_name} \n\nnew level: [ {new_lvl:,} ]```')
         else:
-            if not message.author.bot: 
+            if not message.author.bot:
                 print(f'+{xp_add}xp to user {message.author.display_name}: [ lvl {new_lvl} ]')
                 # pass
         db.commit()
-        
 
     # @command(name = 'check_level', aliases=['lvl'])
     # async def  check_level(self, ctx, member: Optional[Member]):
