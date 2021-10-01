@@ -54,13 +54,13 @@ linux (debian):
 ### dependencies:
 
 ##### linux
-    pip3 -m install -U discord.py apscheduler aiosqlite python-dotenv
+    pip3 -m install -U discord apscheduler aiosqlite python-dotenv requests
 
 ##### windows
-    py -m pip install -U discord.py apscheduler aiosqlite python-dotenv
+    py -m pip install -U discord apscheduler aiosqlite python-dotenv requests
 
 ##### macos 
-    pip install discord.py apscheduler aiosqlite python-dotenv
+    pip install discord apscheduler aiosqlite python-dotenv requests
 
 ---
 
@@ -74,3 +74,4 @@ linux (debian):
 #### or
 
 #### `python3 cli_launcher.py` to launch with BIC
+
