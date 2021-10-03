@@ -50,8 +50,12 @@ linux (debian):
 ---
 ### dependencies:
 
+#### `pip install requirements.txt`
+
+OR
+
 ##### linux
-    pip3 -m install -U discord apscheduler aiosqlite python-dotenv requests
+    pip -m install -U discord apscheduler aiosqlite python-dotenv requests
 
 ##### windows
     py -m pip install -U discord apscheduler aiosqlite python-dotenv requests
