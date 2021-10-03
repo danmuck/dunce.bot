@@ -13,9 +13,6 @@
 #### linux [debian]:
 `sudo apt update`   
 `sudo apt-get install git`
-#### linux [debian]
-`sudo apt update`   
-`sudo apt-get install git`
 
 #### macos [homebrew]
 `brew install git`
